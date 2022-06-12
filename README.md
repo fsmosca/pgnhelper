@@ -33,6 +33,8 @@ The new ECOT, OpeningT and VariationT are based from the input eco.pgn file. You
 pip install pgnhelper
 ```
 
+## Dependency
+pgnhelper is dependent on [python chess](https://github.com/niklasf/python-chess) library. Version 1.9.1 of it is installed when pgnhelper is installed.
 
 ## Features
 1. Sort games by eco tag in descending order from script.
