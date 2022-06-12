@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="pgnhelper",
-    version='0.1.1',
+    version='0.1.2',
     author='Ferdinand Mosca',
     author_email="ferdymosca@gmail.com",
     description="It sorts games by tags and add eco, opening and variation.",
