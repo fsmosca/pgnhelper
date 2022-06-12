@@ -125,10 +125,47 @@ exd4 Nc6 9. O-O O-O 10. Re1 Qd6 1/2-1/2
 
 ## Help
 
-```
-python -m pgnhelper.pgnhelper --help
-```
+`python -m pgnhelper.pgnhelper --help`
 
 ```
-python -m pgnhelper.pgnhelper sort --help
+usage: pgnhelper.py [-h] [-v] {sort,addeco} ...
+
+positional arguments:
+  {sort,addeco}
+    sort         Sort the games from the given pgn file based on the given game tags. e.g. python pgnhelper.py sort
+                 mygames.pgn --outpgnfn out.pgn --sort-tag opening --sort-direction hightolow
+    addeco       Add eco and ecot codes, opening and variation names to the input pgn file. The eco, opening etc. are
+                 from the given input file eco.pgn. e.g. python pgnhelper.py addeco --inpgnfn mygames.pgn --inecopgnfn
+                 eco.pgn --outpgnfn out.pgn
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -v, --version  show program's version number and exit
+```
+
+`python -m pgnhelper.pgnhelper sort --help`
+```
+usage: pgnhelper.py sort [-h] --inpgnfn INPGNFN --outpgnfn OUTPGNFN [--sort-tag SORT_TAG]
+                         [--sort-direction SORT_DIRECTION]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --inpgnfn INPGNFN     Write the input pgn filename, required.
+  --outpgnfn OUTPGNFN   Write the output pgn filename, required, mode=overwrite.
+  --sort-tag SORT_TAG   Sort the games by tag. [default=eco, value=(eco | ecot | event | date | round | white | black
+                        | site | plycount)]. e.g. --sort-tag event
+  --sort-direction SORT_DIRECTION
+                        Write the direction to sort the games. [default=lowtohigh, value=(lowtohigh | hightolow)].
+```
+
+`python -m pgnhelper.pgnhelper addeco --help`
+```
+usage: pgnhelper.py addeco [-h] --inpgnfn INPGNFN --outpgnfn OUTPGNFN --inecopgnfn INECOPGNFN
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --inpgnfn INPGNFN     Write the input pgn filename, required.
+  --outpgnfn OUTPGNFN   Write the output pgn filename, required, mode=overwrite.
+  --inecopgnfn INECOPGNFN
+                        Write the reference eco.pgn filename, required.
 ```
