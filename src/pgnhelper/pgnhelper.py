@@ -9,7 +9,7 @@ from operator import attrgetter
 import chess.pgn
 
 
-__version__ = '0.1.10'
+__version__ = '0.1.0'
 
 
 class Game:
@@ -205,7 +205,8 @@ if __name__ == '__main__':
     sort.add_argument('--outpgnfn', type=str, required=True,
         help='Write the output pgn filename, required, mode=overwrite.')
     sort.add_argument('--sort-tag', type=str, required=False, default='eco',
-        help='Sort the games by tag. [default=eco, value=(eco | ecot | event | date | round | white | black)]. e.g. --sort-tag event')
+        help='Sort the games by tag. [default=eco, value=(eco | ecot | event | date | round | white | black | site | plycount)].'
+        ' e.g. --sort-tag event')
     sort.add_argument('--sort-direction', type=str, required=False, default='lowtohigh',
         help='Write the direction to sort the games. [default=lowtohigh, value=(lowtohigh | hightolow)].')
 
