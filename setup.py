@@ -7,10 +7,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="pgnhelper",
-    version='0.1.14',
+    version='0.1.0',
     author='Ferdinand Mosca',
     author_email="ferdymosca@gmail.com",
-    description="An application to process pgn file.",
+    description="It sorts games by tags and add eco, opening and variation.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/fsmosca/pgnhelper",
