@@ -29,12 +29,54 @@ There are 2 types of ECO codes that it adds first the ECO based from the first 4
 The new ECOT, OpeningT and VariationT are based from the input eco.pgn file. You can get [eco.pgn](https://github.com/fsmosca/eco) which is based from the eco.pgn from [pgn-extract.](https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/)
 
 ## Installation
-```
-pip install pgnhelper
-```
+Python Package Index: https://pypi.org/project/pgnhelper/
+
+A. Virtual environment installation (recommended)
+
+1. Open command prompt or powershell.  
+`PS C:\Users\ferdi>`  
+2. cd to C drive or other drive if you want to install in other drive.  
+`PS C:\Users\ferdi> cd c:\`  
+3. Check if you have python.  
+`PS C:\> python --version`  
+4. Create a folder.  
+`PS C:\> mkdir mypgnhelper`  
+5. cd to this folder.  
+`PS C:\> cd mypgnhelper`
+6. Create venv folder for virtual environment.   
+`PS C:\mypgnhelper> python -m venv venv`  
+7. Activate the virtual enviromnent.  
+`PS C:\mypgnhelper> ./venv/scripts/activate`  
+8. Update pip.  
+`(venv) PS C:\mypgnhelper> python -m pip install -U pip`  
+9. Install the pgnhelper.  
+`(venv) PS C:\mypgnhelper> pip install pgnhelper`  
+10. Check the installation by checking its version.  
+`(venv) PS C:\mypgnhelper> pgnhelper -v`  
+You should see 0.2.0 or other version number.  
+11. When you work with pgn file you need to activate the virtual environment as in step 7 if it is not activated yet like when you comeback after computer restart.
+
+B. Global installation  
+
+1. Open command prompt or powershell and run as administrator  
+`PS C:\Users\ferdi>`   
+2. Check if you have python.  
+`PS C:\> python --version`  
+3. Install the package.  
+`PS C:\> pip install pgnhelper`  
+4. Test it.  
+`PS C:\> pgnhelper -v`  
+`PS C:\> pgnhelper -h`  
 
 ## Dependency
 pgnhelper is dependent on [python chess](https://github.com/niklasf/python-chess) library. Version 1.9.1 of it is installed when pgnhelper is installed.
+
+## Uninstallation
+`pip uninstall pgnhelper`  
+`pip uninstall chess`
+
+## eco.pgn
+This file is needed when adding eco, opening and variation names to the games in pgn file. You can get this from eco folder in this repo or you can use other eco.pgn from other sources.
 
 ## Features
 1. Sort games by eco tag in descending order from script.
@@ -45,7 +87,7 @@ sample.py
 pip install pgnhelper
 """
 
-from pgnhelper import pgnhelper
+import pgnhelper
 
 a = pgnhelper.PgnHelper(
     'sort',
@@ -62,7 +104,7 @@ a.start()
 sample.py
 """
 
-from pgnhelper import pgnhelper
+import pgnhelper
 
 a = pgnhelper.PgnHelper(
     'sort',
@@ -75,8 +117,7 @@ a.start()
 
 3. Sort games from command line.
 ```
-python -m pgnhelper.pgnhelper sort --inpgnfn "c:/chess/mygames.pgn"  
-    --outpgnfn "out.pgn" --sort-tag eco --sort-direction hightolow
+pgnhelper sort --inpgnfn "c:/chess/mygames.pgn" --outpgnfn "out.pgn" --sort-tag eco --sort-direction hightolow
 ```
 
 4. Add eco, opening and variation to games from script.
@@ -85,7 +126,7 @@ python -m pgnhelper.pgnhelper sort --inpgnfn "c:/chess/mygames.pgn"
 sample_addeco.py
 """
 
-from pgnhelper import pgnhelper
+import pgnhelper
 
 a = pgnhelper.PgnHelper(
     'addeco',
@@ -97,8 +138,7 @@ a.start()
 
 5. Add ECO, ECOT, Opening, OpeningT, Variation and VariationT to the game from command line.
 ```
-python -m pgnhelper.pgnhelper addeco --inpgnfn mygames.pgn 
-    --inecopgnfn eco.pgn --outpgnfn eco_mygames.pgn
+pgnhelper addeco --inpgnfn mygames.pgn --inecopgnfn eco.pgn --outpgnfn eco_mygames.pgn
 ```
 
 Example output where the game started as English and has transposed into QGD. 
@@ -127,25 +167,25 @@ exd4 Nc6 9. O-O O-O 10. Re1 Qd6 1/2-1/2
 
 ## Help
 
-`python -m pgnhelper.pgnhelper --help`
+`pgnhelper --help`
 
 ```
-usage: pgnhelper.py [-h] [-v] {sort,addeco} ...
+usage: pgnhelper [-h] [-v] {sort,addeco} ...
 
 positional arguments:
   {sort,addeco}
-    sort         Sort the games from the given pgn file based on the given game tags. e.g. python pgnhelper.py sort
-                 mygames.pgn --outpgnfn out.pgn --sort-tag opening --sort-direction hightolow
-    addeco       Add eco and ecot codes, opening and variation names to the input pgn file. The eco, opening etc. are
-                 from the given input file eco.pgn. e.g. python pgnhelper.py addeco --inpgnfn mygames.pgn --inecopgnfn
-                 eco.pgn --outpgnfn out.pgn
+    sort         Sort the games from the given pgn file based on the given game tags. e.g.
+        pgnhelper sort mygames.pgn --outpgnfn out.pgn --sort-tag opening --sort-direction hightolow
+    addeco       Add eco and ecot codes, opening and variation names to the input pgn file.
+        The eco, opening etc. are from the given input file eco.pgn. e.g.
+        pgnhelper addeco --inpgnfn mygames.pgn --inecopgnfn eco.pgn --outpgnfn out.pgn
 
-optional arguments:
+options:
   -h, --help     show this help message and exit
   -v, --version  show program's version number and exit
 ```
 
-`python -m pgnhelper.pgnhelper sort --help`
+`pgnhelper sort --help`
 ```
 usage: pgnhelper.py sort [-h] --inpgnfn INPGNFN --outpgnfn OUTPGNFN [--sort-tag SORT_TAG]
                          [--sort-direction SORT_DIRECTION]
@@ -160,7 +200,7 @@ optional arguments:
                         Write the direction to sort the games. [default=lowtohigh, value=(lowtohigh | hightolow)].
 ```
 
-`python -m pgnhelper.pgnhelper addeco --help`
+`pgnhelper addeco --help`
 ```
 usage: pgnhelper.py addeco [-h] --inpgnfn INPGNFN --outpgnfn OUTPGNFN --inecopgnfn INECOPGNFN
 
