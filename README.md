@@ -1,5 +1,5 @@
 # PgnHelper
-An application that can sort games in pgn file and add eco codes, opening and variation names.
+An application that can sort games in pgn file, add eco codes, opening and variation names and generate round-robin result table based from the given tournament pgn file.
 
 It can sort on event, site, date, round, white, black eco, ecot and plycount tags.
 
@@ -69,17 +69,25 @@ B. Global installation
 `PS C:\> pgnhelper -h`  
 
 ## Dependency
-pgnhelper is dependent on [python chess](https://github.com/niklasf/python-chess) library. Version 1.9.1 of it is installed when pgnhelper is installed.
+pgnhelper is dependent on the following packages.
+
+* [chess==1.9.1](https://github.com/niklasf/python-chess)
+* [pandas](https://pypi.org/project/pandas/)
+* [pretty-html-table](https://pypi.org/project/pretty-html-table/)
+
+These are automatically installed when pgnhelper is installed. 
 
 ## Uninstallation
 `pip uninstall pgnhelper`  
-`pip uninstall chess`
+`pip uninstall chess`  
+`pip uninstall pandas`  
+`pip uninstall pretty-html-table`
 
 ## eco.pgn
 This file is needed when adding eco, opening and variation names to the games in pgn file. You can get this from eco folder in this repo or you can use other eco.pgn from other sources.
 
 ## Features
-1. Sort games by eco tag in descending order from script.
+**1. Sort games by eco tag in descending order from script**
 ```
 """
 sample.py
@@ -98,7 +106,7 @@ a = pgnhelper.PgnHelper(
 a.start()
 ```
 
-2. Sort games by date tag in ascending order from script.
+**2. Sort games by date tag in ascending order from script**
 ```
 """
 sample.py
@@ -115,12 +123,12 @@ a = pgnhelper.PgnHelper(
 a.start()
 ```
 
-3. Sort games from command line.
+**3. Sort games from command line**
 ```
 pgnhelper sort --inpgnfn "c:/chess/mygames.pgn" --outpgnfn "out.pgn" --sort-tag eco --sort-direction hightolow
 ```
 
-4. Add eco, opening and variation to games from script.
+**4. Add eco, opening and variation to games from script**  
 ```
 """
 sample_addeco.py
@@ -136,7 +144,7 @@ a = pgnhelper.PgnHelper(
 a.start()
 ```
 
-5. Add ECO, ECOT, Opening, OpeningT, Variation and VariationT to the game from command line.
+**5. Add ECO, ECOT, Opening, OpeningT, Variation and VariationT to the game from command line**  
 ```
 pgnhelper addeco --inpgnfn mygames.pgn --inecopgnfn eco.pgn --outpgnfn eco_mygames.pgn
 ```
@@ -164,50 +172,100 @@ Example output where the game started as English and has transposed into QGD.
 exd4 Nc6 9. O-O O-O 10. Re1 Qd6 1/2-1/2
 ```
 
+**6. Generate round-robin table from command line**  
+
+Tie-break points supported:  
+DE = Direct encounter  
+Wins = Number of wins  
+SB = Sonneborn-Berger  
+
+```
+pgnhelper roundrobin --inpgnfn "./pgn/airthings_masters_prelim_2022.pgn" --output airthings.html --win-point 3.0 --draw-point 1.0 --table-color green_light
+```
+
+![image](https://user-images.githubusercontent.com/22366935/174115420-8e72e449-7a32-4f21-80f8-7ad09614fc24.png)
+
+```
+pgnhelper roundrobin --inpgnfn "./pgn/candidates_zurich_1953.pgn" --output zurich1953.txt --win-point 1.0 --draw-point 0.5
+```
+```
+ Rank          Name    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15  Games  Score  Score%  DE  Wins    SB
+    1     Smyslov V    x  1.0  2.0  1.5  1.0  2.0  1.0  0.5  1.0  1.0  1.0  1.0  1.5  2.0  1.5     28   18.0    64.3 0.0     0   0.0
+    2   Bronstein D  1.0    x  1.5  2.0  1.0  0.5  1.0  1.0  1.5  1.0  1.0  1.0  1.5  1.0  1.0     28   16.0    57.1 3.5     6 119.0
+    3       Keres P  0.0  0.5    x  1.0  1.5  1.5  1.0  1.0  1.0  0.5  2.0  1.5  1.5  1.0  2.0     28   16.0    57.1 1.5     8 111.5
+    4   Reshevsky S  0.5  0.0  1.0    x  1.0  1.0  1.0  1.0  1.0  1.5  1.5  1.5  1.5  2.0  1.5     28   16.0    57.1 1.0     8 116.0
+    5   Petrosian T  1.0  1.0  0.5  1.0    x  1.0  0.5  1.0  0.0  1.0  1.0  2.0  1.5  1.5  2.0     28   15.0    53.6 0.0     0   0.0
+    6      Geller E  0.0  1.5  0.5  1.0  1.0    x  2.0  0.5  1.0  1.0  1.0  1.5  1.5  1.0  1.0     28   14.5    51.8 2.0     8 101.8
+    7     Najdorf M  1.0  1.0  1.0  1.0  1.5  0.0    x  1.5  1.5  0.5  1.0  1.0  1.0  0.5  2.0     28   14.5    51.8 0.0     5 103.5
+    8       Kotov A  1.5  1.0  1.0  1.0  1.0  1.5  0.5    x  1.0  1.5  0.0  1.0  1.5  0.5  1.0     28   14.0    50.0 1.0     8 107.5
+    9    Taimanov M  1.0  0.5  1.0  1.0  2.0  1.0  0.5  1.0    x  1.0  1.0  1.0  0.5  0.5  2.0     28   14.0    50.0 1.0     7  82.2
+   10    Averbakh Y  1.0  1.0  1.5  0.5  1.0  1.0  1.5  0.5  1.0    x  1.0  1.0  0.5  2.0  0.0     28   13.5    48.2 1.0     5  94.0
+   11 Boleslavsky I  1.0  1.0  0.0  0.5  1.0  1.0  1.0  2.0  1.0  1.0    x  0.5  1.0  1.5  1.0     28   13.5    48.2 1.0     4  88.5
+   12       Szabo L  1.0  1.0  0.5  0.5  0.0  0.5  1.0  1.0  1.0  1.0  1.5    x  1.5  1.0  1.5     28   13.0    46.4 0.0     0   0.0
+   13    Gligoric S  0.5  0.5  0.5  0.5  0.5  0.5  1.0  0.5  1.5  1.5  1.0  0.5    x  1.5  2.0     28   12.5    44.6 0.0     0   0.0
+   14        Euwe M  0.0  1.0  1.0  0.0  0.5  1.0  1.5  1.5  1.5  0.0  0.5  1.0  0.5    x  1.5     28   11.5    41.1 0.0     0   0.0
+   15   Stahlberg A  0.5  1.0  0.0  0.5  0.0  1.0  0.0  1.0  0.0  2.0  1.0  0.5  0.0  0.5    x     28    8.0    28.6 0.0     0   0.0
+```
+
+
 
 ## Help
 
 `pgnhelper --help`
 
 ```
-usage: pgnhelper [-h] [-v] {sort,addeco} ...
+usage: pgnhelper [-h] [-v] {sort,addeco,roundrobin} ...
 
 positional arguments:
-  {sort,addeco}
-    sort         Sort the games from the given pgn file based on the given game tags. e.g.
-        pgnhelper sort mygames.pgn --outpgnfn out.pgn --sort-tag opening --sort-direction hightolow
-    addeco       Add eco and ecot codes, opening and variation names to the input pgn file.
-        The eco, opening etc. are from the given input file eco.pgn. e.g.
-        pgnhelper addeco --inpgnfn mygames.pgn --inecopgnfn eco.pgn --outpgnfn out.pgn
+  {sort,addeco,roundrobin}
+    sort                Sort the games from the given pgn file based on the given game tags. e.g. pgnhelper sort mygames.pgn --outpgnfn out.pgn --sort-tag opening --sort-direction hightolow
+    addeco              Add eco and ecot codes, opening and variation names to the input pgn file. The eco, opening etc. are from the given input file eco.pgn. e.g. pgnhelper addeco --inpgnfn       
+                        mygames.pgn --inecopgnfn eco.pgn --outpgnfn out.pgn
+    roundrobin          Generate round-robin table results from the input pgn file. The output can be html, csv and txt. e.g. pgnhelper roundrobin --inpgnfn candidates.pgn --output candidates.html  
 
 options:
-  -h, --help     show this help message and exit
-  -v, --version  show program's version number and exit
+  -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
 ```
 
 `pgnhelper sort --help`
 ```
-usage: pgnhelper.py sort [-h] --inpgnfn INPGNFN --outpgnfn OUTPGNFN [--sort-tag SORT_TAG]
-                         [--sort-direction SORT_DIRECTION]
+usage: pgnhelper sort [-h] --inpgnfn INPGNFN --outpgnfn OUTPGNFN [--sort-tag SORT_TAG] [--sort-direction SORT_DIRECTION]
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   --inpgnfn INPGNFN     Write the input pgn filename, required.
   --outpgnfn OUTPGNFN   Write the output pgn filename, required, mode=overwrite.
-  --sort-tag SORT_TAG   Sort the games by tag. [default=eco, value=(eco | ecot | event | date | round | white | black
-                        | site | plycount)]. e.g. --sort-tag event
+  --sort-tag SORT_TAG   Sort the games by tag. [default=eco, value=(eco | ecot | event | date | round | white | black | site | plycount)]. e.g. --sort-tag event
   --sort-direction SORT_DIRECTION
                         Write the direction to sort the games. [default=lowtohigh, value=(lowtohigh | hightolow)].
 ```
 
-`pgnhelper addeco --help`
+`pgnhelper addeco -h`
 ```
-usage: pgnhelper.py addeco [-h] --inpgnfn INPGNFN --outpgnfn OUTPGNFN --inecopgnfn INECOPGNFN
+usage: pgnhelper addeco [-h] --inpgnfn INPGNFN --outpgnfn OUTPGNFN --inecopgnfn INECOPGNFN
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   --inpgnfn INPGNFN     Write the input pgn filename, required.
   --outpgnfn OUTPGNFN   Write the output pgn filename, required, mode=overwrite.
   --inecopgnfn INECOPGNFN
                         Write the reference eco.pgn filename, required.
+```
+
+`pgnhelper roundrobin -h`
+```
+usage: pgnhelper roundrobin [-h] --inpgnfn INPGNFN --output OUTPUT [--win-point WIN_POINT] [--draw-point DRAW_POINT] [--table-color TABLE_COLOR]
+
+options:
+  -h, --help            show this help message and exit
+  --inpgnfn INPGNFN     Write the input pgn filename, required.
+  --output OUTPUT       Write the output filename, required, can be .html, .csv or .txt. e.g --output tata_steel.html
+  --win-point WIN_POINT
+                        The point when the players wins, default=1.0
+  --draw-point DRAW_POINT
+                        The point when the players draws, default=0.5
+  --table-color TABLE_COLOR
+                        Write table color not required. [default="blue_light" value=("yellow_light", "grey_light", "orange_light", "green_light", "red_light", "yellow_dark", "grey_dark",
+                        "blue_dark", "orange_dark", "green_dark", "red_dark")]
 ```
