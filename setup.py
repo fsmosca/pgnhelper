@@ -7,10 +7,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="pgnhelper",
-    version='0.2.0',
+    version='0.3.0',
     author='Ferdinand Mosca',
     author_email="ferdymosca@gmail.com",
-    description="It sorts games by tags and add eco, opening and variation.",
+    description="It sorts games by tags, add eco, opening and variation and generate round-robin result table.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/fsmosca/pgnhelper",
@@ -31,10 +31,12 @@ setuptools.setup(
     python_requires=">=3.7",
     install_requires=[
           'chess==1.9.1',
+          'pretty-html-table',
+          'pandas'
     ],
     entry_points={
-    'console_scripts': [
-        'pgnhelper = pgnhelper:main',
-    ]
-}
+        'console_scripts': [
+            'pgnhelper = pgnhelper:main',
+        ]
+    }
 )
