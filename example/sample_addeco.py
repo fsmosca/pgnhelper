@@ -2,7 +2,7 @@
 sample_addeco.py
 """
 
-from pgnhelper import pgnhelper
+import pgnhelper
 
 a = pgnhelper.PgnHelper(
     'addeco',
