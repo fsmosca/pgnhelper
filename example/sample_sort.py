@@ -4,7 +4,7 @@ sample_sort.py
 pip install pgnhelper
 """
 
-from pgnhelper import pgnhelper
+import pgnhelper
 
 a = pgnhelper.PgnHelper(
     'sort',
