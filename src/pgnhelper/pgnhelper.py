@@ -4,6 +4,9 @@
 
 from operator import attrgetter
 import chess.pgn
+import pgnhelper
+from pretty_html_table import build_table
+from pathlib import Path
 
 
 class Game:
@@ -43,13 +46,18 @@ class Game:
 
 class PgnHelper:
     def __init__(self, job, inpgnfn=None, outpgnfn=None, inecopgnfn=None,
-            sort_tag='eco', sort_direction='lowtohigh'):
+                sort_tag='eco', sort_direction='lowtohigh',
+                output=None, winpoint=1.0, drawpoint=0.5, tablecolor='blue_light'):
         self.job = job
         self.inpgnfn = inpgnfn
         self.inecopgnfn = inecopgnfn
         self.outpgnfn = outpgnfn
         self.sort_tag = sort_tag
         self.sort_direction = sort_direction
+        self.output = output
+        self.winpoint = winpoint
+        self.drawpoint = drawpoint
+        self.tablecolor = tablecolor
         self.games = []
         self.eco_db = {}
 
@@ -76,6 +84,20 @@ class PgnHelper:
                 end_board = node_end.board()
                 epd = end_board.epd()
                 self.eco_db.update({epd: {'eco': eco, 'opening': opening, 'variation': variation}})
+
+    def save_roundrobin_table(self, df):
+        ext = Path(self.output).suffix
+        if ext == '.html':
+            html_table = build_table(df, self.tablecolor,
+                font_size='medium',
+                text_align='center',
+                font_family='Calibri, Verdana, Tahoma, Georgia, serif, arial')
+            with open(self.output, 'w') as f:
+                f.write(html_table)
+        elif ext == '.csv':
+            df.to_csv(self.output, index=False)
+        else:
+            df.to_string(self.output, index=False)
 
     def add_eco(self, ply=4, maxply=24):
         with open(self.outpgnfn, 'w') as w:
@@ -180,3 +202,6 @@ class PgnHelper:
         elif self.job == 'addeco':
             self.create_eco_db()
             self.add_eco(ply=4, maxply=24)
+        elif self.job == 'roundrobin':
+            df = pgnhelper.round_robin(self.inpgnfn, winpoint=self.winpoint, drawpoint=self.drawpoint)
+            self.save_roundrobin_table(df)
