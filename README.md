@@ -230,15 +230,20 @@ options:
 
 `pgnhelper sort --help`
 ```
-usage: pgnhelper sort [-h] --inpgnfn INPGNFN --outpgnfn OUTPGNFN [--sort-tag SORT_TAG] [--sort-direction SORT_DIRECTION]
+usage: pgnhelper sort [-h] --inpgnfn INPGNFN --outpgnfn OUTPGNFN [--sort-tag SORT_TAG]
+                      [--sort-direction SORT_DIRECTION] [--encoding ENCODING]
 
-options:
+optional arguments:
   -h, --help            show this help message and exit
   --inpgnfn INPGNFN     Write the input pgn filename, required.
   --outpgnfn OUTPGNFN   Write the output pgn filename, required, mode=overwrite.
-  --sort-tag SORT_TAG   Sort the games by tag. [default=eco, value=(eco | ecot | event | date | round | white | black | site | plycount)]. e.g. --sort-tag event
+  --sort-tag SORT_TAG   Sort the games by tag. [default=eco, value=(eco | ecot | event | date | round | white | black
+                        | site | plycount)]. e.g. --sort-tag event
   --sort-direction SORT_DIRECTION
                         Write the direction to sort the games. [default=lowtohigh, value=(lowtohigh | hightolow)].
+  --encoding ENCODING   Encoding used in reading pgn file when sorting, not required. [default=utf-8, value=(utf-8 |
+                        ISO-8859-1)]. If you encounter an error like "UnicodeDecodeError: utf-8 codec cannot decode
+                        ..." you can try, --encoding ISO-8859-1
 ```
 
 `pgnhelper addeco -h`
@@ -268,4 +273,44 @@ options:
   --table-color TABLE_COLOR
                         Write table color not required. [default="blue_light" value=("yellow_light", "grey_light", "orange_light", "green_light", "red_light", "yellow_dark", "grey_dark",
                         "blue_dark", "orange_dark", "green_dark", "red_dark")]
+```
+
+## Credits
+* Python chess  
+  site: https://python-chess.readthedocs.io/en/latest/  
+  usage:
+    * adding eco
+    * round-robin result table generation  
+* pgn-extract  
+  site: https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/  
+  usage:
+    * The eco.pgn in eco folder is based from the eco.pgn from pgn-extract.
+    * cleaning pgn files  
+* weekinchess  
+  site: https://theweekinchess.com/  
+  usage:
+    * game collections  
+* pgn mentor  
+  site: https://www.pgnmentor.com/files.html  
+  usage:
+    * game collections  
+* pretty-html-table  
+  site: https://pypi.org/project/pretty-html-table/  
+  usage:
+    * pretty html round-robin result table generation
+* pandas  
+  site: https://pandas.pydata.org/  
+  usage:
+    * round-robin result table generation
+
+## Change log
+version 0.4.0
+
+```
+* Add encoding option when sorting games.   
+
+  By default when reading pgn file to be sorted, it uses encoding utf-8. If you encounter an error like
+  "UnicodeDecodeError" for example, you can try to use another encoding like the example below.
+  
+  pgnhelper sort ... --encoding ISO-8859-1
 ```
