@@ -47,7 +47,8 @@ class Game:
 class PgnHelper:
     def __init__(self, job, inpgnfn=None, outpgnfn=None, inecopgnfn=None,
                 sort_tag='eco', sort_direction='lowtohigh',
-                output=None, winpoint=1.0, drawpoint=0.5, tablecolor='blue_light'):
+                output=None, winpoint=1.0, drawpoint=0.5, tablecolor='blue_light',
+                encoding='utf-8'):
         self.job = job
         self.inpgnfn = inpgnfn
         self.inecopgnfn = inecopgnfn
@@ -58,6 +59,7 @@ class PgnHelper:
         self.winpoint = winpoint
         self.drawpoint = drawpoint
         self.tablecolor = tablecolor
+        self.encoding = encoding
         self.games = []
         self.eco_db = {}
 
@@ -166,7 +168,7 @@ class PgnHelper:
 
     def read_games(self):
         current = None
-        with open(self.inpgnfn, 'r', encoding='utf-8') as f:
+        with open(self.inpgnfn, 'r', encoding=self.encoding) as f:
             for line in f:
                 if line.startswith('[Event '):
                     if current:
