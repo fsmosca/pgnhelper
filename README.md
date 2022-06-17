@@ -59,12 +59,14 @@ You should see 0.2.0 or other version number.
 B. Global installation  
 
 1. Open command prompt or powershell and run as administrator  
-`PS C:\Users\ferdi>`   
-2. Check if you have python.  
+`PS C:\WINDOWS\system32>`   
+2. cd to c drive   
+`PS C:\WINDOWS\system32> cd c:\`  
+3. Check if you have python.  
 `PS C:\> python --version`  
-3. Install the package.  
+4. Install the package.  
 `PS C:\> pip install pgnhelper`  
-4. Test it.  
+5. Test it.  
 `PS C:\> pgnhelper -v`  
 `PS C:\> pgnhelper -h`  
 
