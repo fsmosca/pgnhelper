@@ -298,6 +298,10 @@ options:
   site: https://pypi.org/project/pretty-html-table/  
   usage:
     * pretty html round-robin result table generation
+* mark weeks  
+  site: https://www.mark-weeks.com/chess/wcc-indx.htm  
+  usage:  
+    * game collections  
 * pandas  
   site: https://pandas.pydata.org/  
   usage:
