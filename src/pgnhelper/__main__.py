@@ -27,6 +27,10 @@ def main():
         ' e.g. --sort-tag event')
     sort.add_argument('--sort-direction', type=str, required=False, default='lowtohigh',
         help='Write the direction to sort the games. [default=lowtohigh, value=(lowtohigh | hightolow)].')
+    sort.add_argument('--encoding', type=str, required=False, default='utf-8',
+        help='Encoding used in reading pgn file when sorting, not required. [default=utf-8, value=(utf-8 | ISO-8859-1)]. '
+        'If you encounter an error like "UnicodeDecodeError: utf-8 codec cannot decode ..." you can try, '
+        '--encoding ISO-8859-1')
 
     addeco.add_argument('--inpgnfn', type=str, required=True,
         help='Write the input pgn filename, required.')
@@ -60,7 +64,8 @@ def main():
             inpgnfn=args.inpgnfn,
             outpgnfn=args.outpgnfn,
             sort_tag=args.sort_tag,
-            sort_direction=args.sort_direction
+            sort_direction=args.sort_direction,
+            encoding=args.encoding
         )
     elif args.command == 'addeco':
         g = pgnhelper.PgnHelper(
