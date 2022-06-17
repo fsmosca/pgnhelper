@@ -177,7 +177,17 @@ exd4 Nc6 9. O-O O-O 10. Re1 Qd6 1/2-1/2
 Tie-break points supported:  
 DE = Direct encounter  
 Wins = Number of wins  
-SB = Sonneborn-Berger  
+SB = [Sonneborn-Berger](https://en.wikipedia.org/wiki/Sonneborn%E2%80%93Berger_score)
+
+Reference:  
+https://handbook.fide.com/files/handbook/C02Standards.pdf  
+
+13.16.2. Individual Round-Robin Tournaments:  
+* Direct encounter  
+* The greater number of wins, including forfeits  
+* Sonneborn-Berger  
+* Koya System  
+
 
 ```
 pgnhelper roundrobin --inpgnfn "./pgn/airthings_masters_prelim_2022.pgn" --output airthings.html --win-point 3.0 --draw-point 1.0 --table-color green_light
