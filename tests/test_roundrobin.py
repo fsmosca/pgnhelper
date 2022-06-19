@@ -103,4 +103,4 @@ def test_tb_num_wins(name='Tari, Aryan', num_win=1):
         showmaxscore=True
     )
     df_player = df.loc[df.Name == name]
-    assert df_player.iloc[0]['DE'] == num_win
+    assert df_player.iloc[0]['Wins'] == num_win
