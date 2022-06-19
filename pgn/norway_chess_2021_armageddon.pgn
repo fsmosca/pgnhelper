@@ -1,0 +1,374 @@
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.07"]
+[Round "1.1"]
+[White "Firouzja, Alireza"]
+[Black "Carlsen, Magnus"]
+[Result "1/2-1/2"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2754"]
+[BlackElo "2855"]
+[ECO "B30"]
+[Opening "Sicilian"]
+[Variation "Nimzovich-Rossolimo attack (without ...d6)"]
+[WhiteFideId "12573981"]
+[BlackFideId "1503014"]
+[EventDate "2021.09.07"]
+
+1. e4 c5 2. Nf3 Nc6 3. Bb5 e6 4. O-O Nge7 5. Re1 b6 6. d4 cxd4 7. Nxd4 Bb7 8.
+Nc3 a6 9. Bf1 Nxd4 10. Qxd4 Nc6 11. Qe3 Bc5 12. Qg3 O-O 13. e5 f5 14. exf6 Rxf6
+15. Bg5 Rxf2 16. Bxd8 Rf3+ 17. Kh1 Rxg3 18. Bxb6 Bxb6 19. hxg3 Bf2 20. Re2 Bxg3
+21. Ne4 Be5 22. Nc5 Bc8 23. c3 d6 24. Ne4 Kf7 25. Rd1 Ke7 26. g3 Rb8 27. Bg2 d5
+28. Nc5 Kd6 29. b4 a5 30. a3 axb4 31. axb4 Ra8 32. Ne4+ Kc7 33. b5 dxe4 34. Rxe4
+Ra3 35. Rc4 Rxc3 36. Rxc3 Bxc3 37. Rc1 Na7 38. Rxc3+ Kb6 39. Bc6 e5 40. Kg1 Bf5
+41. Be8 g6 42. Kf2 h5 43. Ra3 g5 44. Ra6+ Kb7 45. Rf6 Be4 46. Re6 h4 47. g4 Nc8
+48. Rxe5 Nd6 49. Bd7 Kc7 50. Be6 Bb7 51. Ke3 h3 52. Rxg5 h2 53. Rh5 h1=Q 54.
+Rxh1 Bxh1 55. g5 Be4 56. Kd4 Bh7 57. Ke5 Ne4 1/2-1/2
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.08"]
+[Round "2.1"]
+[White "Carlsen, Magnus"]
+[Black "Tari, Aryan"]
+[Result "1-0"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2855"]
+[BlackElo "2642"]
+[ECO "C50"]
+[Opening "Giuoco Pianissimo"]
+[WhiteFideId "1503014"]
+[BlackFideId "1510045"]
+[EventDate "2021.09.07"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. d3 Bc5 5. c3 d6 6. Nbd2 a5 7. Nf1 Be6 8. Bb5
+O-O 9. Ng3 Ne7 10. d4 exd4 11. cxd4 Bb4+ 12. Kf1 c6 13. Bd3 a4 14. a3 Bb3 15.
+Bc2 Bxc2 16. Qxc2 Ba5 17. Qxa4 d5 18. e5 Ne4 19. Qc2 f5 20. Ne2 f4 21. Bxf4 Ng6
+22. Be3 Nh4 23. Ng3 Nxf3 24. gxf3 Ng5 25. f4 Nf3 26. h4 c5 27. Kg2 Nxd4 28. Bxd4
+cxd4 29. f5 Qe8 30. b4 Bb6 31. Rhe1 Rc8 32. Qb3 Rc4 33. Qf3 Qc6 34. f6 Qe6 35.
+Nf5 g6 36. Ne7+ Kh8 37. Nxd5 d3 38. Nxb6 Rg4+ 39. Kf1 d2 40. Re3 Rd4 41. Rd1
+Qxb6 42. e6 Qb5+ 43. Re2 Rd3 44. e7 Re8 45. Qe4 Qd7 46. f7 Qh3+ 47. Kg1 1-0
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.08"]
+[Round "2.2"]
+[White "Nepomniachtchi, Ian"]
+[Black "Firouzja, Alireza"]
+[Result "1-0"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2792"]
+[BlackElo "2754"]
+[ECO "C34"]
+[Opening "KGA"]
+[Variation "Schallop defence"]
+[WhiteFideId "4168119"]
+[BlackFideId "12573981"]
+[EventDate "2021.09.07"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 Nf6 4. e5 Nh5 5. d4 d6 6. Qe2 dxe5 7. Nxe5 Qh4+ 8. g3
+Nxg3 9. hxg3 Qxh1 10. Bxf4 Be6 11. Nc3 g5 12. d5 gxf4 13. dxe6 Bd6 14. O-O-O Qh6
+15. Qb5+ Nc6 16. Nxf7 Qxe6 17. Bc4 Qe3+ 18. Kb1 Qc5 19. Nxd6+ cxd6 20. Qxb7 Qxc4
+21. Qxa8+ Nd8 22. Re1+ Kf7 23. Qxa7+ Kg6 24. gxf4 Qc5 25. Rg1+ 1-0
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.08"]
+[Round "2.3"]
+[White "Karjakin, Sergey"]
+[Black "Rapport, Richard"]
+[Result "1/2-1/2"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2758"]
+[BlackElo "2760"]
+[ECO "B01"]
+[Opening "Scandinavian defence"]
+[WhiteFideId "14109603"]
+[BlackFideId "738590"]
+[EventDate "2021.09.07"]
+
+1. e4 d5 2. exd5 Qxd5 3. Nc3 Qa5 4. d4 Nf6 5. Nf3 Bf5 6. Bc4 e6 7. Bd2 Bb4 8. a3
+Bxc3 9. Bxc3 Qb6 10. Ne5 Nc6 11. O-O O-O 12. Bb3 Nxe5 13. dxe5 Rfd8 14. exf6
+Rxd1 15. Raxd1 g5 16. Rd7 h5 17. Rfd1 Rf8 18. Re7 Kh7 19. Bc4 Kg6 20. Rdd7 Qc6
+21. Rxc7 Qe4 22. Bf1 h4 23. h3 b6 24. Rxa7 g4 25. Red7 gxh3 26. Rd4 hxg2 27.
+Rxe4 gxf1=R+ 28. Kxf1 Bxe4 29. Ra4 Kf5 30. f3 Bxc2 31. Rxh4 e5 32. Rh5+ Kxf6 33.
+Rxe5 Kg6 34. Kf2 Rd8 35. Rb5 Rd6 36. Be5 Bd3 37. Bxd6 Bxb5 38. Bc7 Kf5 39. Ke3
+Ke6 40. Bxb6 Kd5 41. b3 Bd7 42. Kd3 Bh3 43. a4 Bg2 44. f4 f5 45. Kc3 Bf3 46. Bc7
+Bd1 47. Be5 Kc5 48. Kb2 Kd5 49. Kc3 Kc5 50. Bd4+ Kc6 51. Kc4 Bc2 52. Be3 Bd1 53.
+Kb4 Bc2 54. Ka3 Kd5 55. Bf2 Bd1 56. b4 Kc4 57. b5 Bc2 58. Be1 Bd1 59. Bb4 Bc2
+60. Bd6 Bd1 61. Bc7 Bc2 62. b6 Be4 63. a5 Kb5 64. Kb3 Bb7 65. Kc3 Kxa5 66. Kd4
+Ka6 67. Ke5 Be4 1/2-1/2
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.09"]
+[Round "3.1"]
+[White "Rapport, Richard"]
+[Black "Carlsen, Magnus"]
+[Result "1/2-1/2"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2760"]
+[BlackElo "2855"]
+[ECO "A08"]
+[Opening "Reti"]
+[Variation "King's Indian attack"]
+[WhiteFideId "738590"]
+[BlackFideId "1503014"]
+[EventDate "2021.09.07"]
+
+1. g3 d5 2. Nf3 c5 3. Bg2 Nc6 4. O-O e5 5. d3 Be7 6. Na3 Be6 7. e4 d4 8. Nc4 Qc7
+9. Ng5 Bxg5 10. Bxg5 f6 11. Bd2 h5 12. f4 h4 13. Qe1 hxg3 14. Qxg3 O-O-O 15. b3
+Nh6 16. fxe5 Nxe5 17. Nxe5 fxe5 18. c3 Ng4 19. cxd4 exd4 20. Bf4 Qe7 21. Rac1 g5
+22. Rxc5+ Qxc5 23. Rc1 Qxc1+ 24. Bxc1 Rxh2 25. Bxg5 Rg8 26. Qd6 Rxg5 27. Qxe6+
+Kd8 28. Qd6+ Ke8 29. Bf3 Ne5+ 30. Kf1 Nxf3 31. Qe6+ Kd8 32. Qf6+ Ke8 33. Qxf3
+Rc5 34. Kg1 Rxa2 35. Qf4 Rcc2 36. Qb8+ Ke7 37. Qe5+ Kf7 38. Qd5+ Kg6 39. Qf5+
+Kg7 40. Qg5+ Kh7 41. Qh5+ Kg7 42. Qg5+ 1/2-1/2
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.09"]
+[Round "3.2"]
+[White "Tari, Aryan"]
+[Black "Nepomniachtchi, Ian"]
+[Result "0-1"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2642"]
+[BlackElo "2792"]
+[ECO "B23"]
+[Opening "Sicilian"]
+[Variation "closed"]
+[WhiteFideId "1510045"]
+[BlackFideId "4168119"]
+[EventDate "2021.09.07"]
+
+1. e4 c5 2. Nc3 d6 3. f4 g6 4. Nf3 Bg7 5. Bb5+ Bd7 6. Bc4 Nc6 7. d3 Na5 8. Bd2
+e6 9. Qe2 Ne7 10. e5 Nf5 11. Bb5 d5 12. Bxd7+ Qxd7 13. Nxd5 exd5 14. Bxa5 Qb5
+15. Bc3 d4 16. Bd2 Qxb2 17. O-O O-O 18. Qe4 b6 19. g4 Ne3 20. Bxe3 dxe3 21. Rae1
+Qxc2 22. f5 Rfe8 23. e6 Qxa2 24. Rxe3 fxe6 25. fxg6 h6 26. g5 Qd5 27. Qh4 Qf5
+28. Qh5 Rf8 29. Re4 Rf6 30. Rg4 Rxg6 31. Nh4 Qxg4+ 0-1
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.09"]
+[Round "3.3"]
+[White "Firouzja, Alireza"]
+[Black "Karjakin, Sergey"]
+[Result "0-1"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2754"]
+[BlackElo "2758"]
+[ECO "A01"]
+[Opening "Nimzovich-Larsen attack"]
+[Variation "modern variation"]
+[WhiteFideId "12573981"]
+[BlackFideId "14109603"]
+[EventDate "2021.09.07"]
+
+1. b3 e5 2. Bb2 Nc6 3. c4 Nf6 4. Nf3 e4 5. Nd4 Nxd4 6. Bxd4 b6 7. g3 Bb7 8. Bg2
+Bc5 9. Bb2 h5 10. d4 Bb4+ 11. Nc3 h4 12. e3 d5 13. Qc2 Bc8 14. h3 hxg3 15. fxg3
+c6 16. O-O-O Be6 17. Ne2 a5 18. Nf4 a4 19. Kb1 axb3 20. Qxb3 Bd6 21. cxd5 cxd5
+22. g4 O-O 23. g5 Bxf4 24. gxf6 Bh6 25. fxg7 Kxg7 26. Bxe4 f5 27. Rhg1+ Kh7 28.
+Bd3 Qd6 29. Rg2 Bxe3 30. Re1 Bh6 31. Qd1 Bd7 32. Qh5 Rf6 33. Reg1 Qf8 34. Bc1
+Qb4+ 35. Bb2 Qf8 36. a3 Rc8 37. Rg6 Be8 38. Rxf6 Bxh5 39. Rxf5 Kh8 40. Rxf8+
+Rxf8 41. Re1 Rf3 42. Re6 Kg7 43. Be2 Rxh3 44. Bxh5 Rxh5 45. Rxb6 Be3 46. a4 Rh4
+47. a5 Bxd4 48. Rb4 Rh1+ 49. Ka2 Bxb2 50. Kxb2 Kf6 51. a6 Rh8 52. Kb3 Ke5 53.
+Rb6 d4 54. a7 Ra8 55. Ra6 Kd5 56. Kb4 d3 57. Kb5 d2 58. Ra1 Kd4 59. Kb4 Kd3 60.
+Ra3+ Ke2 61. Ra2 Ke1 62. Ra1+ d1=Q 0-1
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.10"]
+[Round "4.1"]
+[White "Carlsen, Magnus"]
+[Black "Nepomniachtchi, Ian"]
+[Result "1-0"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2855"]
+[BlackElo "2792"]
+[ECO "A05"]
+[Opening "Reti opening"]
+[WhiteFideId "1503014"]
+[BlackFideId "4168119"]
+[EventDate "2021.09.07"]
+
+1. Nf3 Nf6 2. g3 d5 3. Bg2 g6 4. O-O Bg7 5. c4 c6 6. b3 Ne4 7. d4 O-O 8. Bb2 a5
+9. Nc3 Bf5 10. e3 Nxc3 11. Bxc3 Be4 12. Qe2 a4 13. Rfc1 axb3 14. axb3 Rxa1 15.
+Rxa1 Qb6 16. b4 Nd7 17. c5 Qc7 18. Ra7 Qb8 19. Qa2 Bxf3 20. Bxf3 e5 21. b5 e4
+22. Be2 Nxc5 23. Bb4 Na6 24. Bxf8 Bxf8 25. Rxb7 Qxb7 26. Qxa6 Qb8 27. Qxc6 Qd6
+28. Qxd6 Bxd6 29. Bd1 Bc7 30. Bb3 Kg7 31. Bxd5 f5 32. g4 Kf6 33. h4 h6 34. Kg2
+Bd8 35. h5 fxg4 36. hxg6 Kxg6 37. Bxe4+ Kg5 38. f4+ Kf6 39. Kg3 h5 40. Kh4 Ba5
+41. b6 1-0
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.10"]
+[Round "4.3"]
+[White "Tari, Aryan"]
+[Black "Karjakin, Sergey"]
+[Result "0-1"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2642"]
+[BlackElo "2758"]
+[ECO "C65"]
+[Opening "Ruy Lopez"]
+[Variation "Berlin defence"]
+[WhiteFideId "1510045"]
+[BlackFideId "14109603"]
+[EventDate "2021.09.07"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. d3 Bc5 5. Bg5 Be7 6. O-O d6 7. d4 O-O 8. Bxc6
+bxc6 9. Nc3 h6 10. Be3 exd4 11. Nxd4 Bd7 12. h3 c5 13. Nde2 Bc6 14. Ng3 Re8 15.
+Qf3 Bf8 16. Rad1 Qe7 17. Nf5 Qe5 18. Nd5 Nxd5 19. exd5 Bd7 20. Ng3 Qxb2 21. Nh5
+Qxc2 22. Bxh6 Qf5 23. Bf4 Rab8 24. Ng3 Qf6 25. Rfe1 Rxe1+ 26. Rxe1 Qg6 27. Qa3
+Rb1 28. Rxb1 Qxb1+ 29. Kh2 Qb4 30. Qe3 Qd4 31. Qf3 c4 32. Be3 Qd3 33. Ne4 c3 34.
+Qf4 c2 35. Ng5 Qf5 36. Qc4 Qe5+ 37. g3 Qf5 38. Qxc7 Bb5 39. g4 Qe5+ 40. f4 Qxd5
+41. Qxc2 Bd3 42. Qc8 Qxa2+ 43. Kg3 a5 44. f5 Qe2 45. Qe8 Bc4 46. Qe4 a4 47. f6
+g6 48. h4 Qd3 49. Qe8 a3 50. h5 gxh5 51. gxh5 Be6 52. Kf2 Qf5+ 53. Nf3 Bd5 54.
+Bh6 Qxf3+ 55. Ke1 Qe4+ 0-1
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.12"]
+[Round "5.2"]
+[White "Nepomniachtchi, Ian"]
+[Black "Rapport, Richard"]
+[Result "1-0"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2792"]
+[BlackElo "2760"]
+[ECO "B01"]
+[Opening "Scandinavian defence"]
+[WhiteFideId "4168119"]
+[BlackFideId "738590"]
+[EventDate "2021.09.07"]
+
+1. e4 d5 2. exd5 Qxd5 3. Nc3 Qa5 4. d4 Nf6 5. Nf3 Bf5 6. Ne5 c6 7. Bf4 e6 8. g4
+Bg6 9. h4 Bb4 10. Bd2 Nbd7 11. Nxd7 Kxd7 12. h5 Be4 13. Rh3 h6 14. a3 Bxc3 15.
+Rxc3 Qc7 16. Qe2 Bd5 17. Re3 b5 18. b3 Qh2 19. Rg3 Ne4 20. Rh3 Nxd2 21. Rxh2
+Nf3+ 22. Kd1 Nxh2 23. Kc1 Nxf1 24. Qxf1 a5 25. Qe2 b4 26. axb4 axb4 27. Rxa8
+Rxa8 28. Kb2 f6 29. f4 Ra5 30. Qd3 Ke7 31. Qh7 Kf8 32. Qh8+ Kf7 33. Qd8 Rb5 34.
+g5 fxg5 35. fxg5 hxg5 36. Qxg5 Rb7 37. Qd8 Rb5 38. Qd7+ Kf8 39. Kc1 Kg8 40. Kd2
+Kh7 41. Qf7 Kh8 42. Ke3 Rb8 43. Qe7 Kg8 44. Qd6 Rb7 45. Qd8+ Kh7 46. Qe8 Ra7 47.
+Qg6+ Kh8 48. Qe8+ Kh7 49. Qb8 Ra2 50. Kd3 Bf3 51. Qxb4 Bxh5 52. c4 Bg6+ 53. Ke3
+Rb2 54. Qa3 Rb1 55. Qa4 Bf5 56. Kf4 Kh6 57. Qxc6 g5+ 58. Ke5 Kh5 59. d5 Re1+ 60.
+Kf6 Rf1 61. Kg7 exd5 62. cxd5 Rd1 63. b4 Kg4 64. b5 Be4 65. Qe6+ Kf4 66. d6 Bf5
+67. Qe2 Rd5 68. b6 g4 69. b7 1-0
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.13"]
+[Round "6.2"]
+[White "Karjakin, Sergey"]
+[Black "Nepomniachtchi, Ian"]
+[Result "1-0"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2758"]
+[BlackElo "2792"]
+[ECO "C24"]
+[Opening "Bishop's opening"]
+[Variation "Berlin defence"]
+[WhiteFideId "14109603"]
+[BlackFideId "4168119"]
+[EventDate "2021.09.07"]
+
+1. e4 e5 2. Bc4 Nf6 3. d3 c6 4. Nf3 d5 5. Bb3 a5 6. a4 Bb4+ 7. c3 Bd6 8. exd5
+cxd5 9. Bg5 Be6 10. Na3 Nbd7 11. Nb5 Bb8 12. O-O O-O 13. Bh4 h6 14. Re1 Re8 15.
+d4 e4 16. Nd2 Ra6 17. c4 dxc4 18. Bxc4 Bxc4 19. Nxc4 Qe7 20. d5 Qb4 21. b3 Ne5
+22. d6 Nxc4 23. bxc4 Bxd6 24. Bxf6 gxf6 25. Qg4+ Kf8 26. Rxe4 Rxe4 27. Qxe4 Bc5
+28. Nc7 Bxf2+ 29. Kf1 Qd2 30. Qf3 Rd6 31. Nb5 Qb2 32. Nxd6 Qxa1+ 33. Kxf2 Qd4+
+34. Ke2 Qxd6 35. Qxb7 Qe5+ 36. Kd3 Qf5+ 37. Qe4 Qf1+ 38. Kd4 Qd1+ 39. Kc5 Qxa4
+40. Qb1 Qa3+ 41. Kb5 Kg7 42. c5 a4 43. Qb4 Qb3 44. c6 Qd5+ 45. Kb6 Qb3 46. Kc5
+Qe3+ 47. Kb5 Qb3 48. c7 Qd5+ 49. Qc5 Qd7+ 50. Qc6 Qc8 51. Kxa4 h5 52. Kb5 h4 53.
+Kb6 h3 54. g3 f5 55. Ka7 1-0
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.16"]
+[Round "9.2"]
+[White "Rapport, Richard"]
+[Black "Nepomniachtchi, Ian"]
+[Result "0-1"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2760"]
+[BlackElo "2792"]
+[ECO "A06"]
+[Opening "Reti"]
+[Variation "old Indian attack"]
+[WhiteFideId "738590"]
+[BlackFideId "4168119"]
+[EventDate "2021.09.07"]
+
+1. Nf3 d5 2. d3 g6 3. Nbd2 Bg7 4. e4 Nc6 5. exd5 Qxd5 6. g3 Nf6 7. Bg2 Qe6+ 8.
+Kf1 O-O 9. Nc4 Qd7 10. Bd2 Qd8 11. Bc3 Be6 12. Qe2 Re8 13. Re1 Qc8 14. h4 h5 15.
+Ng5 Bg4 16. Qd2 Qd7 17. Ne3 Rad8 18. b4 Nd4 19. Bxd4 Qxd4 20. Bxb7 Bh6 21. Nxg4
+Nxg4 22. Qf4 Qxf4 23. gxf4 e6 24. Bc6 Rf8 25. b5 Rd4 26. Re4 Rfd8 27. Nf3 Rxe4
+28. Bxe4 Bxf4 29. Ke2 Nf6 30. a4 Kf8 31. Ra1 Ke7 32. a5 Kd6 33. Nd4 Nxe4 34.
+dxe4 Kc5 35. Nc6 Rd2+ 36. Kf3 Kxb5 37. Nxa7+ Ka6 38. Nc6 Bd6 39. c3 Rd3+ 40. Kg2
+Rxc3 41. Nd8 f5 42. e5 Bxe5 43. Re1 Bd4 44. Rxe6+ Kb5 45. a6 Rc2 46. Kf1 Rxf2+
+47. Ke1 Ra2 48. Rxg6 Rxa6 49. Rg5 Kc4 0-1
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.17"]
+[Round "10.1"]
+[White "Nepomniachtchi, Ian"]
+[Black "Carlsen, Magnus"]
+[Result "0-1"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2792"]
+[BlackElo "2855"]
+[ECO "C28"]
+[Opening "Vienna game"]
+[WhiteFideId "4168119"]
+[BlackFideId "1503014"]
+[EventDate "2021.09.07"]
+
+1. e4 e5 2. Nc3 Nc6 3. Bc4 Nf6 4. d3 Na5 5. Bb3 Nxb3 6. axb3 d5 7. exd5 Nxd5 8.
+Qh5 Nb4 9. Qxe5+ Be7 10. Qe2 O-O 11. Be3 Re8 12. Nf3 a5 13. h3 b6 14. O-O Bb7
+15. Rac1 Bf6 16. d4 Qd7 17. Rfd1 Rad8 18. Qb5 Qc8 19. Qh5 h6 20. Qg4 Qxg4 21.
+hxg4 Rd7 22. Rd2 g5 23. Nd1 Rdd8 24. c3 Nd5 25. Nh2 Kg7 26. Nf1 Kg6 27. f3 h5
+28. gxh5+ Kxh5 29. Bf2 Kg6 30. Nde3 Be7 31. Nxd5 Bxd5 32. c4 Be6 33. d5 Bb4 34.
+Rdd1 Bd7 35. Ne3 f5 36. Nc2 Bd6 37. Nd4 g4 38. g3 gxf3 39. Nxf3 Re2 40. Rd2 Rxd2
+41. Nxd2 Re8 42. Rd1 f4 43. gxf4 Bxf4 44. Nf3 Re2 45. Bd4 Bg4 46. Rf1 Kf5 47. d6
+cxd6 48. Bxb6 Bxf3 49. Rxf3 Rxb2 50. Bd4 Rb1+ 51. Kf2 Ke4 52. Bg7 Rh1 53. Rc3
+Rh2+ 54. Kf1 Be3 55. c5 dxc5 56. Rc4+ Kf3 0-1
+
+[Event "9th Norway Armageddon"]
+[Site "Stavanger NOR"]
+[Date "2021.09.17"]
+[Round "10.3"]
+[White "Karjakin, Sergey"]
+[Black "Tari, Aryan"]
+[Result "1-0"]
+[WhiteTitle "GM"]
+[BlackTitle "GM"]
+[WhiteElo "2758"]
+[BlackElo "2642"]
+[ECO "A01"]
+[Opening "Nimzovich-Larsen attack"]
+[Variation "classical variation"]
+[WhiteFideId "14109603"]
+[BlackFideId "1510045"]
+[EventDate "2021.09.07"]
+
+1. b3 d5 2. Bb2 Bf5 3. g3 e6 4. Bg2 Nf6 5. c4 c6 6. Nf3 h6 7. O-O Bh7 8. d3 Be7
+9. Nbd2 O-O 10. a3 a5 11. Ra2 Nbd7 12. Qa1 Bd6 13. e4 dxe4 14. dxe4 e5 15. Nxe5
+Bxe5 16. Bxe5 Nxe5 17. Qxe5 Re8 18. Qf4 Qd4 19. Re1 Rad8 20. h4 Re7 21. Qe3 Ng4
+22. Qxd4 Rxd4 23. f3 Ne5 24. a4 Nd3 25. Re3 Nc5 26. g4 f5 27. gxf5 Bxf5 28. Bf1
+Bg6 29. Kf2 Ne6 30. Rd3 Rxd3 31. Bxd3 Nf4 32. Bf1 Bh5 33. c5 Rd7 34. Ke3 g5 35.
+hxg5 hxg5 36. Ra1 Kf8 37. Nc4 Ne6 38. Bh3 Ke7 39. Bxe6 Kxe6 40. Rh1 Bg6 41. Rh6
+Rg7 42. Nxa5 Kf6 43. Nc4 g4 44. fxg4 Kg5 45. Rh8 Re7 46. Nd6 1-0
+
