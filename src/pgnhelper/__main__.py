@@ -45,9 +45,18 @@ def main():
         help='Write the output filename, required, can be .html, .csv or .txt. e.g '
         '--output tata_steel.html')
     roundrobin.add_argument('--win-point', type=float,  required=False, default=1.0,
-        help='The point when the players wins, default=1.0')
+        help='The point when the player wins, default=1.0')
     roundrobin.add_argument('--draw-point', type=float, required=False, default=0.5,
-        help='The point when the players draws, default=0.5')
+        help='The point when the player draws, default=0.5')
+    roundrobin.add_argument('--armageddon-file', type=str, required=False, default=None,
+        help='The armageddon pgn file, not required, default=None, if the tournament is governed by '
+        'armageddon tie-break system, you need to intput the armageddon pgn file.')
+    roundrobin.add_argument('--win-point-arm', type=float, required=False, default=1.0,
+        help='The point when one player wins the armageddon match, not required, default=1.0')
+    roundrobin.add_argument('--loss-point-arm', type=float, required=False, default=0.0,
+        help='The point when one player loses the armageddon match, not required, default=0.0')
+    roundrobin.add_argument('--show-max-score', action='store_true',
+        help='A flag to show MaxScore column in the table, can be useful when scoring is not standard.')
     roundrobin.add_argument('--table-color', type=str, required=False, default='blue_light',
         help='Write table color not required. [default="blue_light" value=("yellow_light", '
         '"grey_light", "orange_light", "green_light", "red_light", "yellow_dark", '
@@ -81,7 +90,11 @@ def main():
             output=args.output,
             winpoint = args.win_point,
             drawpoint = args.draw_point,
-            tablecolor = args.table_color
+            tablecolor = args.table_color,
+            armageddonfile = args.armageddon_file,
+            winpointarm = args.win_point_arm,
+            losspointarm = args.loss_point_arm,
+            showmaxscore=args.show_max_score
         )
     
     if g is not None:

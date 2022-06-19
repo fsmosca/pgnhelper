@@ -6,6 +6,9 @@ from pgnhelper.utility import get_encounter_score
 
 def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame) -> pd.DataFrame:
     """Creates a dataframe with Win column.
+    
+    If a game has an armageddon tie-break, we will only count the number of wins
+    based from the normal game only.
     """
     ret = ranking_df.copy()
     players = list(ret.Name)
@@ -13,8 +16,8 @@ def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame) -> pd.DataFrame:
     for _, g in ret.groupby(['Score']):
         if len(g) > 1:
             for p in g.Name:
-                df_w = result_df.loc[(result_df.White == p) & (result_df.Result == '1-0')]
-                df_b = result_df.loc[(result_df.Black == p) & (result_df.Result == '0-1')]
+                df_w = result_df.loc[(result_df.White == p) & (result_df.Result == '1-0') & (result_df.Arm == 0)]
+                df_b = result_df.loc[(result_df.Black == p) & (result_df.Result == '0-1') & (result_df.Arm == 0)]
                 num_wins = len(df_w) + len(df_b)
                 tb.update({p: num_wins})
 
@@ -29,7 +32,7 @@ def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame) -> pd.DataFrame:
     return ret
 
 
-def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame, winpoint=1.0, drawpoint=0.5) -> pd.DataFrame:
+def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame, winpoint=1.0, drawpoint=0.5, winpointarm=1.0, losspointarm=0.0) -> pd.DataFrame:
     """Creates a dataframe with DE column or direct encounter.
     """
     players = list(ranking_df.Name)
@@ -42,7 +45,7 @@ def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame, winpoint
                 for op in g.Name:
                     if p == op:
                         continue
-                    score = get_encounter_score(result_df, p, op, winpoint, drawpoint)
+                    score = get_encounter_score(result_df, p, op, winpoint, drawpoint, winpointarm, losspointarm)
                     s += score[0]
                     tb.update({p: {op: s}})
 
@@ -72,6 +75,7 @@ def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame, gpe: int
     :param ranking_df: A dataframe of standing, [Name, Games, Score]
     :param gpe: games per encounter
     """
+    is_arm = True if 1 in result_df.Arm else False
     tb: Dict[str, int] = {}
     ret: pd.DataFrame = ranking_df.copy()
     players = list(ret.Name)
@@ -85,7 +89,7 @@ def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame, gpe: int
                     if p == m:
                         continue
                     match_score = 0
-                    
+            
                     # 2. Get the score when player wins or draws.
                     df_ww = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1-0')]
                     df_wd = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1/2-1/2')]

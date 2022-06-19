@@ -48,7 +48,8 @@ class PgnHelper:
     def __init__(self, job, inpgnfn=None, outpgnfn=None, inecopgnfn=None,
                 sort_tag='eco', sort_direction='lowtohigh',
                 output=None, winpoint=1.0, drawpoint=0.5, tablecolor='blue_light',
-                encoding='utf-8'):
+                encoding='utf-8', armageddonfile=None, winpointarm=1.0,
+                losspointarm=0.0, showmaxscore=False):
         self.job = job
         self.inpgnfn = inpgnfn
         self.inecopgnfn = inecopgnfn
@@ -60,6 +61,10 @@ class PgnHelper:
         self.drawpoint = drawpoint
         self.tablecolor = tablecolor
         self.encoding = encoding
+        self.armageddonfile = armageddonfile
+        self.winpointarm = winpointarm
+        self.losspointarm = losspointarm
+        self.showmaxscore = showmaxscore
         self.games = []
         self.eco_db = {}
 
@@ -205,5 +210,12 @@ class PgnHelper:
             self.create_eco_db()
             self.add_eco(ply=4, maxply=24)
         elif self.job == 'roundrobin':
-            df = pgnhelper.round_robin(self.inpgnfn, winpoint=self.winpoint, drawpoint=self.drawpoint)
+            df = pgnhelper.round_robin(
+                self.inpgnfn,
+                winpoint=self.winpoint,
+                drawpoint=self.drawpoint,
+                armageddonfile=self.armageddonfile,
+                winpointarm=self.winpointarm,
+                losspointarm=self.losspointarm,
+                showmaxscore=self.showmaxscore)
             self.save_roundrobin_table(df)
