@@ -76,6 +76,7 @@ pgnhelper is dependent on the following packages.
 * [chess==1.9.1](https://github.com/niklasf/python-chess)
 * [pandas](https://pypi.org/project/pandas/)
 * [pretty-html-table](https://pypi.org/project/pretty-html-table/)
+* [pytest](https://docs.pytest.org/en/7.1.x/)
 
 These are automatically installed when pgnhelper is installed. 
 
@@ -83,7 +84,8 @@ These are automatically installed when pgnhelper is installed.
 `pip uninstall pgnhelper`  
 `pip uninstall chess`  
 `pip uninstall pandas`  
-`pip uninstall pretty-html-table`
+`pip uninstall pretty-html-table`  
+`pip uninstall pytest`
 
 ## eco.pgn
 This file is needed when adding eco, opening and variation names to the games in pgn file. You can get this from eco folder in this repo or you can use other eco.pgn from other sources.
