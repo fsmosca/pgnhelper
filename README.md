@@ -219,6 +219,13 @@ pgnhelper roundrobin --inpgnfn "./pgn/candidates_zurich_1953.pgn" --output zuric
    15   Stahlberg A  0.5  1.0  0.0  0.5  0.0  1.0  0.0  1.0  0.0  2.0  1.0  0.5  0.0  0.5    x     28    8.0    28.6 0.0     0   0.0
 ```
 
+**7. Generate round-robin table with armageddon tie-break system**
+
+```
+pgnhelper roundrobin --inpgnfn "./pgn/norway_chess_2022_classical.pgn" --armageddon-file "./pgn/norway_chess_2022_armageddon.pgn" --output norway_chess_2022.html --win-point 3.0 --win-point-arm 1.5 --loss-point-arm 1.0 --show-max-score
+```
+
+![image](https://user-images.githubusercontent.com/22366935/174473727-26a8a791-736f-4348-a4db-50e70365fc17.png)
 
 
 ## Help
@@ -272,19 +279,26 @@ options:
 
 `pgnhelper roundrobin -h`
 ```
-usage: pgnhelper roundrobin [-h] --inpgnfn INPGNFN --output OUTPUT [--win-point WIN_POINT] [--draw-point DRAW_POINT] [--table-color TABLE_COLOR]
+usage: pgnhelper roundrobin [-h] --inpgnfn INPGNFN --output OUTPUT [--win-point WIN_POINT] [--draw-point DRAW_POINT] [--armageddon-file ARMAGEDDON_FILE] [--win-point-arm WIN_POINT_ARM] [--loss-point-arm LOSS_POINT_ARM] [--show-max-score]
+                            [--table-color TABLE_COLOR]
 
-options:
+optional arguments:
   -h, --help            show this help message and exit
   --inpgnfn INPGNFN     Write the input pgn filename, required.
   --output OUTPUT       Write the output filename, required, can be .html, .csv or .txt. e.g --output tata_steel.html
   --win-point WIN_POINT
-                        The point when the players wins, default=1.0
+                        The point when the player wins, default=1.0
   --draw-point DRAW_POINT
-                        The point when the players draws, default=0.5
+                        The point when the player draws, default=0.5
+  --armageddon-file ARMAGEDDON_FILE
+                        The armageddon pgn file, not required, default=None, if the tournament is governed by armageddon tie-break system, you need to intput the armageddon pgn file.
+  --win-point-arm WIN_POINT_ARM
+                        The point when one player wins the armageddon match, not required, default=1.0
+  --loss-point-arm LOSS_POINT_ARM
+                        The point when one player loses the armageddon match, not required, default=0.0
+  --show-max-score      A flag to show MaxScore column in the table, can be useful when scoring is not standard.
   --table-color TABLE_COLOR
-                        Write table color not required. [default="blue_light" value=("yellow_light", "grey_light", "orange_light", "green_light", "red_light", "yellow_dark", "grey_dark",
-                        "blue_dark", "orange_dark", "green_dark", "red_dark")]
+                        Write table color not required. [default="blue_light" value=("yellow_light", "grey_light", "orange_light", "green_light", "red_light", "yellow_dark", "grey_dark", "blue_dark", "orange_dark", "green_dark", "red_dark")]
 ```
 
 ## Credits
@@ -320,13 +334,8 @@ options:
     * round-robin result table generation
 
 ## Change log
-version 0.4.0
+version 0.5.0
 
 ```
-* Add encoding option when sorting games.   
-
-  By default when reading pgn file to be sorted, it uses encoding utf-8. If you encounter an error like
-  "UnicodeDecodeError" for example, you can try to use another encoding like the example below.
-  
-  pgnhelper sort ... --encoding ISO-8859-1
+* Added armageddon tie-break system as in Norway chess.
 ```
