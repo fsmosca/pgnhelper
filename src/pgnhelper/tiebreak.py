@@ -75,7 +75,6 @@ def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame, gpe: int
     :param ranking_df: A dataframe of standing, [Name, Games, Score]
     :param gpe: games per encounter
     """
-    is_arm = True if 1 in result_df.Arm else False
     tb: Dict[str, int] = {}
     ret: pd.DataFrame = ranking_df.copy()
     players = list(ret.Name)
