@@ -123,7 +123,7 @@ def round_robin(fn: str, winpoint=1.0, drawpoint=0.5, armageddonfile=None,
         dfa, _, _ = get_pgn_data(armageddonfile, is_arm=True)
         dfall.append(dfa)
     df = pd.concat(dfall, ignore_index=False)
-    is_arm = True if 1 in df.Arm else False
+    is_arm = True if 1 in df.Arm.unique() else False
 
     # 1. Create a dataframe of player ranking.
     df_score = player_ranking(df, players, is_rating, winpoint, drawpoint, winpointarm, losspointarm)
