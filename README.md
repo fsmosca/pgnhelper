@@ -336,8 +336,12 @@ optional arguments:
     * round-robin result table generation
 
 ## Change log
-version 0.5.0
+version 0.6.0
 
 ```
-* Added armageddon tie-break system as in Norway chess.
+* Fix SB tie-break column.
+
+Current state after the fix.
+1. Without armageddon tie-break, there is SB column.
+2. With armageddon tie-break, there is no SB column.
 ```
