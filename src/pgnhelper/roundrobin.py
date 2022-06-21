@@ -1,9 +1,10 @@
-"""
-roundrobin.py
+"""Generates a round-robin result table.
 
-A round-robin result generator based from the given pgn file.
+It reads the input pgn file and generates a dataframe of round-robin table.
+It also add columns for tie-break scores for tied players.
 
-Typical tie-break system that can be applied to a round-robin tournament according to FIDE.
+Typical tie-break system that can be applied to a round-robin tournament
+according to FIDE.
 
 13.16.2. Individual Round-Robin Tournaments:
     Direct encounter
@@ -16,6 +17,7 @@ https://handbook.fide.com/files/handbook/C02Standards.pdf
 
 
 from pathlib import Path
+from typing import List
 
 import chess.pgn
 import pandas as pd
@@ -25,7 +27,7 @@ import pgnhelper.tiebreak
 import pgnhelper.utility
 
 
-def get_pgn_data(fn, is_arm=False):
+def get_pgn_data(fn: str, is_arm: bool=False):
     data = []
     players = []
     rating_cnt = 0
@@ -47,25 +49,37 @@ def get_pgn_data(fn, is_arm=False):
             if belo != '?':
                 rating_cnt += 1
             data.append([round, white, black, welo, belo, result, 1 if is_arm else 0])
-    df = pd.DataFrame(data, columns=['Round', 'White', 'Black', 'WElo', 'BElo', 'Result', 'Arm'])
+    df = pd.DataFrame(data,
+            columns=['Round', 'White', 'Black', 'WElo', 'BElo', 'Result', 'Arm'])
     return df, list(set(players)), rating_cnt > 0
 
 
-def games_per_encounter(result_df, ranking_df):
-    """Count games excluding armageddon.
+def games_per_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame):
+    """Count number of games per encounter excluding armageddon.
     """
     players = list(ranking_df.Name)
     for p in players:
         for m in players:
             if p == m:
                 continue
-            dfw = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Arm == 0)]
-            dfb = result_df.loc[(result_df.Black == p) & (result_df.White == m) & (result_df.Arm == 0)]
+            dfw = result_df.loc[(result_df.White == p) & (result_df.Black == m)
+                    & (result_df.Arm == 0)]
+            dfb = result_df.loc[(result_df.Black == p) & (result_df.White == m)
+                    & (result_df.Arm == 0)]
             return len(dfw) + len(dfb)
     return 0
 
 
-def player_ranking(df, players, is_rating, winpoint, drawpoint, winpointarm=1.5, losspointarm=1.0):
+def player_ranking(df: pd.DataFrame, players: List, is_rating: bool,
+        winpoint: float, drawpoint: float, winpointarm:float=1.5,
+        losspointarm: float=1.0) -> pd.DataFrame:
+    """Generates a dataframe of player ranking.
+
+    Args:
+      df: A dataframe of player match records.
+      players: A list of unique players names.
+      is_rating: If players have rating.
+    """
     is_arm = True if 1 in df['Arm'].unique() else False
     data_p = []
     for p in players:       
@@ -102,7 +116,8 @@ def player_ranking(df, players, is_rating, winpoint, drawpoint, winpointarm=1.5,
             score_w_al += len(df_w_arm.loc[df_w_arm.Result == '1/2-1/2']) * losspointarm
             score_b_al = len(df_b_arm.loc[(df_b_arm.Result == '1-0')]) * losspointarm
 
-            final_score = score_w_n + score_b_n + score_w_aw + score_b_aw + score_w_al + score_b_al
+            final_score = (score_w_n + score_b_n + score_w_aw + score_b_aw
+                    + score_w_al + score_b_al)
 
         if is_rating:
             rating = df_w.WElo.iloc[0]  # all players have at least played a game with white
@@ -110,15 +125,25 @@ def player_ranking(df, players, is_rating, winpoint, drawpoint, winpointarm=1.5,
         else:
             data_p.append([p, len(df_w) + len(df_b), final_score])
     if is_rating:
-        df_score = pd.DataFrame(data_p, columns=['Name', 'Rating', 'Games', 'Score'])
+        df_score = pd.DataFrame(data_p,
+                columns=['Name', 'Rating', 'Games', 'Score'])
     else:
         df_score = pd.DataFrame(data_p, columns=['Name', 'Games', 'Score'])
-    df_score = df_score.sort_values(by=['Score', 'Name'], ascending=[False, True])
+    df_score = df_score.sort_values(by=['Score', 'Name'],
+            ascending=[False, True])
     df_score = df_score.reset_index(drop=True)
     return df_score
 
 
-def save_roundrobin_table(df, outputfn, tablecolor='blue_light'):
+def save_roundrobin_table(df: pd.DataFrame,
+        outputfn: str, tablecolor: str='blue_light'):
+    """Save the round-robin result table.
+
+    Args:
+      df: A dataframe of players match records.
+      outputfn: The output file.
+      tablecolor: The round-robin table color.
+    """
     ext = Path(outputfn).suffix
     if ext == '.html':
         html_table = build_table(df, tablecolor,
@@ -145,23 +170,29 @@ def round_robin(fn: str, winpoint=1.0, drawpoint=0.5, armageddonfile=None,
     is_arm = True if 1 in df.Arm.unique() else False
 
     # 1. Create a dataframe of player ranking.
-    df_score = player_ranking(df, players, is_rating, winpoint, drawpoint, winpointarm, losspointarm)
+    df_score = player_ranking(df, players, is_rating, winpoint,
+            drawpoint, winpointarm, losspointarm)
     gpe = games_per_encounter(df, df_score)
 
     # 1.1 Apply Direct Encounter tie-break
-    df_de = pgnhelper.tiebreak.direct_encounter(df, df_score, winpoint, drawpoint, winpointarm, losspointarm)
-    df_de = df_de.sort_values(by=['Score', 'DE', 'Name'], ascending=[False, False, True])
+    df_de = pgnhelper.tiebreak.direct_encounter(df, df_score, winpoint,
+            drawpoint, winpointarm, losspointarm)
+    df_de = df_de.sort_values(by=['Score', 'DE', 'Name'],
+            ascending=[False, False, True])
     df_de = df_de.reset_index(drop=True)
 
     # 1.2 Apply Number of Wins tie-break
     df_wins = pgnhelper.tiebreak.num_wins(df, df_de)
-    df_wins = df_wins.sort_values(by=['Score', 'DE', 'Wins', 'Name'], ascending=[False, False, False, True])
+    df_wins = df_wins.sort_values(by=['Score', 'DE', 'Wins', 'Name'],
+            ascending=[False, False, False, True])
     df_wins = df_wins.reset_index(drop=True)  
 
     # 1.3 Apply Sonneborn-Berger tie-break
     if not is_arm:
-        df_sb = pgnhelper.tiebreak.sonneborn_berger(df, df_wins, gpe=gpe, winpoint=1.0, drawpoint=0.5)
-        df_sb = df_sb.sort_values(by=['Score', 'DE', 'Wins', 'SB', 'Name'], ascending=[False, False, False, False, True])
+        df_sb = pgnhelper.tiebreak.sonneborn_berger(df, df_wins, gpe=gpe,
+                winpoint=1.0, drawpoint=0.5)
+        df_sb = df_sb.sort_values(by=['Score', 'DE', 'Wins', 'SB', 'Name'],
+                ascending=[False, False, False, False, True])
         df_sb = df_sb.reset_index(drop=True)
     else:
         df_sb = df_wins.copy()
@@ -178,7 +209,8 @@ def round_robin(fn: str, winpoint=1.0, drawpoint=0.5, armageddonfile=None,
             if p == op:
                 v = 'x'
             else:
-                score = pgnhelper.utility.get_encounter_score(df, p, op, winpoint, drawpoint, winpointarm, losspointarm)
+                score = pgnhelper.utility.get_encounter_score(df, p, op,
+                        winpoint, drawpoint, winpointarm, losspointarm)
                 v = score[1]  # use the score of op only
             data_v.append(v)
         data_rr.update({cnt: data_v})

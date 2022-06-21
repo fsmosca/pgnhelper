@@ -1,21 +1,30 @@
-"""
-utility.py
-
-Helps build the round-robin result table.
+"""Helps build the round-robin result table.
 """
 
 
-from typing import List, TypeVar
+from typing import List
 import pandas as pd
 
 
-def get_encounter_score(df: pd.DataFrame, p: str, op: str, winpoint=1.0, drawpoint=0.5, winpointarm=1.0, losspointarm=0.0) -> List[float]:
-    """Calculates the scores between the two players p and op based from the given df.
+def get_encounter_score(df: pd.DataFrame, p: str, op: str, winpoint: float=1.0,
+        drawpoint: float=0.5, winpointarm: float=1.0,
+        losspointarm: float=0.0) -> List[float]:
+    """Calculates the scores between the player p and op.
 
-    :param df: A pandas dataframe containing players match results.
-    :param p: A player name.
-    :param op: Opponent player name.
-    :return: A list of score for p and op, score[<p score>, <op score>].
+    It can calculate normal game and armageddon game to calculate points
+    between the two players.
+
+    Args:
+      df: A pandas dataframe containing players match results.
+      p: A player name.
+      op: Opponent of player p.
+      winpoint: The point when player wins.
+      drawpoint: The point when player draws.
+      winpointarm: The point when player wins in armageddon game.
+      losspointarm: The point when player loses in armageddon game.
+
+    Returns:
+      A list of score for p and op, score[<p score>, <op score>].
     """
     is_arm = True if 1 in df.Arm.unique() else False
     score = [0, 0]

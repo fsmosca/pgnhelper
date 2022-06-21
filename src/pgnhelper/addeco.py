@@ -1,14 +1,16 @@
-"""
-addeco.py
-
-This is used to added eco, opening and variation names to the games.
+"""Add eco, opening and variation names to the input pgn file.
 """
 
 
 import chess.pgn
 
 
-def create_eco_db(inecopgnfn):
+def create_eco_db(inecopgnfn: str):
+    """Creats a dictionary of eco data.
+
+    Args:
+      inecopgnfn: The eco.pgn file to be converted to a dictionary.
+    """
     eco_db = {}
     with open(inecopgnfn, 'r') as f:
         while True:
@@ -35,7 +37,16 @@ def create_eco_db(inecopgnfn):
     return eco_db
 
 
-def add_eco(inpgnfn, outpgnfn, inecopgnfn, ply=4, maxply=24):
+def add_eco(inpgnfn: str, outpgnfn: str, inecopgnfn: str, ply: int=4, maxply: int=24):
+    """Add eco, opening and variation names to the pgn file.
+
+    Args:
+      inpgnfn: The input pgn file.
+      outpgnfn: The output file.
+      inecopgnfn: The eco.pgn file.
+      ply: The game ply to start classifying the opening.
+      maxply: The max game ply to stop classifying the opening.
+    """
     eco_db = create_eco_db(inecopgnfn)
     with open(outpgnfn, 'w') as w:
         with open(inpgnfn, 'r') as f:
