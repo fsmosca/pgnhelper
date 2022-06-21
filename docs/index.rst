@@ -15,10 +15,3 @@ Documentation of PgnHelper
    usage   
    pytest
    changelog
-
-Indices and tables
-==================
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
