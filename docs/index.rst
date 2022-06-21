@@ -15,3 +15,4 @@ Documentation of PgnHelper
    usage   
    pytest
    changelog
+   api
