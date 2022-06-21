@@ -1,10 +1,15 @@
+"""
+utility.py
+
+Helps build the round-robin result table.
+"""
+
+
 from typing import List, TypeVar
+import pandas as pd
 
 
-PandasDataFrame = TypeVar('pandas.core.frame.DataFrame')
-
-
-def get_encounter_score(df: PandasDataFrame, p: str, op: str, winpoint=1.0, drawpoint=0.5, winpointarm=1.0, losspointarm=0.0) -> List[float]:
+def get_encounter_score(df: pd.DataFrame, p: str, op: str, winpoint=1.0, drawpoint=0.5, winpointarm=1.0, losspointarm=0.0) -> List[float]:
     """Calculates the scores between the two players p and op based from the given df.
 
     :param df: A pandas dataframe containing players match results.
