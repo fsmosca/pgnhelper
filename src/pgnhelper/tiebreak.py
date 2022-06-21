@@ -1,9 +1,9 @@
 """Generates tiebreak points on tied players.
 
 Tie-breaks supported:
-  Direct Encounter
-  Number of wins
-  Sonneboard-Berger
+  * Direct Encounter
+  * Number of wins
+  * Sonneboard-Berger
 """
 
 
@@ -74,15 +74,17 @@ def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame, winpoint
     return ret
 
 
-def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame, gpe: int=1, winpoint=1.0, drawpoint=0.5) -> pd.DataFrame:
-    """Returns a dataframe with SB column for Sonneborn-Berger score.
-    1. Add all the scores of opponents that the player has defeated.
-    2. Add all the scores of opponents that the player has drawn, then divide it by 2.
-    3. Add the scores in step 1 and step 2, it will become the Sonneborn-Berger score.
+def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
+        gpe: int=1, winpoint=1.0, drawpoint=0.5) -> pd.DataFrame:
+    """Creates a dataframe with SB column for Sonneborn-Berger score.
 
-    :param result_df: A dataframe of [Round, White, Black, Result]
-    :param ranking_df: A dataframe of standing, [Name, Games, Score]
-    :param gpe: games per encounter
+    Args:
+      result_df: A dataframe of [Round, White, Black, Result].
+      ranking_df: A dataframe of standing, [Name, Games, Score].
+      gpe: games per encounter
+
+    Returns:
+      A dataframe of round-robin result table.
     """
     tb: Dict[str, int] = {}
     ret: pd.DataFrame = ranking_df.copy()
