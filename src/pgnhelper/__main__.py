@@ -1,5 +1,5 @@
 import argparse
-import pgnhelper
+import pgnhelper.app
 
 
 def main():
@@ -68,7 +68,7 @@ def main():
 
     g = None
     if args.command == 'sort':
-        g = pgnhelper.PgnHelper(
+        g = pgnhelper.app.PgnHelper(
             args.command,
             inpgnfn=args.inpgnfn,
             outpgnfn=args.outpgnfn,
@@ -77,14 +77,14 @@ def main():
             encoding=args.encoding
         )
     elif args.command == 'addeco':
-        g = pgnhelper.PgnHelper(
+        g = pgnhelper.app.PgnHelper(
             args.command,
             inpgnfn=args.inpgnfn,
             outpgnfn=args.outpgnfn,
             inecopgnfn=args.inecopgnfn            
         )
     elif args.command == 'roundrobin':
-        g = pgnhelper.PgnHelper(
+        g = pgnhelper.app.PgnHelper(
             args.command,
             inpgnfn=args.inpgnfn,
             output=args.output,
