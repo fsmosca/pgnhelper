@@ -1,4 +1,6 @@
-"""roundrobin.py
+"""
+roundrobin.py
+
 A round-robin result generator based from the given pgn file.
 
 Typical tie-break system that can be applied to a round-robin tournament according to FIDE.
@@ -8,17 +10,19 @@ Typical tie-break system that can be applied to a round-robin tournament accordi
     The greater number of wins, including forfeits
     Sonneborn-Berger
     Koya System
-https://handbook.fide.com/files/handbook/C02Standards.pdf
 
-Todo:
-    Implement Koya System
+https://handbook.fide.com/files/handbook/C02Standards.pdf
 """
 
 
+from pathlib import Path
+
 import chess.pgn
 import pandas as pd
-from pgnhelper.tiebreak import direct_encounter, sonneborn_berger, num_wins
-from pgnhelper.utility import get_encounter_score
+from pretty_html_table import build_table
+
+import pgnhelper.tiebreak
+import pgnhelper.utility
 
 
 def get_pgn_data(fn, is_arm=False):
@@ -114,6 +118,21 @@ def player_ranking(df, players, is_rating, winpoint, drawpoint, winpointarm=1.5,
     return df_score
 
 
+def save_roundrobin_table(df, outputfn, tablecolor='blue_light'):
+    ext = Path(outputfn).suffix
+    if ext == '.html':
+        html_table = build_table(df, tablecolor,
+            font_size='medium',
+            text_align='center',
+            font_family='Calibri, Verdana, Tahoma, Georgia, serif, arial')
+        with open(outputfn, 'w') as f:
+            f.write(html_table)
+    elif ext == '.csv':
+        df.to_csv(outputfn, index=False)
+    else:
+        df.to_string(outputfn, index=False)
+
+
 def round_robin(fn: str, winpoint=1.0, drawpoint=0.5, armageddonfile=None,
                 winpointarm=1.0, losspointarm=0.0, showmaxscore=False):
     dfall = []
@@ -130,18 +149,18 @@ def round_robin(fn: str, winpoint=1.0, drawpoint=0.5, armageddonfile=None,
     gpe = games_per_encounter(df, df_score)
 
     # 1.1 Apply Direct Encounter tie-break
-    df_de = direct_encounter(df, df_score, winpoint, drawpoint, winpointarm, losspointarm)
+    df_de = pgnhelper.tiebreak.direct_encounter(df, df_score, winpoint, drawpoint, winpointarm, losspointarm)
     df_de = df_de.sort_values(by=['Score', 'DE', 'Name'], ascending=[False, False, True])
     df_de = df_de.reset_index(drop=True)
 
     # 1.2 Apply Number of Wins tie-break
-    df_wins = num_wins(df, df_de)
+    df_wins = pgnhelper.tiebreak.num_wins(df, df_de)
     df_wins = df_wins.sort_values(by=['Score', 'DE', 'Wins', 'Name'], ascending=[False, False, False, True])
     df_wins = df_wins.reset_index(drop=True)  
 
     # 1.3 Apply Sonneborn-Berger tie-break
     if not is_arm:
-        df_sb = sonneborn_berger(df, df_wins, gpe=gpe, winpoint=1.0, drawpoint=0.5)
+        df_sb = pgnhelper.tiebreak.sonneborn_berger(df, df_wins, gpe=gpe, winpoint=1.0, drawpoint=0.5)
         df_sb = df_sb.sort_values(by=['Score', 'DE', 'Wins', 'SB', 'Name'], ascending=[False, False, False, False, True])
         df_sb = df_sb.reset_index(drop=True)
     else:
@@ -159,7 +178,7 @@ def round_robin(fn: str, winpoint=1.0, drawpoint=0.5, armageddonfile=None,
             if p == op:
                 v = 'x'
             else:
-                score = get_encounter_score(df, p, op, winpoint, drawpoint, winpointarm, losspointarm)
+                score = pgnhelper.utility.get_encounter_score(df, p, op, winpoint, drawpoint, winpointarm, losspointarm)
                 v = score[1]  # use the score of op only
             data_v.append(v)
         data_rr.update({cnt: data_v})
