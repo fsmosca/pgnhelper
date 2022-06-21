@@ -1,15 +1,13 @@
 """
 sample_sort.py
-
-pip install pgnhelper
 """
 
-import pgnhelper
+import pgnhelper.app
 
-a = pgnhelper.PgnHelper(
+a = pgnhelper.app.PgnHelper(
     'sort',
-    inpgnfn='mygames.pgn',
-    outpgnfn='out.pgn',
-    sort_tag='eco',
+    inpgnfn='F:\Github\pgnhelper\pgn\candidates_zurich_1953.pgn',
+    outpgnfn='out_sorted.pgn',
+    sort_tag='white',
     sort_direction='hightolow')
 a.start()
