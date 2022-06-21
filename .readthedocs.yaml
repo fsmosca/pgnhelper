@@ -29,5 +29,4 @@ sphinx:
   # - requirements: docs/requirements.txt
 
 python:
-    version: 3.9
-    setup_py_install: true
+   setup_py_install: true
