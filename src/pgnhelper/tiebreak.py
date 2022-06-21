@@ -1,7 +1,14 @@
+"""
+tiebreak.py
+
+It is used to generate tiebreak points on tied players.
+"""
+
+
 from typing import List, Dict
 
 import pandas as pd
-from pgnhelper.utility import get_encounter_score
+import pgnhelper.utility
 
 
 def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame) -> pd.DataFrame:
@@ -45,7 +52,7 @@ def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame, winpoint
                 for op in g.Name:
                     if p == op:
                         continue
-                    score = get_encounter_score(result_df, p, op, winpoint, drawpoint, winpointarm, losspointarm)
+                    score = pgnhelper.utility.get_encounter_score(result_df, p, op, winpoint, drawpoint, winpointarm, losspointarm)
                     s += score[0]
                     tb.update({p: {op: s}})
 
