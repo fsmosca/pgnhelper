@@ -1,8 +1,4 @@
-"""
-sortgames.py
-
-Sort games by game tags such as event, site, round, white,
-black, eco and others.
+"""Sort games by game tags.
 """
 
 

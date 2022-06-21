@@ -1,3 +1,7 @@
+"""Manages command line processes.
+"""
+
+
 import argparse
 import pgnhelper.app
 

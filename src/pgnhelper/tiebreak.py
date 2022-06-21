@@ -1,7 +1,9 @@
-"""
-tiebreak.py
+"""Generates tiebreak points on tied players.
 
-It is used to generate tiebreak points on tied players.
+Tie-breaks supported:
+  Direct Encounter
+  Number of wins
+  Sonneboard-Berger
 """
 
 
