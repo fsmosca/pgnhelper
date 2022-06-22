@@ -53,6 +53,8 @@ def read_games(inpgnfn: str, encoding: str='utf-8') -> List[Game]:
 
     Args:
       inpgnfn: The input pgn file.
+      encoding: Encoding used in reading a file. If you encounter a
+        ``UnicodeDecodeError`` we can use ``ISO-8859-1`` instead of ``utf-8.``
 
     Returns:
       A list of Game objects.
