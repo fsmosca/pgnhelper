@@ -25,17 +25,19 @@ from pretty_html_table import build_table
 
 import pgnhelper.tiebreak
 import pgnhelper.utility
+import pgnhelper.elo
 
 
-def get_pgn_data(fn: str, is_arm: bool=False) -> Tuple[pd.DataFrame, List, bool]:
+def get_pgn_data(fn: str, is_arm: bool=False, k: int=10) -> Tuple[pd.DataFrame, List, bool]:
     """Converts games to dataframe.
 
     Args:
       fn: A pgn file.
-      is_arm: A boolean to see if a pgn file contains an armageddon games.
+      is_arm: If pgn file has armageddon games.
+      k: The rating change k factor.
 
     Returns:
-      A tuple of dataframe of games records, player list and israting.
+      [records, players, is_rating]
     """
     data = []
     players = []
@@ -53,13 +55,27 @@ def get_pgn_data(fn: str, is_arm: bool=False) -> Tuple[pd.DataFrame, List, bool]
             players.append(black)
             welo = game.headers.get('WhiteElo', '?')
             belo = game.headers.get('BlackElo', '?')
+            welo = '?' if welo == '' else welo
+            belo = '?' if belo == '' else belo
             if welo != '?':
                 rating_cnt += 1
+                welo = int(welo)
             if belo != '?':
                 rating_cnt += 1
-            data.append([round, white, black, welo, belo, result, 1 if is_arm else 0])
+                belo = int(belo)
+            if result == '1-0':
+                wpt = 1.0
+                bpt = 0.0
+            elif result == '0-1':
+                wpt = 0.0
+                bpt = 1.0
+            elif result == '1/2-1/2':
+                wpt = 0.5
+                bpt = 0.5            
+            data.append([round, white, black, welo, belo, result, wpt, bpt, 1 if is_arm else 0])
     df = pd.DataFrame(data,
-            columns=['Round', 'White', 'Black', 'WElo', 'BElo', 'Result', 'Arm'])
+            columns=['Round', 'White', 'Black', 'WElo', 'BElo', 'Result', 'Wpt', 'Bpt', 'Arm'])
+    df = pgnhelper.elo.add_rating_change(df, rating_cnt > 1, k)
     return df, list(set(players)), rating_cnt > 0
 
 
@@ -198,8 +214,8 @@ def round_robin(fn: str, winpoint: float=1.0, drawpoint: float=0.5,
       winpoint: The point when player wins.
       drawpoint: The point when player draws.
       armageddonfile: The pgn file from armageddon games.
-      winpointarm: The point when player wins in an aramageddon game.
-      losspointarm: The point when player loses in an aramageddon game.
+      winpointarm: The point when player wins in an armageddon game.
+      losspointarm: The point when player loses in an armageddon game.
       showmaxscore: Show the column maxscore in the generated table.
 
     Returns:
@@ -244,7 +260,12 @@ def round_robin(fn: str, winpoint: float=1.0, drawpoint: float=0.5,
 
     # 2. Build a round-robin dataframe.
     if is_rating:
-        data_rr = {'Name': df_sb.Name, 'Rating': df_sb.Rating}
+        # Add rating change.
+        rc = []
+        for p in list(df_sb.Name):
+            r = pgnhelper.elo.get_rating_change(df, p, k=10)
+            rc.append(round(r, 2))
+        data_rr = {'Name': df_sb.Name, 'Rating': df_sb.Rating, 'RChg': rc}
     else:
         data_rr = {'Name': df_sb.Name.unique()}
     cnt = 1
