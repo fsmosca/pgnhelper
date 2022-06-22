@@ -17,7 +17,7 @@ https://handbook.fide.com/files/handbook/C02Standards.pdf
 
 
 from pathlib import Path
-from typing import List
+from typing import List, Tuple, Optional
 
 import chess.pgn
 import pandas as pd
@@ -27,7 +27,16 @@ import pgnhelper.tiebreak
 import pgnhelper.utility
 
 
-def get_pgn_data(fn: str, is_arm: bool=False):
+def get_pgn_data(fn: str, is_arm: bool=False) -> Tuple[pd.DataFrame, List, bool]:
+    """Converts games to dataframe.
+
+    Args:
+      fn: A pgn file.
+      is_arm: A boolean to see if a pgn file contains an armageddon games.
+
+    Returns:
+      A tuple of dataframe of games records, player list and israting.
+    """
     data = []
     players = []
     rating_cnt = 0
@@ -54,8 +63,15 @@ def get_pgn_data(fn: str, is_arm: bool=False):
     return df, list(set(players)), rating_cnt > 0
 
 
-def games_per_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame):
-    """Count number of games per encounter excluding armageddon.
+def games_per_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame) -> int:
+    """Count the number of games per encounter excluding armageddon.
+
+    Args:
+      result_df: A dataframe of game result records.
+      ranking_df: A dataframe of player rankings.
+
+    Returns:
+      The number of games per encounter.
     """
     players = list(ranking_df.Name)
     for p in players:
@@ -79,6 +95,11 @@ def player_ranking(df: pd.DataFrame, players: List, is_rating: bool,
       df: A dataframe of player match records.
       players: A list of unique players names.
       is_rating: If players have rating.
+      winpoint: The point when players wins.
+      drawpoint: The point when player draws.
+
+    Returns:
+      A pandas dataframe of players ranking.
     """
     is_arm = True if 1 in df['Arm'].unique() else False
     data_p = []
@@ -136,13 +157,22 @@ def player_ranking(df: pd.DataFrame, players: List, is_rating: bool,
 
 
 def save_roundrobin_table(df: pd.DataFrame,
-        outputfn: str, tablecolor: str='blue_light'):
+        outputfn: str, tablecolor: str='blue_light') -> None:
     """Save the round-robin result table.
+
+    The output can be a csv, txt and html.
 
     Args:
       df: A dataframe of players match records.
       outputfn: The output file.
       tablecolor: The round-robin table color.
+
+    Example, save the round-robin table in html file::
+
+      import pgnhelper.roundrobin
+
+      df = pgnhelper.roundrobin.round_robin('airthings.pgn')
+      pgnhelper.roundrobin.save_roundrobin_table(df, 'airthings.html')
     """
     ext = Path(outputfn).suffix
     if ext == '.html':
@@ -158,8 +188,23 @@ def save_roundrobin_table(df: pd.DataFrame,
         df.to_string(outputfn, index=False)
 
 
-def round_robin(fn: str, winpoint=1.0, drawpoint=0.5, armageddonfile=None,
-                winpointarm=1.0, losspointarm=0.0, showmaxscore=False):
+def round_robin(fn: str, winpoint: float=1.0, drawpoint: float=0.5,
+        armageddonfile: Optional[str]=None, winpointarm: float=1.0,
+        losspointarm: float=0.0, showmaxscore: bool=False) -> pd.DataFrame:
+    """Generates a round-robin result table.
+
+    Args:
+      fn: The input pgn file.
+      winpoint: The point when player wins.
+      drawpoint: The point when player draws.
+      armageddonfile: The pgn file from armageddon games.
+      winpointarm: The point when player wins in an aramageddon game.
+      losspointarm: The point when player loses in an aramageddon game.
+      showmaxscore: Show the column maxscore in the generated table.
+
+    Returns:
+      A pandas dataframe of round-robin result table.
+    """
     dfall = []
     dfn, players, is_rating = get_pgn_data(fn, is_arm=False)
     dfall.append(dfn)
