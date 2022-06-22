@@ -15,4 +15,5 @@ Documentation of PgnHelper
    usage   
    pytest
    changelog
+   readthedocs
    api
