@@ -4,7 +4,7 @@ Usage
 Command line
 ^^^^^^^^^^^^
 
-Add ECO::
+**1. Add ECO**::
 
    pgnhelper addeco --inpgnfn airthings.pgn --outpgnfn out_airthings.pgn
                     --inecopgnfn eco.pgn
@@ -12,16 +12,16 @@ Add ECO::
 .. note::
    You can get the `eco.pgn <https://github.com/fsmosca/pgnhelper/tree/main/eco>`_ from the pgnhelper github repository.
 
-Sort::
+**2. Sort**::
 
    pgnhelper sort --inpgnfn airthings.pgn --outpgnfn sorted_airthings.pgn
                   --sort-tag eco --sort-direction hightolow
 
-Normal round-robin table::
+**3. Normal round-robin table**::
 
    pgnhelper roundrobin --inpgnfn airthings.pgn --output airthings.html
 
-Round-robin with armageddon tie-break as in Norway Chess::
+**4. Round-robin with armageddon tie-break as in Norway Chess**::
 
    pgnhelper roundrobin --inpgnfn norwaychess.pgn --armageddon-file norwaychess_arm.pgn
                         --output norwaychess.html --win-point 3.0
@@ -31,7 +31,7 @@ Round-robin with armageddon tie-break as in Norway Chess::
 Script
 ^^^^^^
 
-Add ECO::
+**1. Add ECO**::
 
     import pgnhelper.run
 
@@ -42,7 +42,7 @@ Add ECO::
         inecopgnfn='eco.pgn')
     a.start()
 
-Sort games::
+**2. Sort games**::
 
     import pgnhelper.run
 
@@ -54,7 +54,7 @@ Sort games::
         sort_direction='hightolow')
     a.start()
 
-Generate round-robin table::
+**3. Generate round-robin table**::
 
     """
     The output can be a pandas dataframe, txt, csv and html.
