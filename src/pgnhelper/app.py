@@ -1,4 +1,4 @@
-"""Manages job requests from suer through the command line.
+"""Manages job requests from user through the command line.
 """
 
 
@@ -13,11 +13,12 @@ class PgnHelper:
     """Manages user options to execute the job.
 
     Attributes:
-      job: Kind of job to be done.
+      job: The kind of job to be done, sort, addeco and roundrobin.
       inpgnfn: The input pgn file or path and filename.
       outpgnfn: The output pgn file or path and filename.
       inecopgnfn: The eco.pgn that will be used in addeco job.
-      sort_tag: Used in sorting games.        
+      sort_tag: Used in sorting games. 
+      sort_direction: The output sorting ordering, lowtohigh or hightolow.       
     """
 
     def __init__(self, job: str, inpgnfn: Optional[str]=None,
