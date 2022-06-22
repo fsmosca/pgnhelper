@@ -7,10 +7,10 @@ Typical tie-break system that can be applied to a round-robin tournament
 according to FIDE.
 
 13.16.2. Individual Round-Robin Tournaments:
-    Direct encounter
-    The greater number of wins, including forfeits
-    Sonneborn-Berger
-    Koya System
+    * Direct encounter
+    * The greater number of wins, including forfeits
+    * Sonneborn-Berger
+    * Koya System (to be implemented in pgnhelper)
 
 https://handbook.fide.com/files/handbook/C02Standards.pdf
 """
