@@ -28,6 +28,10 @@ There are 2 types of ECO codes that it adds first the ECO based from the first 4
 
 The new ECOT, OpeningT and VariationT are based from the input eco.pgn file. You can get [eco.pgn](https://github.com/fsmosca/eco) which is based from the eco.pgn from [pgn-extract.](https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/)
 
+## Documentation
+
+You may visit the Read the Docs documentation of [pgnhelper](https://pgnhelper.readthedocs.io/en/latest/index.html) which contains installation, usage, api and others.
+
 ## Installation
 Python Package Index: https://pypi.org/project/pgnhelper/
 
