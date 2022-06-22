@@ -4,11 +4,17 @@
    contain the root `toctree` directive.
 
 Documentation of PgnHelper
-=====================================
+==========================
+
+PgnHelper is an application that can ``sort games;`` ``add ECO codes, opening and variation
+names;`` and generate a ``round-robin result table`` based from the given pgn file.
+
+See the ``CONTENTS`` in the sidebar for other informations.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :hidden:
    
    installation
    uninstallation
