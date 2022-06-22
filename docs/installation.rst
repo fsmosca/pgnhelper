@@ -1,6 +1,8 @@
 Installation
 ============
 
+You need to have **python version 3.7** or later.
+
 Install the package with::
 
    pip install pgnhelper
