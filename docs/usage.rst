@@ -14,6 +14,16 @@ Sort::
    pgnhelper sort --inpgnfn airthings.pgn --outpgnfn sorted_airthings.pgn
                   --sort-tag eco --sort-direction hightolow
 
+Normal round-robin table::
+
+   pgnhelper roundrobin --inpgnfn airthings.pgn --output airthings.html
+
+Round-robin with armageddon tie-break as in Norway Chess::
+
+   pgnhelper roundrobin --inpgnfn norwaychess.pgn --armageddon-file norwaychess_arm.pgn
+                        --output norwaychess.html --win-point 3.0
+                        --win-point-arm 1.5 --loss-point-arm 1.0
+
 
 Script
 ^^^^^^
@@ -43,8 +53,13 @@ Sort games::
 
 Generate round-robin table::
 
+    """
+    The output can be a pandas dataframe, txt, csv and html.
+    """
+
     import pgnhelper.roundrobin
 
+    # Get the dataframe output.
     df = pgnhelper.roundrobin.round_robin(
         'airthings.pgn',
         winpoint=1.0,
@@ -53,5 +68,8 @@ Generate round-robin table::
     # Print to console.
     print(df.to_string(index=False))
 
-    # Save to html 
+    # Save to html.
     pgnhelper.roundrobin.save_roundrobin_table(df, 'airthings.html')
+
+    # Save to csv.
+    df.to_csv('airthings.csv', index=False)
