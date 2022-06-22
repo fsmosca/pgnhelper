@@ -1,15 +1,12 @@
 """Run round-robin test.
 
 1. pip install pgnhelper
-2. copy tests and pgn folders from github repo
+2. Copy the tests folder in the github repository.
 
-Example dir structure:
-c:/mypgnhelper
-c:/mypgnhelper/pgn/norway_chess_2022_classical.pgn
-c:/mypgnhelper/pgn/norway_chess_2022_armageddon.pgn
-c:/mypgnhelper/tests/test_roundrobin.py
+Example structure when mypgnhelper is the working dirtory:
 
-Python version should be >= 3.7
+   c:/mypgnhelper
+   c:/mypgnhelper/tests/test_roundrobin.py
 
 Command line:
 
@@ -18,11 +15,11 @@ Command line:
 
 
 from pathlib import Path
-import pgnhelper
+import pgnhelper.roundrobin
 
 
-fn_classical = Path('./pgn/norway_chess_2022_classical.pgn')
-fn_armageddon = Path('./pgn/norway_chess_2022_armageddon.pgn')
+fn_classical = Path('./tests/data/norway_chess_2022_classical.pgn')
+fn_armageddon = Path('./tests/data/norway_chess_2022_armageddon.pgn')
 
 
 df = pgnhelper.roundrobin.round_robin(
