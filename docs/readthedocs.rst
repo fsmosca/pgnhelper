@@ -1,13 +1,13 @@
 Read The Docs
 =============
 
-Requirements needed for building the docs.::
+**Requirements needed for building the docs.**
 
-    requirements.txt::
+requirements.txt::
 
-        Sphinx==5.0.2
-        sphinxcontrib-napoleon==0.7
-        sphinx-rtd-theme
-        pgnhelper
+    Sphinx==5.0.2
+    sphinxcontrib-napoleon==0.7
+    sphinx-rtd-theme
+    pgnhelper
 
-    Location: docs/requirements.txt
+Location: docs/requirements.txt
