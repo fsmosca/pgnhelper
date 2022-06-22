@@ -9,6 +9,9 @@ Add ECO::
    pgnhelper addeco --inpgnfn airthings.pgn --outpgnfn out_airthings.pgn
                     --inecopgnfn eco.pgn
 
+.. note::
+   You can get the `eco.pgn <https://github.com/fsmosca/pgnhelper/tree/main/eco>`_ from the pgnhelper github repository.
+
 Sort::
 
    pgnhelper sort --inpgnfn airthings.pgn --outpgnfn sorted_airthings.pgn
