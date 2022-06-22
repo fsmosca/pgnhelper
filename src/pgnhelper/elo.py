@@ -12,6 +12,15 @@ def expected_score(rating_a: int, rating_b: int) -> float:
     
     Returns:
       expected score of player_a
+
+    Example::
+
+      >>> import pgnhelper.elo
+      >>> white_elo = 2600
+      >>> black_elo = 2500
+      >>> score = pgnhelper.elo.expected_score(white_elo, black_elo)
+      >>> score
+      0.6400649998028851
     """
     rd = rating_b - rating_a
     return 1 / (1+10**(rd/400))
@@ -74,6 +83,17 @@ def get_rating_change(df: pd.DataFrame, p: str, k: int=10) -> float:
 
     Returns:
       rating change
+
+    Eample::
+
+      >>> import pgnhelper.roundrobin
+      >>> import pgnhelper.elo
+      >>> df, players, is_rating = pgnhelper.roundrobin.get_pgn_data("./pgn/superbet_classic_2022_bucharest.pgn")
+      >>> players
+      ['Firouzja, Alireza', 'Aronian, Levon', 'So, Wesley', 'Nepomniachtchi, Ian', 'Caruana, Fabiano', 'Vachier-Lagrave, Maxime', 'Deac, Bogdan-Daniel', 'Mamedyarov, Shakhriyar', 'Dominguez Perez, Leinier', 'Rapport, Richard']
+      >>> rc_levon = pgnhelper.elo.get_rating_change(df, "Aronian, Levon", k=10)
+      >>> rc_levon
+      9.496967974633389
     """
     dfw = df.loc[(df.White == p) & (df.Arm == 0)]
     dfb = df.loc[(df.Black == p) & (df.Arm == 0)]
