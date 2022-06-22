@@ -65,8 +65,27 @@ Script
     # Get the dataframe output.
     df = pgnhelper.roundrobin.round_robin(
         'airthings.pgn',
-        winpoint=1.0,
-        drawpoint=0.5)
+        winpoint=3.0,
+        drawpoint=1.0)
+
+    # Print to console.
+    print(df.to_string(index=False))
+
+    # Save to html.
+    pgnhelper.roundrobin.save_roundrobin_table(df, 'airthings.html')
+
+    # Save to csv.
+    df.to_csv('airthings.csv', index=False)
+
+**4. Generate round-robin table with armageddon games**::
+
+    import pgnhelper.roundrobin
+
+    # Get the dataframe output.
+    df = pgnhelper.roundrobin.round_robin(
+        'norway_chess.pgn',
+        winpoint=3.0,
+        drawpoint=1.0)
 
     # Print to console.
     print(df.to_string(index=False))
