@@ -1,9 +1,9 @@
-"""Generates tiebreak points on tied players.
+"""Generates tie-break points on tied players.
 
 Tie-breaks supported:
   * Direct Encounter
   * Number of wins
-  * Sonneboard-Berger
+  * Sonneborn-Berger
 """
 
 
