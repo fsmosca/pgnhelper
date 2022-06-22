@@ -11,9 +11,6 @@ def get_encounter_score(df: pd.DataFrame, p: str, op: str, winpoint: float=1.0,
         losspointarm: float=0.0) -> List[float]:
     """Calculates the scores between the player p and op.
 
-    It can calculate normal game and armageddon game to calculate points
-    between the two players.
-
     Args:
       df: A pandas dataframe containing players match results.
       p: A player name.
