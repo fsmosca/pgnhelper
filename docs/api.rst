@@ -18,7 +18,7 @@ Add ECO
 Sort games
 ^^^^^^^^^^
 
-.. automodule:: pgnhelper.sortgames
+.. automodule:: pgnhelper.sort
     :members:
 
 
