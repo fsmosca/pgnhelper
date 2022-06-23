@@ -17,285 +17,235 @@ https://handbook.fide.com/files/handbook/C02Standards.pdf
 
 
 from pathlib import Path
-from typing import List, Tuple, Optional
+from typing import Optional
 
-import chess.pgn
 import pandas as pd
 from pretty_html_table import build_table
 
 import pgnhelper.tiebreak
 import pgnhelper.utility
 import pgnhelper.elo
+import pgnhelper.record
 
 
-def get_pgn_data(fn: str, is_arm: bool=False, k: int=10) -> Tuple[pd.DataFrame, List, bool]:
-    """Converts games to dataframe.
+class RoundRobin:
+    """Manages round-robin result table generation.
 
-    Args:
-      fn: A pgn file.
-      is_arm: If pgn file has armageddon games.
-      k: The rating change k factor.
-
-    Returns:
-      [records, players, is_rating]
-    """
-    data = []
-    players = []
-    rating_cnt = 0
-    with open(fn, 'r') as f:
-        while True:
-            game = chess.pgn.read_game(f)
-            if game is None:
-                break
-            round = game.headers['Round']
-            white = game.headers['White']
-            black = game.headers['Black']
-            result = game.headers['Result']
-            players.append(white)
-            players.append(black)
-            welo = game.headers.get('WhiteElo', '?')
-            belo = game.headers.get('BlackElo', '?')
-            welo = '?' if welo == '' else welo
-            belo = '?' if belo == '' else belo
-            if welo != '?':
-                rating_cnt += 1
-                welo = int(welo)
-            if belo != '?':
-                rating_cnt += 1
-                belo = int(belo)
-            if result == '1-0':
-                wpt = 1.0
-                bpt = 0.0
-            elif result == '0-1':
-                wpt = 0.0
-                bpt = 1.0
-            elif result == '1/2-1/2':
-                wpt = 0.5
-                bpt = 0.5            
-            data.append([round, white, black, welo, belo, result, wpt, bpt, 1 if is_arm else 0])
-    df = pd.DataFrame(data,
-            columns=['Round', 'White', 'Black', 'WElo', 'BElo', 'Result', 'Wpt', 'Bpt', 'Arm'])
-    df = pgnhelper.elo.add_rating_change(df, rating_cnt > 1, k)
-    return df, list(set(players)), rating_cnt > 0
-
-
-def games_per_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame) -> int:
-    """Count the number of games per encounter excluding armageddon.
-
-    Args:
-      result_df: A dataframe of game result records.
-      ranking_df: A dataframe of player rankings.
-
-    Returns:
-      The number of games per encounter.
-    """
-    players = list(ranking_df.Name)
-    for p in players:
-        for m in players:
-            if p == m:
-                continue
-            dfw = result_df.loc[(result_df.White == p) & (result_df.Black == m)
-                    & (result_df.Arm == 0)]
-            dfb = result_df.loc[(result_df.Black == p) & (result_df.White == m)
-                    & (result_df.Arm == 0)]
-            return len(dfw) + len(dfb)
-    return 0
-
-
-def player_ranking(df: pd.DataFrame, players: List, is_rating: bool,
-        winpoint: float, drawpoint: float, winpointarm:float=1.5,
-        losspointarm: float=1.0) -> pd.DataFrame:
-    """Generates a dataframe of player ranking.
-
-    Args:
-      df: A dataframe of player match records.
-      players: A list of unique players names.
-      is_rating: If players have rating.
-      winpoint: The point when players wins.
+    Attributes:
+      infn: The input pgn file.
+      outfn: The output file to save the table. Can be csv, txt or html.
+      infnarm: The input pgn file with armageddon games.
+      winpoint: The point for the winner.
       drawpoint: The point when player draws.
-
-    Returns:
-      A pandas dataframe of players ranking.
+      winpointarm: The point for the winner in armageddon game.
+      losspointarm: The point for the loser in armageddon game.
     """
-    is_arm = True if 1 in df['Arm'].unique() else False
-    data_p = []
-    for p in players:       
-        if not is_arm:
-            df_w = df[df.White == p]
-            df_b = df[df.Black == p]
-            score_w = len(df_w[df_w.Result == '1-0']) * winpoint
-            score_w += len(df_w[df_w.Result == '1/2-1/2']) * drawpoint
-            score_b = len(df_b[df_b.Result == '0-1']) * winpoint
-            score_b += len(df_b[df_b.Result == '1/2-1/2']) * drawpoint
-            final_score = score_w + score_b
-        else:
-            # Used to get the number of games for normal games.
-            df_w = df[(df.White == p) & (df.Arm == 0)]
-            df_b = df[(df.Black == p) & (df.Arm == 0)]
+    def __init__(self, infn: str, outfn: Optional[str]=None,
+            infnarm: Optional[str]=None, winpoint: float=1.0,
+            drawpoint: float=0.5, winpointarm: float=1.0,
+            losspointarm: float=0.0, showmaxscore: bool=False):
+        self.infn = infn
+        self.outfn = outfn
+        self.infnarm = infnarm
+        self.winpoint = winpoint
+        self.drawpoint = drawpoint
+        self.winpointarm = winpointarm
+        self.losspointarm = losspointarm
+        self.showmaxscore = showmaxscore
+        self.record = pd.DataFrame()
+        self.rank = pd.DataFrame()
+        self.players = []
+        self.israting = False
 
-            # Get the score for normal games without draws.
-            df_w_normal = df.loc[(df.White == p) & (df.Arm == 0) & (df.Result != '1/2-1/2')]
-            df_b_normal = df.loc[(df.Black == p) & (df.Arm == 0) & (df.Result != '1/2-1/2')]
-            score_w_n = len(df_w_normal.loc[df_w_normal.Result == '1-0']) * winpoint
-            score_b_n = len(df_b_normal.loc[df_b_normal.Result == '0-1']) * winpoint
+    def games_per_encounter(self) -> int:
+        """Counts the number of games per encounter excluding armageddon.
 
-            # Get score for arm games.
-            df_w_arm = df.loc[(df.White == p) & (df.Arm == 1)]
-            df_b_arm = df.loc[(df.Black == p) & (df.Arm == 1)]
-
-            # wins
-            score_w_aw = len(df_w_arm.loc[df_w_arm.Result == '1-0']) * winpointarm
-            score_b_aw = len(df_b_arm.loc[df_b_arm.Result == '0-1']) * winpointarm
-            score_b_aw += len(df_b_arm.loc[df_b_arm.Result == '1/2-1/2']) * winpointarm
-
-            # loses
-            score_w_al = len(df_w_arm.loc[df_w_arm.Result == '0-1']) * losspointarm
-            score_w_al += len(df_w_arm.loc[df_w_arm.Result == '1/2-1/2']) * losspointarm
-            score_b_al = len(df_b_arm.loc[(df_b_arm.Result == '1-0')]) * losspointarm
-
-            final_score = (score_w_n + score_b_n + score_w_aw + score_b_aw
-                    + score_w_al + score_b_al)
-
-        if is_rating:
-            rating = df_w.WElo.iloc[0]  # all players have at least played a game with white
-            data_p.append([p, rating, len(df_w) + len(df_b), final_score])
-        else:
-            data_p.append([p, len(df_w) + len(df_b), final_score])
-    if is_rating:
-        df_score = pd.DataFrame(data_p,
-                columns=['Name', 'Rating', 'Games', 'Score'])
-    else:
-        df_score = pd.DataFrame(data_p, columns=['Name', 'Games', 'Score'])
-    df_score = df_score.sort_values(by=['Score', 'Name'],
-            ascending=[False, True])
-    df_score = df_score.reset_index(drop=True)
-    return df_score
+        Returns:
+          The number of games per encounter.
+        """
+        for p in self.players:
+            for m in self.players:
+                if p == m:
+                    continue
+                dfw = self.record.loc[(self.record.White == p) & (self.record.Black == m)
+                        & (self.record.Arm == 0)]
+                dfb = self.record.loc[(self.record.Black == p) & (self.record.White == m)
+                        & (self.record.Arm == 0)]
+                return len(dfw) + len(dfb)
+        return 0
 
 
-def save_roundrobin_table(df: pd.DataFrame,
-        outputfn: str, tablecolor: str='blue_light') -> None:
-    """Save the round-robin result table.
+    def player_ranking(self) -> pd.DataFrame:
+        """Generates a dataframe of player ranking.
 
-    The output can be a csv, txt and html.
-
-    Args:
-      df: A dataframe of players match records.
-      outputfn: The output file.
-      tablecolor: The round-robin table color.
-
-    Example, save the round-robin table in html file::
-
-      import pgnhelper.roundrobin
-
-      df = pgnhelper.roundrobin.round_robin('airthings.pgn')
-      pgnhelper.roundrobin.save_roundrobin_table(df, 'airthings.html')
-    """
-    ext = Path(outputfn).suffix
-    if ext == '.html':
-        html_table = build_table(df, tablecolor,
-            font_size='medium',
-            text_align='center',
-            font_family='Calibri, Verdana, Tahoma, Georgia, serif, arial')
-        with open(outputfn, 'w') as f:
-            f.write(html_table)
-    elif ext == '.csv':
-        df.to_csv(outputfn, index=False)
-    else:
-        df.to_string(outputfn, index=False)
-
-
-def round_robin(fn: str, winpoint: float=1.0, drawpoint: float=0.5,
-        armageddonfile: Optional[str]=None, winpointarm: float=1.0,
-        losspointarm: float=0.0, showmaxscore: bool=False) -> pd.DataFrame:
-    """Generates a round-robin result table.
-
-    Args:
-      fn: The input pgn file.
-      winpoint: The point when player wins.
-      drawpoint: The point when player draws.
-      armageddonfile: The pgn file from armageddon games.
-      winpointarm: The point when player wins in an armageddon game.
-      losspointarm: The point when player loses in an armageddon game.
-      showmaxscore: Show the column maxscore in the generated table.
-
-    Returns:
-      A pandas dataframe of round-robin result table.
-    """
-    dfall = []
-    dfn, players, is_rating = get_pgn_data(fn, is_arm=False)
-    dfall.append(dfn)
-    if armageddonfile is not None:
-        dfa, _, _ = get_pgn_data(armageddonfile, is_arm=True)
-        dfall.append(dfa)
-    df = pd.concat(dfall, ignore_index=False)
-    is_arm = True if 1 in df.Arm.unique() else False
-
-    # 1. Create a dataframe of player ranking.
-    df_score = player_ranking(df, players, is_rating, winpoint,
-            drawpoint, winpointarm, losspointarm)
-    gpe = games_per_encounter(df, df_score)
-
-    # 1.1 Apply Direct Encounter tie-break
-    df_de = pgnhelper.tiebreak.direct_encounter(df, df_score, winpoint,
-            drawpoint, winpointarm, losspointarm)
-    df_de = df_de.sort_values(by=['Score', 'DE', 'Name'],
-            ascending=[False, False, True])
-    df_de = df_de.reset_index(drop=True)
-
-    # 1.2 Apply Number of Wins tie-break
-    df_wins = pgnhelper.tiebreak.num_wins(df, df_de)
-    df_wins = df_wins.sort_values(by=['Score', 'DE', 'Wins', 'Name'],
-            ascending=[False, False, False, True])
-    df_wins = df_wins.reset_index(drop=True)  
-
-    # 1.3 Apply Sonneborn-Berger tie-break
-    if not is_arm:
-        df_sb = pgnhelper.tiebreak.sonneborn_berger(df, df_wins, gpe=gpe,
-                winpoint=1.0, drawpoint=0.5)
-        df_sb = df_sb.sort_values(by=['Score', 'DE', 'Wins', 'SB', 'Name'],
-                ascending=[False, False, False, False, True])
-        df_sb = df_sb.reset_index(drop=True)
-    else:
-        df_sb = df_wins.copy()
-
-    # 2. Build a round-robin dataframe.
-    if is_rating:
-        # Add rating change.
-        rc = []
-        for p in list(df_sb.Name):
-            r = pgnhelper.elo.get_rating_change(df, p, k=10)
-            rc.append(round(r, 2))
-        data_rr = {'Name': df_sb.Name, 'Rating': df_sb.Rating, 'RChg': rc}
-    else:
-        data_rr = {'Name': df_sb.Name.unique()}
-    cnt = 1
-    for p in df_sb.Name.unique():
-        data_v = []
-        for op in df_sb.Name.unique():
-            if p == op:
-                v = 'x'
+        Returns:
+          A pandas dataframe of players ranking.
+        """
+        is_arm = True if 1 in self.record['Arm'].unique() else False
+        data_p = []
+        for p in self.players:       
+            if not is_arm:
+                df_w = self.record[self.record.White == p]
+                df_b = self.record[self.record.Black == p]
+                score_w = len(df_w[df_w.Result == '1-0']) * self.winpoint
+                score_w += len(df_w[df_w.Result == '1/2-1/2']) * self.drawpoint
+                score_b = len(df_b[df_b.Result == '0-1']) * self.winpoint
+                score_b += len(df_b[df_b.Result == '1/2-1/2']) * self.drawpoint
+                final_score = score_w + score_b
             else:
-                score = pgnhelper.utility.get_encounter_score(df, p, op,
-                        winpoint, drawpoint, winpointarm, losspointarm)
-                v = score[1]  # use the score of op only
-            data_v.append(v)
-        data_rr.update({cnt: data_v})
-        cnt += 1
-    df_rr = pd.DataFrame(data_rr)
+                # Used to get the number of games for normal games.
+                df_w = self.record[(self.record.White == p) & (self.record.Arm == 0)]
+                df_b = self.record[(self.record.Black == p) & (self.record.Arm == 0)]
 
-    # 3. Add other columns at the end.
-    df_rr['Games'] = df_sb['Games']
-    df_rr['Score'] = df_sb['Score']
-    max_score = df_sb['Games'] * winpoint
-    if showmaxscore:
-        df_rr['MaxScore'] = max_score
-    df_rr['Score%'] = 100 * df_sb['Score'] / max_score
-    df_rr['Score%'] = df_rr['Score%'].round(2)
-    df_rr['DE'] = df_sb['DE'].round(2)
-    df_rr['Wins'] = df_sb['Wins'].round(0)
-    if not is_arm:
-        df_rr['SB'] = df_sb['SB'].round(2)
+                # Get the score for normal games without draws.
+                df_w_normal = self.record.loc[(self.record.White == p)
+                                & (self.record.Arm == 0)
+                                & (self.record.Result != '1/2-1/2')]
+                df_b_normal = self.record.loc[(self.record.Black == p)
+                                & (self.record.Arm == 0)
+                                & (self.record.Result != '1/2-1/2')]
+                score_w_n = len(df_w_normal.loc[df_w_normal.Result == '1-0']) * self.winpoint
+                score_b_n = len(df_b_normal.loc[df_b_normal.Result == '0-1']) * self.winpoint
 
-    # 4. Insert rank column at first column.
-    df_rr.insert(loc=0, column='Rank', value=range(1, len(df_rr) + 1))
-    return df_rr
+                # Get score for arm games.
+                df_w_arm = self.record.loc[(self.record.White == p) & (self.record.Arm == 1)]
+                df_b_arm = self.record.loc[(self.record.Black == p) & (self.record.Arm == 1)]
+
+                # wins
+                score_w_aw = len(df_w_arm.loc[df_w_arm.Result == '1-0']) * self.winpointarm
+                score_b_aw = len(df_b_arm.loc[df_b_arm.Result == '0-1']) * self.winpointarm
+                score_b_aw += len(df_b_arm.loc[df_b_arm.Result == '1/2-1/2']) * self.winpointarm
+
+                # loses
+                score_w_al = len(df_w_arm.loc[df_w_arm.Result == '0-1']) * self.losspointarm
+                score_w_al += len(df_w_arm.loc[df_w_arm.Result == '1/2-1/2']) * self.losspointarm
+                score_b_al = len(df_b_arm.loc[(df_b_arm.Result == '1-0')]) * self.losspointarm
+
+                final_score = (score_w_n + score_b_n + score_w_aw + score_b_aw
+                                         + score_w_al + score_b_al)
+
+            if self.israting:
+                rating = df_w.WElo.iloc[0]  # all players have at least played a game with white
+                data_p.append([p, rating, len(df_w) + len(df_b), final_score])
+            else:
+                data_p.append([p, len(df_w) + len(df_b), final_score])
+        if self.israting:
+            self.rank = pd.DataFrame(data_p,
+                    columns=['Name', 'Rating', 'Games', 'Score'])
+        else:
+            self.rank = pd.DataFrame(data_p, columns=['Name', 'Games', 'Score'])
+        self.rank = self.rank.sort_values(by=['Score', 'Name'],
+                ascending=[False, True])
+        self.rank = self.rank.reset_index(drop=True)
+        return self.rank
+
+
+    def save_rrtable(self, df: pd.DataFrame, tablecolor: str='blue_light') -> None:
+        """Save the round-robin result table.
+
+        The output can be a csv, txt and html if the output is specified.
+
+        Args:
+          df: A dataframe of round-robin table.
+          tablecolor: The round-robin table color.
+        """
+        if self.outfn is None:
+            return
+
+        ext = Path(self.outfn).suffix
+        if ext == '.html':
+            html_table = build_table(df, tablecolor,
+                font_size='medium',
+                text_align='center',
+                font_family='Calibri, Verdana, Tahoma, Georgia, serif, arial')
+            with open(self.outfn, 'w') as f:
+                f.write(html_table)
+        elif ext == '.csv':
+            df.to_csv(self.outfn, index=False)
+        else:
+            df.to_string(self.outfn, index=False)
+
+
+    def table(self) -> pd.DataFrame:
+        """Generates a round-robin result table.
+
+        Returns:
+          A pandas dataframe of round-robin result table.
+        """
+        dfall = []
+        dfn, self.players, self.israting = pgnhelper.record.get_pgn_data(self.infn, is_arm=False)
+        dfall.append(dfn)
+        if self.infnarm is not None:
+            dfa, _, _ = pgnhelper.record.get_pgn_data(self.infnarm, is_arm=True)
+            dfall.append(dfa)
+        self.record = pd.concat(dfall, ignore_index=False)
+        is_arm = True if 1 in self.record.Arm.unique() else False
+
+        # 1. Create a dataframe of player ranking.
+        self.rank = self.player_ranking()
+        gpe = self.games_per_encounter()
+
+        # 1.1 Apply Direct Encounter tie-break
+        df_de = pgnhelper.tiebreak.direct_encounter(self.record, self.rank, self.winpoint,
+                self.drawpoint, self.winpointarm, self.losspointarm)
+        df_de = df_de.sort_values(by=['Score', 'DE', 'Name'],
+                ascending=[False, False, True])
+        df_de = df_de.reset_index(drop=True)
+
+        # 1.2 Apply Number of Wins tie-break
+        df_wins = pgnhelper.tiebreak.num_wins(self.record, df_de)
+        df_wins = df_wins.sort_values(by=['Score', 'DE', 'Wins', 'Name'],
+                ascending=[False, False, False, True])
+        df_wins = df_wins.reset_index(drop=True)  
+
+        # 1.3 Apply Sonneborn-Berger tie-break
+        if not is_arm:
+            df_sb = pgnhelper.tiebreak.sonneborn_berger(self.record, df_wins, gpe=gpe,
+                    winpoint=1.0, drawpoint=0.5)
+            df_sb = df_sb.sort_values(by=['Score', 'DE', 'Wins', 'SB', 'Name'],
+                    ascending=[False, False, False, False, True])
+            df_sb = df_sb.reset_index(drop=True)
+        else:
+            df_sb = df_wins.copy()
+
+        # 2. Build a round-robin dataframe.
+        if self.israting:
+            # Add rating change.
+            rc = []
+            for p in list(df_sb.Name):
+                r = pgnhelper.elo.get_rating_change(self.record, p, k=10)
+                rc.append(round(r, 2))
+            data_rr = {'Name': df_sb.Name, 'Rating': df_sb.Rating, 'RChg': rc}
+        else:
+            data_rr = {'Name': df_sb.Name.unique()}
+        cnt = 1
+        for p in df_sb.Name.unique():
+            data_v = []
+            for op in df_sb.Name.unique():
+                if p == op:
+                    v = 'x'
+                else:
+                    score = pgnhelper.utility.get_encounter_score(self.record, p, op,
+                            self.winpoint, self.drawpoint, self.winpointarm, self.losspointarm)
+                    v = score[1]  # use the score of op only
+                data_v.append(v)
+            data_rr.update({cnt: data_v})
+            cnt += 1
+        df_rr = pd.DataFrame(data_rr)
+
+        # 3. Add other columns at the end.
+        df_rr['Games'] = df_sb['Games']
+        df_rr['Score'] = df_sb['Score']
+        max_score = df_sb['Games'] * self.winpoint
+        if self.showmaxscore:
+            df_rr['MaxScore'] = max_score
+        df_rr['Score%'] = 100 * df_sb['Score'] / max_score
+        df_rr['Score%'] = df_rr['Score%'].round(2)
+        df_rr['DE'] = df_sb['DE'].round(2)
+        df_rr['Wins'] = df_sb['Wins'].round(0)
+        if not is_arm:
+            df_rr['SB'] = df_sb['SB'].round(2)
+
+        # 4. Insert rank column at first column.
+        df_rr.insert(loc=0, column='Rank', value=range(1, len(df_rr) + 1))
+        return df_rr
