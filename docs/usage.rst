@@ -13,8 +13,7 @@ Command line
 
 **2. Sort**::
 
-   pgnhelper sort --inpgnfn airthings.pgn --outpgnfn sorted_airthings.pgn
-                  --sort-tag eco --sort-direction hightolow
+   pgnhelper sort --inpgnfn airthings.pgn --outpgnfn sorted_airthings.pgn --sort-tag eco --sort-direction hightolow
 
 **3. Generates a round-robin result table**::
 
@@ -58,9 +57,9 @@ Script
 
 **1. Add ECO**::
 
-    import pgnhelper.run
+    import pgnhelper.app
 
-    a = pgnhelper.run.PgnHelper(
+    a = pgnhelper.app.PgnHelper(
         'addeco',
         inpgnfn='mygames.pgn',
         outpgnfn='out_eco.pgn',
@@ -69,9 +68,9 @@ Script
 
 **2. Sort games**::
 
-    import pgnhelper.run
+    import pgnhelper.app
 
-    a = pgnhelper.run.PgnHelper(
+    a = pgnhelper.app.PgnHelper(
         'sort',
         inpgnfn='mygames.pgn',
         outpgnfn='out_sorted.pgn',
