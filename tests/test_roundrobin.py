@@ -22,14 +22,15 @@ fn_classical = Path('./tests/data/norway_chess_2022_classical.pgn')
 fn_armageddon = Path('./tests/data/norway_chess_2022_armageddon.pgn')
 
 
-df = pgnhelper.roundrobin.round_robin(
+rr = pgnhelper.roundrobin.RoundRobin(
     fn_classical,
-    armageddonfile=fn_armageddon,
+    infnarm=fn_armageddon,
     winpoint=3.0, 
     winpointarm=1.5,
     losspointarm=1.0,
     showmaxscore=True
 )
+df = rr.table()
 
 
 def test_num_players():
