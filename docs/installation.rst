@@ -1,3 +1,5 @@
+.. _Installation Overview:
+
 Installation
 ============
 
