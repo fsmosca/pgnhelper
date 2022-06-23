@@ -58,13 +58,8 @@ class PgnHelper:
             pgnhelper.eco.add_eco(self.inpgnfn, self.outpgnfn,
                     self.inecopgnfn, ply=4, maxply=24)
         elif self.job == 'roundrobin':
-            df = pgnhelper.roundrobin.round_robin(
-                self.inpgnfn,
-                winpoint=self.winpoint,
-                drawpoint=self.drawpoint,
-                armageddonfile=self.armageddonfile,
-                winpointarm=self.winpointarm,
-                losspointarm=self.losspointarm,
-                showmaxscore=self.showmaxscore)
-            pgnhelper.roundrobin.save_roundrobin_table(df,
-                    self.output, self.tablecolor)
+            rr = pgnhelper.roundrobin.RoundRobin(self.inpgnfn,
+                self.output, self.armageddonfile, self.winpoint, self.drawpoint,
+                self.winpointarm, self.losspointarm, self.showmaxscore)
+            df = rr.table()
+            rr.save_rrtable(df, self.tablecolor)
