@@ -169,6 +169,7 @@ Game result::
    
    installation
    uninstallation
+   help
    usage   
    pytest
    changelog
