@@ -5,7 +5,7 @@
 from typing import Optional
 
 import pgnhelper.eco
-import pgnhelper.sortgames
+import pgnhelper.sort
 import pgnhelper.roundrobin
 
 
@@ -52,7 +52,7 @@ class PgnHelper:
         the games or generate a round-robin result table.
         """
         if self.job == 'sort':
-            pgnhelper.sortgames.sort_games(self.inpgnfn, self.outpgnfn,
+            pgnhelper.sort.sort_games(self.inpgnfn, self.outpgnfn,
                     self.sort_tag, self.sort_direction)
         elif self.job == 'addeco':
             pgnhelper.eco.add_eco(self.inpgnfn, self.outpgnfn,
