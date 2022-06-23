@@ -89,16 +89,17 @@ Script
     import pgnhelper.roundrobin
 
     # Get the dataframe output.
-    df = pgnhelper.roundrobin.round_robin(
+    rr = pgnhelper.roundrobin.RoundRobin(
         'airthings.pgn',
-        winpoint=3.0,
-        drawpoint=1.0)
+        outfn='airthings.html',
+        winpoint=3.0, drawpoint=1.0)
+    df = rr.table()
 
     # Print to console.
     print(df.to_string(index=False))
 
     # Save to html.
-    pgnhelper.roundrobin.save_roundrobin_table(df, 'airthings.html')
+    rr.save_rrtable(df)
 
     # Save to csv.
     df.to_csv('airthings.csv', index=False)
@@ -106,17 +107,17 @@ Script
 **4. Generate round-robin table with armageddon games as tie-break as in Norway Chess**::
 
     """
-    Generate a round-robin table and save results to txt and html.
+    Generate a round-robin table and save results and html.
     """
 
     import pgnhelper.roundrobin
 
-    df = pgnhelper.roundrobin.round_robin(
+    rr = pgnhelper.roundrobin.RoundRobin(
         './pgn/norway_chess_2022_classical.pgn',
-        armageddonfile='./pgn/norway_chess_2022_armageddon.pgn',
+        outfn='norway_chess.html',
+        infnarm='./pgn/norway_chess_2022_armageddon.pgn',
         winpoint=3.0,
         winpointarm=1.5,
         losspointarm=1.0)
-    df.to_string('norway_chess.txt', index=False)
-    pgnhelper.roundrobin.save_roundrobin_table(df, 'norway_chess.html')
-
+    df = rr.table()
+    rr.save_rrtable(df)
