@@ -10,7 +10,7 @@ PgnHelper is an application that can ``sort games;`` ``add ECO codes, opening an
 names;`` and generate a ``round-robin result table`` with rating change and tie-break
 scores.
 
-See the ``CONTENTS`` in the sidebar for other informations.
+First install the pgnhelper package see the :ref:`Installation Overview` guide.
 
 Features
 --------
@@ -44,7 +44,7 @@ Sample output::
    15. Bh6 c6 16. Bxg7 Kxg7 17. Qe3 N8d7 1/2-1/2
 
 The new ECOT, OpeningT and VariationT (T=Transposition) are based from the
-input eco.pgn file. See the ``Usage`` section further informations.
+input eco.pgn file. See the :ref:`Usage Overview` section further informations.
 
 The ``ECO`` tag is based from the first 2 moves of the game while the ``ECOT`` is
 based from the first 12 moves of the game.
@@ -131,6 +131,7 @@ Game result::
 .. code-block:: python
    :caption: Calculate the rating change of Nepomniachtchi.
    :linenos:
+   :emphasize-lines: 7,9
 
    import pgnhelper.elo
 
@@ -147,6 +148,7 @@ Game result::
 .. code-block:: python
    :caption: Calculate the rating change of Ding Liren.
    :linenos:
+   :emphasize-lines: 7,9
 
    import pgnhelper.elo
 
