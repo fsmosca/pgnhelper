@@ -4,7 +4,7 @@
 
 from typing import Optional
 
-import pgnhelper.addeco
+import pgnhelper.eco
 import pgnhelper.sortgames
 import pgnhelper.roundrobin
 
@@ -55,7 +55,7 @@ class PgnHelper:
             pgnhelper.sortgames.sort_games(self.inpgnfn, self.outpgnfn,
                     self.sort_tag, self.sort_direction)
         elif self.job == 'addeco':
-            pgnhelper.addeco.add_eco(self.inpgnfn, self.outpgnfn,
+            pgnhelper.eco.add_eco(self.inpgnfn, self.outpgnfn,
                     self.inecopgnfn, ply=4, maxply=24)
         elif self.job == 'roundrobin':
             df = pgnhelper.roundrobin.round_robin(
