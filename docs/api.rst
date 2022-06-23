@@ -11,7 +11,7 @@ App
 Add ECO
 ^^^^^^^^
 
-.. automodule:: pgnhelper.addeco
+.. automodule:: pgnhelper.eco
     :members:
 
 
