@@ -1,4 +1,40 @@
 """Add eco, opening and variation names to the input pgn file.
+
+The eco codes, opening and variations names are coming from
+the file eco.pgn that you have to supply to pgnhelper for this to work.
+
+eco.pgn file sources:
+
+  * eco.pgn from `pgn-extract <https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/>`_
+  * eco.pgn from `my eco repository in github <https://github.com/fsmosca/eco>`_
+  * eco.pgn from `pgnhelper repository <https://github.com/fsmosca/pgnhelper>`_
+
+Example::
+
+  >>> import pgnhelper.addeco
+  >>> pgnhelper.addeco.add_eco("./pgn/candidates_zurich_1953.pgn", "eco_cz.pgn", "./eco/eco.pgn")
+
+Example output from ``eco_cz.pgn``::
+  
+  [Event "ct"]
+  [Site "Zurich"]
+  [Date "1953.??.??"]
+  [Round "01"]
+  [White "Szabo L"]
+  [Black "Geller E"]
+  [Result "0-1"]
+  [ECO "A15"]
+  [ECOT "E02"]
+  [Opening "English"]
+  [OpeningT "Catalan"]
+  [Variation "Anglo-Indian"]
+  [VariationT "open, 5.Qa4"]
+  
+  1. c4 Nf6 2. g3 e6 3. Bg2 d5 4. d4 dxc4 5. Qa4+ Nbd7 ...
+
+Note there are ``ECOT, OpeningT, and VariationT,`` these are new tags where T refers
+to ``Transposition.`` The ECO ``A15`` is the ECO based on the first 2 moves and
+ECOT ``E02`` is the ECO after 12 moves.
 """
 
 
