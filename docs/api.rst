@@ -29,6 +29,13 @@ Roundrobin
     :members:
 
 
+Record
+^^^^^^^^^^^
+
+.. automodule:: pgnhelper.record
+    :members:
+
+
 Tiebreak
 ^^^^^^^^^
 
