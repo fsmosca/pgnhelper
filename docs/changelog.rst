@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+
+Version 0.8.0
+"""""""""""""
+* Refactor roundrobin
+* Add record module
+* Add help.rst
+
+
 Version 0.7.0
 """""""""""""
 
