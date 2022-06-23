@@ -84,7 +84,7 @@ def get_rating_change(df: pd.DataFrame, p: str, k: int=10) -> float:
     Returns:
       rating change
 
-    Eample::
+    Eample 1, get the rating change of a player in the PGN file::
 
       >>> import pgnhelper.roundrobin
       >>> import pgnhelper.elo
@@ -94,6 +94,19 @@ def get_rating_change(df: pd.DataFrame, p: str, k: int=10) -> float:
       >>> rc_levon = pgnhelper.elo.get_rating_change(df, "Aronian, Levon", k=10)
       >>> rc_levon
       9.496967974633389
+
+    Eample 2, get the rating change of black player::
+
+      >>> import pgnhelper.elo
+      >>> white_rating = 2700
+      >>> black_rating = 2600
+      >>> black_point = 1
+      >>> white_point = 0
+      >>> expected_score = pgnhelper.elo.expected_score(black_rating, white_rating)
+      >>> k = 10
+      >>> rating_change = k * (black_point - expected_score)
+      >>> rating_change
+      6.400649998028851
     """
     dfw = df.loc[(df.White == p) & (df.Arm == 0)]
     dfb = df.loc[(df.Black == p) & (df.Arm == 0)]
