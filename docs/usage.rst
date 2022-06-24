@@ -21,7 +21,7 @@ Command line
 
    pgnhelper roundrobin --inpgnfn superbet_classic_2022_bucharest.pgn --output scb2022.txt
 
-Sample output with ``rating change`` and ``tie-break scores DE, Wins and SB``::
+Output with ``rating change`` and ``tie-break scores DE, Wins and SB``::
 
  Rank                     Name  Rating   RChg    1    2    3    4    5    6    7    8    9   10  Games  Score  Score%  DE  Wins    SB
     1           Aronian, Levon    2765   9.50    x  0.5  1.0  1.0  0.5  0.5  0.5  0.5  0.5  0.5      9    5.5   61.11 1.5     2 24.75
@@ -39,7 +39,7 @@ Sample output with ``rating change`` and ``tie-break scores DE, Wins and SB``::
 
    pgnhelper roundrobin --inpgnfn norwaychess.pgn --armageddon-file norwaychess_arm.pgn --output norwaychess.html --win-point 3.0 --win-point-arm 1.5 --loss-point-arm 1.0 --show-max-score
 
-Sample output::
+::
 
  Rank                    Name  Rating   RChg    1    2    3    4    5    6    7    8    9   10  Games  Score  MaxScore  Score%  DE  Wins
     1         Carlsen, Magnus    2864  -0.05    x  3.0  1.0  1.5  1.0  3.0  1.5  1.0  3.0  1.5      9   16.5      27.0   61.11 0.0     0
@@ -52,6 +52,38 @@ Sample output::
     8             Tari, Aryan    2654   8.79  1.5  1.0  1.0  0.0  1.0  0.0  1.0    x  1.0  3.0      9    9.5      27.0   35.19 1.0     1
     9       Radjabov, Teimour    2753 -14.84  0.0  1.5  1.0  1.5  0.0  0.0  1.0  1.5    x  1.5      9    8.0      27.0   29.63 0.0     0
    10               Wang, Hao    2744  -8.57  1.0  0.0  1.0  1.0  1.0  1.0  1.5  0.0  1.0    x      9    7.5      27.0   27.78 0.0     0
+
+**5. Generates standing table**::
+
+   pgnhelper standing --inpgnfn "./pgn/interzonal_1970_palma_de_mallorca.pgn" --output palma.txt
+
+::
+    
+   Rank               Name  Games  Score  Score%  DE  Wins     SB
+      1          Fischer R     23   18.5   80.43 0.0     0   0.00
+      2           Geller E     23   15.0   65.22 1.5     8 167.00
+      3           Larsen B     23   15.0   65.22 1.0     9 167.50
+      4          Huebner R     23   15.0   65.22 0.5    10 155.25
+      5          Uhlmann W     23   14.0   60.87 0.5    10 141.50
+      6         Taimanov M     23   14.0   60.87 0.5     8 146.50
+      7         Portisch L     23   13.5   58.70 0.5     7 149.75
+      8          Smyslov V     23   13.5   58.70 0.5     7 141.00
+      9         Gligoric S     23   13.0   56.52 0.5     7 135.50
+     10      Polugaevsky L     23   13.0   56.52 0.5     5 146.75
+     11          Mecking H     23   12.5   54.35 0.5     7 130.00
+     12            Panno O     23   12.5   54.35 0.5     6 130.75
+     13             Hort V     23   11.5   50.00 0.0     0   0.00
+     14            Ivkov B     23   10.5   45.65 0.0     0   0.00
+     15            Minic D     23   10.0   43.48 1.0     5  96.00
+     16          Suttles D     23   10.0   43.48 0.0     4 105.75
+     17        Reshevsky S     23    9.5   41.30 0.0     0   0.00
+     18          Addison W     23    9.0   39.13 0.5     3  95.25
+     19        Matulovic M     23    9.0   39.13 0.5     2  98.50
+     20            Filip M     23    8.5   36.96 1.5     1  91.50
+     21          Ujtumen T     23    8.5   36.96 1.0     5  85.25
+     22          Naranja R     23    8.5   36.96 0.5     5  88.75
+     23        Rubinetti J     23    6.0   26.09 0.0     0   0.00
+     24 Jimenez Zerquera E     23    5.5   23.91 0.0     0   0.00
 
 
 Script
