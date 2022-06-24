@@ -198,29 +198,33 @@ class RoundRobin:
         df_wins = df_wins.reset_index(drop=True)  
 
         # 1.3 Apply Sonneborn-Berger tie-break
-        if not is_arm:
-            df_sb = pgnhelper.tiebreak.sonneborn_berger(self.record, df_wins, gpe=gpe,
-                    winpoint=1.0, drawpoint=0.5)
-            df_sb = df_sb.sort_values(by=['Score', 'DE', 'Wins', 'SB', 'Name'],
-                    ascending=[False, False, False, False, True])
-            df_sb = df_sb.reset_index(drop=True)
-        else:
-            df_sb = df_wins.copy()
+        df_sb = pgnhelper.tiebreak.sonneborn_berger(self.record, df_wins, gpe=gpe,
+                winpoint=1.0, drawpoint=0.5)
+        df_sb = df_sb.sort_values(by=['Score', 'DE', 'Wins', 'SB', 'Name'],
+                ascending=[False, False, False, False, True])
+        df_sb = df_sb.reset_index(drop=True)
+
+        # 1.4 Apply the Koya system.
+        df_koya = pgnhelper.tiebreak.koya_system(self.record, df_sb, winpoint=1.0, drawpoint=0.5)
+        df_koya = df_koya.sort_values(by=['Score', 'DE', 'Wins', 'SB', 'Koya', 'Name'],
+                ascending=[False, False, False, False, False, True])
+        df_koya = df_koya.reset_index(drop=True)
+        df_final = df_koya.copy()
 
         # 2. Build a round-robin dataframe.
         if self.israting:
             # Add rating change.
             rc = []
-            for p in list(df_sb.Name):
+            for p in list(df_final.Name):
                 r = pgnhelper.elo.get_rating_change(self.record, p, k=10)
                 rc.append(round(r, 2))
-            data_rr = {'Name': df_sb.Name, 'Rating': df_sb.Rating, 'RChg': rc}
+            data_rr = {'Name': df_final.Name, 'Rating': df_final.Rating, 'RChg': rc}
         else:
-            data_rr = {'Name': df_sb.Name.unique()}
+            data_rr = {'Name': df_final.Name.unique()}
         cnt = 1
-        for p in df_sb.Name.unique():
+        for p in df_final.Name.unique():
             data_v = []
-            for op in df_sb.Name.unique():
+            for op in df_final.Name.unique():
                 if p == op:
                     v = 'x'
                 else:
@@ -233,17 +237,17 @@ class RoundRobin:
         df_rr = pd.DataFrame(data_rr)
 
         # 3. Add other columns at the end.
-        df_rr['Games'] = df_sb['Games']
-        df_rr['Score'] = df_sb['Score']
-        max_score = df_sb['Games'] * self.winpoint
+        df_rr['Games'] = df_final['Games']
+        df_rr['Score'] = df_final['Score']
+        max_score = df_final['Games'] * self.winpoint
         if self.showmaxscore:
             df_rr['MaxScore'] = max_score
-        df_rr['Score%'] = 100 * df_sb['Score'] / max_score
+        df_rr['Score%'] = 100 * df_final['Score'] / max_score
         df_rr['Score%'] = df_rr['Score%'].round(2)
-        df_rr['DE'] = df_sb['DE'].round(2)
-        df_rr['Wins'] = df_sb['Wins'].round(0)
-        if not is_arm:
-            df_rr['SB'] = df_sb['SB'].round(2)
+        df_rr['DE'] = df_final['DE'].round(2)
+        df_rr['Wins'] = df_final['Wins'].round(0)
+        df_rr['SB'] = df_final['SB'].round(2)
+        df_rr['Koya'] = df_final['Koya'].round(2)
 
         # 4. Insert rank column at first column.
         df_rr.insert(loc=0, column='Rank', value=range(1, len(df_rr) + 1))
@@ -256,7 +260,7 @@ class RoundRobin:
         """
         df = self.table()
         if 'Rating' in df.columns and 'SB' in df.columns:
-            dfs = df[['Rank', 'Name', 'Rating', 'RChg', 'Games', 'Score', 'Score%', 'DE', 'Wins', 'SB']]
+            dfs = df[['Rank', 'Name', 'Rating', 'RChg', 'Games', 'Score', 'Score%', 'DE', 'Wins', 'SB', 'Koya']]
         elif 'Rating' in df.columns:
             dfs = df[['Rank', 'Name', 'Rating', 'RChg', 'Games', 'Score', 'Score%', 'DE', 'Wins']]
         elif 'SB' in df.columns:

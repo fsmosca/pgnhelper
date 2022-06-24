@@ -8,6 +8,7 @@ Tie-breaks supported:
 
 
 from typing import List, Dict
+from unittest import result
 
 import pandas as pd
 import pgnhelper.utility
@@ -78,6 +79,8 @@ def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
         gpe: int=1, winpoint=1.0, drawpoint=0.5) -> pd.DataFrame:
     """Creates a dataframe with SB column for Sonneborn-Berger score.
 
+    Armageddon games currently are excluded in the calculation.
+
     Args:
       result_df: A dataframe of [Round, White, Black, Result].
       ranking_df: A dataframe of standing, [Name, Games, Score].
@@ -101,10 +104,10 @@ def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
                     match_score = 0
             
                     # 2. Get the score when player wins or draws.
-                    df_ww = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1-0')]
-                    df_wd = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1/2-1/2')]
-                    df_bw = result_df.loc[(result_df.Black == p) & (result_df.White == m) & (result_df.Result == '0-1')]
-                    df_bd = result_df.loc[(result_df.Black == p) & (result_df.White == m) & (result_df.Result == '1/2-1/2')]
+                    df_ww = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1-0') & (result_df.Arm == 0)]
+                    df_wd = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
+                    df_bw = result_df.loc[(result_df.Black == p) & (result_df.White == m) & (result_df.Result == '0-1') & (result_df.Arm == 0)]
+                    df_bd = result_df.loc[(result_df.Black == p) & (result_df.White == m) & (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
 
                     # 3. Calculate the scores.
                     match_score += winpoint * len(df_ww) + winpoint * len(df_bw) + len(df_wd) * drawpoint + len(df_bd) * drawpoint
@@ -124,4 +127,62 @@ def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
             continue
         tb_sb.append(tb[p])
     ret['SB'] = tb_sb
+    return ret
+
+
+def koya_system(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
+                winpoint=1.0, drawpoint=0.5) -> pd.DataFrame:
+    """Creates a dataframe with Koya column for Koya system score.
+
+    Koya system - the number of points achieved against all opponents
+    who have achieved 50 % or more.
+
+    11.5.4.3, https://handbook.fide.com/files/handbook/C02Standards.pdf
+
+    Args:
+      result_df: A dataframe of [Round, White, Black, Result ...].
+      ranking_df: A dataframe of standing, [Name, Games, Score].
+
+    Returns:
+      A ranking dataframe with Koya column.
+    """
+    tb: Dict[str, int] = {}
+    ret: pd.DataFrame = ranking_df.copy()
+    players = list(ret.Name)
+
+    # Get player dataframe who score 50% and above.
+    df50 = ranking_df.copy()
+    df50['Score%'] = 100 * df50['Score'] / df50['Games']
+    df50 = df50.loc[df50['Score%'] >= 50.0]
+
+    # 1. Loop thru the tied players.
+    for _, g in ret.groupby(['Score']):
+        if len(g) > 1:
+            for p in g['Name']:
+                tb_score = 0
+                for m in players:
+                    if p == m:
+                        continue
+                    if m not in df50.Name.unique():
+                        continue
+            
+                    # 2. Get the score when player wins or draws, excluding armageddon games.
+                    df_ww = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1-0') & (result_df.Arm == 0)]
+                    df_wd = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
+                    df_bw = result_df.loc[(result_df.Black == p) & (result_df.White == m) & (result_df.Result == '0-1') & (result_df.Arm == 0)]
+                    df_bd = result_df.loc[(result_df.Black == p) & (result_df.White == m) & (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
+
+                    # 3. Get the total score.
+                    tb_score += winpoint * len(df_ww) + winpoint * len(df_bw) + len(df_wd) * drawpoint + len(df_bd) * drawpoint
+
+                tb.update({p: tb_score})
+
+    # 4. Create new column Koya.
+    tb_sb: List = []
+    for p in players:
+        if p not in tb:
+            tb_sb.append(0)
+            continue
+        tb_sb.append(tb[p])
+    ret['Koya'] = tb_sb
     return ret

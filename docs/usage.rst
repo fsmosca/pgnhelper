@@ -19,21 +19,21 @@ Command line
 
 **3. Generates a round-robin result table**::
 
-   pgnhelper roundrobin --inpgnfn superbet_classic_2022_bucharest.pgn --output scb2022.txt
+   pgnhelper roundrobin --inpgnfn sinqcup21.pgn.pgn --output sinqcup21.pgn.txt
 
-Output with ``rating change`` and ``tie-break scores DE, Wins and SB``::
+Output with ``rating change`` and ``tie-break scores DE, Wins, SB and Koya``::
 
- Rank                     Name  Rating   RChg    1    2    3    4    5    6    7    8    9   10  Games  Score  Score%  DE  Wins    SB
-    1           Aronian, Levon    2765   9.50    x  0.5  1.0  1.0  0.5  0.5  0.5  0.5  0.5  0.5      9    5.5   61.11 1.5     2 24.75
-    2               So, Wesley    2776   7.93  0.5    x  0.5  0.5  0.5  0.5  1.0  0.5  1.0  0.5      9    5.5   61.11 1.0     2 23.50
-    3  Vachier-Lagrave, Maxime    2750  11.64  0.0  0.5    x  0.5  1.0  0.5  0.5  1.0  0.5  1.0      9    5.5   61.11 0.5     3 23.00
-    4 Dominguez Perez, Leinier    2753   1.21  0.0  0.5  0.5    x  0.5  1.0  0.5  0.0  1.0  0.5      9    4.5   50.00 1.5     2 19.50
-    5         Caruana, Fabiano    2786  -3.49  0.5  0.5  0.0  0.5    x  0.5  0.5  0.5  1.0  0.5      9    4.5   50.00 1.0     1 19.25
-    6      Deac, Bogdan-Daniel    2671  12.62  0.5  0.5  0.5  0.0  0.5    x  0.5  0.5  0.5  1.0      9    4.5   50.00 0.5     1 19.75
-    7      Nepomniachtchi, Ian    2773  -6.64  0.5  0.0  0.5  0.5  0.5  0.5    x  1.0  0.0  0.5      9    4.0   44.44 1.0     1 18.00
-    8        Firouzja, Alireza    2804 -11.04  0.5  0.5  0.0  1.0  0.5  0.5  0.0    x  0.5  0.5      9    4.0   44.44 0.0     1 18.00
-    9   Mamedyarov, Shakhriyar    2759  -9.65  0.5  0.0  0.5  0.0  0.0  0.5  1.0  0.5    x  0.5      9    3.5   38.89 0.5     1 15.50
-   10         Rapport, Richard    2776 -12.07  0.5  0.5  0.0  0.5  0.5  0.0  0.5  0.5  0.5    x      9    3.5   38.89 0.5     0 15.75
+   Rank                     Name  Rating   RChg    1    2    3    4    5    6    7    8    9   10  Games  Score  Score%  DE  Wins    SB  Koya
+      1  Vachier-Lagrave, Maxime    2751  13.74    x  0.5  0.0  0.5  0.5  1.0  1.0  0.5  1.0  1.0      9    6.0   66.67 0.0     0  0.00   0.0
+      2         Caruana, Fabiano    2806   1.03  0.5    x  0.5  0.5  0.5  1.0  0.0  1.0  0.5  1.0      9    5.5   61.11 1.0     3 23.00   2.0
+      3 Dominguez Perez, Leinier    2758   7.75  1.0  0.5    x  0.5  0.5  0.5  0.5  0.5  0.5  1.0      9    5.5   61.11 1.0     2 24.00   2.5
+      4               So, Wesley    2772   5.77  0.5  0.5  0.5    x  0.5  0.5  0.5  0.5  1.0  1.0      9    5.5   61.11 1.0     2 22.75   2.0
+      5         Rapport, Richard    2763  -2.96  0.5  0.5  0.5  0.5    x  0.5  0.5  0.0  1.0  0.5      9    4.5   50.00 0.0     0  0.00   0.0
+      6           Shankland, Sam    2709  -0.32  0.0  0.0  0.5  0.5  0.5    x  0.5  1.0  0.5  0.5      9    4.0   44.44 1.5     1 16.75   1.5
+      7           Xiong, Jeffery    2710  -0.46  0.0  1.0  0.5  0.5  0.5  0.5    x  0.5  0.5  0.0      9    4.0   44.44 1.0     1 19.00   2.5
+      8   Mamedyarov, Shakhriyar    2782 -10.64  0.5  0.0  0.5  0.5  1.0  0.0  0.5    x  0.5  0.5      9    4.0   44.44 0.5     1 18.00   2.5
+      9           Svidler, Peter    2714  -6.02  0.0  0.5  0.5  0.0  0.0  0.5  0.5  0.5    x  1.0      9    3.5   38.89 0.0     0  0.00   0.0
+     10         Swiercz, Dariusz    2655  -7.89  0.0  0.0  0.0  0.0  0.5  0.5  1.0  0.5  0.0    x      9    2.5   27.78 0.0     0  0.00   0.0 
 
 **4. Generates a round-robin table with armageddon tie-break as in Norway Chess**::
 
@@ -58,7 +58,7 @@ Output with ``rating change`` and ``tie-break scores DE, Wins and SB``::
    pgnhelper standing --inpgnfn "./pgn/interzonal_1970_palma_de_mallorca.pgn" --output palma.txt
 
 ::
-    
+
    Rank               Name  Games  Score  Score%  DE  Wins     SB
       1          Fischer R     23   18.5   80.43 0.0     0   0.00
       2           Geller E     23   15.0   65.22 1.5     8 167.00
