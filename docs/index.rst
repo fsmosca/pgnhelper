@@ -162,6 +162,14 @@ Game result::
    print(rating_change)  # -5.573116337622928
 
 
+Links
+-----
+
+
+* `Github pgnhelper <https://github.com/fsmosca/pgnhelper>`_
+* `Pypi pgnhelper <https://pypi.org/project/pgnhelper/>`_
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
