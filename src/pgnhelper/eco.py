@@ -39,6 +39,8 @@ ECOT ``E02`` is the ECO after 12 moves.
 
 
 import chess.pgn
+import pandas as pd
+import pgnhelper.record
 
 
 def create_eco_db(inecopgnfn: str):
@@ -142,3 +144,32 @@ def add_eco(inpgnfn: str, outpgnfn: str, inecopgnfn: str, ply: int=4, maxply: in
                     if variation_t is not None:
                         mygame.headers['VariationT'] = variation_t
                 w.write(f'{mygame}\n\n')
+
+            
+def get_opening_stats(fn: str, is_arm: bool=False):
+    """Generates a dataframe of opening stats.
+
+    Opening, counts
+    Sicilian, 4
+    ........, ...
+
+    Args:
+      fn: The pgn filename.
+
+    Returns:
+      A dataframe of Opening and count
+    """
+    df, _, _ = pgnhelper.record.get_pgn_data(fn, is_arm=is_arm)
+    opening = df.Opening.unique()
+
+    data = []
+
+    for o in opening:
+        dfo = df.loc[df.Opening == o]
+        data.append([o, len(dfo)])
+
+    dfr = pd.DataFrame(data, columns=['Opening', 'Count'])
+    dfr = dfr.sort_values(by=['Count', 'Opening'], ascending=[False, True])
+    dfr = dfr.reset_index(drop=True)
+    dfr['Count%'] = round(100 * dfr.Count / dfr.Count.sum(), 2)
+    return dfr
