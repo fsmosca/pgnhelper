@@ -3,31 +3,38 @@
 Help
 =====
 
-**General help**::
+**General help**
 
-   pgnhelper --help
-
+Open your command prompt or powershell and type:
 
 ::
 
-    usage: pgnhelper [-h] [-v] {sort,addeco,roundrobin} ...
+   pgnhelper --help
 
-    positional arguments:
-      {sort,addeco,roundrobin}
-        sort                Sort the games from the given pgn file based on the given game tags. e.g. pgnhelper sort mygames.pgn --outpgnfn out.pgn --sort-tag opening --sort-
-                            direction hightolow
-        addeco              Add eco and ecot codes, opening and variation names to the input pgn file. The eco, opening etc. are from the given input file eco.pgn. e.g.
-                            pgnhelper addeco --inpgnfn mygames.pgn --inecopgnfn eco.pgn --outpgnfn out.pgn
-        roundrobin          Generate round-robin table results from the input pgn file. The output can be html, csv and txt. e.g. pgnhelper roundrobin --inpgnfn candidates.pgn
-                            --output candidates.html
+::
+
+   usage: pgnhelper [-h] [-v] {sort,addeco,roundrobin,standing} ...
+
+   positional arguments:
+     {sort,addeco,roundrobin,standing}
+       sort                Sort the games from the given pgn file based on the given game tags. e.g. pgnhelper sort mygames.pgn --outpgnfn out.pgn --sort-tag opening --sort-
+                           direction hightolow
+       addeco              Add eco and ecot codes, opening and variation names to the input pgn file. The eco, opening etc. are from the given input file eco.pgn. e.g.
+                           pgnhelper addeco --inpgnfn mygames.pgn --inecopgnfn eco.pgn --outpgnfn out.pgn
+       roundrobin          Generate round-robin table results from the input pgn file. The output can be html, csv and txt. e.g. pgnhelper roundrobin --inpgnfn candidates.pgn
+                           --output candidates.html
+       standing            Generates a standings from the input pgn file. The output can be html, csv and txt. e.g. pgnhelper standing --inpgnfn candidates.pgn --output
+                           candidates.html
+   
+   options:
+     -h, --help            show this help message and exit
+     -v, --version         show program's version number and exit
+
+
+**Sort help**
+
+::
     
-    options:
-      -h, --help            show this help message and exit
-      -v, --version         show program's version number and exit
-
-
-**Sort help**::
-
     pgnhelper sort --help
 
 ::
@@ -44,7 +51,9 @@ Help
       --encoding ENCODING   Encoding used in reading pgn file when sorting, not required. [default=utf-8, value=(utf-8 | ISO-8859-1)]. If you encounter an error like
                             "UnicodeDecodeError: utf-8 codec cannot decode ..." you can try, --encoding ISO-8859-1
 
-**Add eco help**::
+**Add eco help**
+
+::
 
     pgnhelper addeco --help
 
@@ -60,7 +69,9 @@ Help
                             Write the reference eco.pgn filename, required.
 
 
-**Round-robin help**::
+**Round-robin help**
+
+::
 
     pgnhelper roundrobin --help
 
@@ -88,4 +99,3 @@ Help
       --table-color TABLE_COLOR
                             Write table color not required. [default="blue_light" value=("yellow_light", "grey_light", "orange_light", "green_light", "red_light",
                             "yellow_dark", "grey_dark", "blue_dark", "orange_dark", "green_dark", "red_dark")]
-
