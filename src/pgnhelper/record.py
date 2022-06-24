@@ -55,9 +55,14 @@ def get_pgn_data(fn, is_arm: bool=False, k: int=10) -> Tuple[pd.DataFrame, List,
                 bpt = 1.0
             elif result == '1/2-1/2':
                 wpt = 0.5
-                bpt = 0.5            
-            data.append([round, white, black, welo, belo, result, wpt, bpt, 1 if is_arm else 0])
+                bpt = 0.5 
+            myecot = game.headers.get('ECOT', '?')
+            myopeningt = game.headers.get('OpeningT', '?')
+            if myecot == '?':
+                myecot = game.headers.get('ECO', '?')
+                myopeningt = game.headers.get('Opening', '?')                       
+            data.append([round, white, black, welo, belo, result, wpt, bpt, 1 if is_arm else 0, myecot, myopeningt])
     df = pd.DataFrame(data,
-            columns=['Round', 'White', 'Black', 'WElo', 'BElo', 'Result', 'Wpt', 'Bpt', 'Arm'])
+            columns=['Round', 'White', 'Black', 'WElo', 'BElo', 'Result', 'Wpt', 'Bpt', 'Arm', 'Eco', 'Opening'])
     df = pgnhelper.elo.add_rating_change(df, rating_cnt > 1, k)
     return df, list(set(players)), rating_cnt > 0
