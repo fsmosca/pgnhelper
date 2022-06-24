@@ -9,23 +9,59 @@ import pgnhelper.app
 def main():
     parser = argparse.ArgumentParser()
 
+    # Common parsers
+    input_pgn_parser = argparse.ArgumentParser(add_help=False)
+    input_pgn_parser.add_argument('--inpgnfn', type=str, required=True,
+        help='Write the input pgn filename, required.')
+
+    output_pgn_parser = argparse.ArgumentParser(add_help=False)
+    output_pgn_parser.add_argument('--outpgnfn', type=str, required=True,
+        help='Write the output pgn filename, required, mode=overwrite.')
+  
+    table_parser = argparse.ArgumentParser(add_help=False)
+    table_parser.add_argument('--output', type=str, required=True,
+        help='Write the output filename, required, can be .html, .csv or .txt. e.g '
+        '--output tata_steel.html')
+    table_parser.add_argument('--win-point', type=float,  required=False, default=1.0,
+        help='The point when the player wins, default=1.0')
+    table_parser.add_argument('--draw-point', type=float, required=False, default=0.5,
+        help='The point when the player draws, default=0.5')
+    table_parser.add_argument('--armageddon-file', type=str, required=False, default=None,
+        help='The armageddon pgn file, not required, default=None, if the tournament is governed by '
+        'armageddon tie-break system, you need to intput the armageddon pgn file.')
+    table_parser.add_argument('--win-point-arm', type=float, required=False, default=1.0,
+        help='The point when one player wins the armageddon match, not required, default=1.0')
+    table_parser.add_argument('--loss-point-arm', type=float, required=False, default=0.0,
+        help='The point when one player loses the armageddon match, not required, default=0.0')
+    table_parser.add_argument('--show-max-score', action='store_true',
+        help='A flag to show MaxScore column in the table, can be useful when scoring is not standard.')
+    table_parser.add_argument('--table-color', type=str, required=False, default='blue_light',
+        help='Write table color not required. [default="blue_light" value=("yellow_light", '
+        '"grey_light", "orange_light", "green_light", "red_light", "yellow_dark", '
+        '"grey_dark", "blue_dark", "orange_dark", "green_dark", "red_dark")]')
+
+    # Sub parsers
     subparser = parser.add_subparsers(dest='command')
-    sort = subparser.add_parser('sort',
+
+    sort = subparser.add_parser('sort', parents=[input_pgn_parser, output_pgn_parser],
         help='Sort the games from the given pgn file based on the given game tags. e.g. '
         'pgnhelper sort mygames.pgn --outpgnfn out.pgn --sort-tag opening --sort-direction hightolow')
-    addeco = subparser.add_parser('addeco',
+    addeco = subparser.add_parser('addeco', parents=[input_pgn_parser, output_pgn_parser],
         help='Add eco and ecot codes, opening and variation names to the input pgn file. '
         'The eco, opening etc. are from the given input file eco.pgn. e.g. '
         'pgnhelper addeco --inpgnfn mygames.pgn --inecopgnfn eco.pgn --outpgnfn out.pgn')
-    roundrobin = subparser.add_parser('roundrobin',
+
+    roundrobin = subparser.add_parser('roundrobin', parents=[input_pgn_parser, table_parser],
         help='Generate round-robin table results from the input pgn file. '
         'The output can be html, csv and txt. e.g. '
         'pgnhelper roundrobin --inpgnfn candidates.pgn --output candidates.html')
 
-    sort.add_argument('--inpgnfn', type=str, required=True,
-        help='Write the input pgn filename, required.')
-    sort.add_argument('--outpgnfn', type=str, required=True,
-        help='Write the output pgn filename, required, mode=overwrite.')
+    standing = subparser.add_parser('standing', parents=[input_pgn_parser, table_parser],
+        help='Generates a standings from the input pgn file. '
+        'The output can be html, csv and txt. e.g. '
+        'pgnhelper standing --inpgnfn candidates.pgn --output candidates.html')
+
+    # Sort
     sort.add_argument('--sort-tag', type=str, required=False, default='eco',
         help='Sort the games by tag. [default=eco, value=(eco | ecot | event | date | round | white | black | site | plycount)].'
         ' e.g. --sort-tag event')
@@ -36,35 +72,9 @@ def main():
         'If you encounter an error like "UnicodeDecodeError: utf-8 codec cannot decode ..." you can try, '
         '--encoding ISO-8859-1')
 
-    addeco.add_argument('--inpgnfn', type=str, required=True,
-        help='Write the input pgn filename, required.')
-    addeco.add_argument('--outpgnfn', type=str, required=True,
-        help='Write the output pgn filename, required, mode=overwrite.')
+    # Add ECO
     addeco.add_argument('--inecopgnfn', type=str, required=True,
         help='Write the reference eco.pgn filename, required.')
-
-    roundrobin.add_argument('--inpgnfn', type=str, required=True,
-        help='Write the input pgn filename, required.')
-    roundrobin.add_argument('--output', type=str, required=True,
-        help='Write the output filename, required, can be .html, .csv or .txt. e.g '
-        '--output tata_steel.html')
-    roundrobin.add_argument('--win-point', type=float,  required=False, default=1.0,
-        help='The point when the player wins, default=1.0')
-    roundrobin.add_argument('--draw-point', type=float, required=False, default=0.5,
-        help='The point when the player draws, default=0.5')
-    roundrobin.add_argument('--armageddon-file', type=str, required=False, default=None,
-        help='The armageddon pgn file, not required, default=None, if the tournament is governed by '
-        'armageddon tie-break system, you need to intput the armageddon pgn file.')
-    roundrobin.add_argument('--win-point-arm', type=float, required=False, default=1.0,
-        help='The point when one player wins the armageddon match, not required, default=1.0')
-    roundrobin.add_argument('--loss-point-arm', type=float, required=False, default=0.0,
-        help='The point when one player loses the armageddon match, not required, default=0.0')
-    roundrobin.add_argument('--show-max-score', action='store_true',
-        help='A flag to show MaxScore column in the table, can be useful when scoring is not standard.')
-    roundrobin.add_argument('--table-color', type=str, required=False, default='blue_light',
-        help='Write table color not required. [default="blue_light" value=("yellow_light", '
-        '"grey_light", "orange_light", "green_light", "red_light", "yellow_dark", '
-        '"grey_dark", "blue_dark", "orange_dark", "green_dark", "red_dark")]')
 
     parser.add_argument('-v', '--version', action='version', version=f'{pgnhelper.__version__}')
 
@@ -88,6 +98,19 @@ def main():
             inecopgnfn=args.inecopgnfn            
         )
     elif args.command == 'roundrobin':
+        g = pgnhelper.app.PgnHelper(
+            args.command,
+            inpgnfn=args.inpgnfn,
+            output=args.output,
+            winpoint = args.win_point,
+            drawpoint = args.draw_point,
+            tablecolor = args.table_color,
+            armageddonfile = args.armageddon_file,
+            winpointarm = args.win_point_arm,
+            losspointarm = args.loss_point_arm,
+            showmaxscore=args.show_max_score
+        )
+    elif args.command == 'standing':
         g = pgnhelper.app.PgnHelper(
             args.command,
             inpgnfn=args.inpgnfn,
