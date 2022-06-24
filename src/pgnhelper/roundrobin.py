@@ -259,12 +259,8 @@ class RoundRobin:
         The standing is sorted by score, with tie-breaks DE, Wins and SB.
         """
         df = self.table()
-        if 'Rating' in df.columns and 'SB' in df.columns:
+        if 'Rating' in df.columns:
             dfs = df[['Rank', 'Name', 'Rating', 'RChg', 'Games', 'Score', 'Score%', 'DE', 'Wins', 'SB', 'Koya']]
-        elif 'Rating' in df.columns:
-            dfs = df[['Rank', 'Name', 'Rating', 'RChg', 'Games', 'Score', 'Score%', 'DE', 'Wins']]
-        elif 'SB' in df.columns:
-            dfs = df[['Rank', 'Name', 'Games', 'Score', 'Score%', 'DE', 'Wins', 'SB']]
         else:
-            dfs = df[['Rank', 'Name', 'Games', 'Score', 'Score%', 'DE', 'Wins']]
+            dfs = df[['Rank', 'Name', 'Games', 'Score', 'Score%', 'DE', 'Wins', 'SB', 'Koya']]
         return dfs
