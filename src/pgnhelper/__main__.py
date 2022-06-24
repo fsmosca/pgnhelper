@@ -82,6 +82,8 @@ def main():
 
     g = None
     if args.command == 'sort':
+        if args.inpgnfn == args.outpgnfn:
+            raise ValueError('Input and output filenames should not be the same!')
         g = pgnhelper.app.PgnHelper(
             args.command,
             inpgnfn=args.inpgnfn,
@@ -91,6 +93,8 @@ def main():
             encoding=args.encoding
         )
     elif args.command == 'addeco':
+        if args.inpgnfn == args.outpgnfn:
+            raise ValueError('Input and output filenames should not be the same!')
         g = pgnhelper.app.PgnHelper(
             args.command,
             inpgnfn=args.inpgnfn,
@@ -98,6 +102,8 @@ def main():
             inecopgnfn=args.inecopgnfn            
         )
     elif args.command == 'roundrobin':
+        if args.inpgnfn == args.output:
+            raise ValueError('Input and output filenames should not be the same!')
         g = pgnhelper.app.PgnHelper(
             args.command,
             inpgnfn=args.inpgnfn,
@@ -111,6 +117,8 @@ def main():
             showmaxscore=args.show_max_score
         )
     elif args.command == 'standing':
+        if args.inpgnfn == args.output:
+            raise ValueError('Input and output filenames should not be the same!')
         g = pgnhelper.app.PgnHelper(
             args.command,
             inpgnfn=args.inpgnfn,
