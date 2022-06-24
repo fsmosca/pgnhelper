@@ -63,3 +63,9 @@ class PgnHelper:
                 self.winpointarm, self.losspointarm, self.showmaxscore)
             df = rr.table()
             rr.save_table(df, self.output, self.tablecolor)
+        elif self.job == 'standing':
+            rr = pgnhelper.roundrobin.RoundRobin(self.inpgnfn,
+                self.armageddonfile, self.winpoint, self.drawpoint,
+                self.winpointarm, self.losspointarm, self.showmaxscore)
+            df = rr.standing()
+            rr.save_table(df, self.output, self.tablecolor)
