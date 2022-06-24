@@ -85,15 +85,20 @@ def save_games(games: List[Game], outpgnfn: str):
                 f.write(line)
 
 
-def sort_games(inpgnfn: str, outpgnfn: str, sort_tag: str, sort_direction: str):
-    """Sort and save games based on game tags.
+def sort_games(inpgnfn: str, outpgnfn: str, sort_tag: str, sort_direction: str, encoding: str='utf-8') -> None:
+    """Sort based on criteria and save the games.
+
+    Read the input pgn file, sort it and save the sorted games in output file.
+    The input file is not changed.
 
     Args:
       inpgnfn: The input pgn file.
-      sort_tag: The sorting criteria, can be event, white, black, data, etc.
+      outpgnfn: The output pgn file.
+      sort_tag: The sorting criteria, can be event, site, date, round, white, black and eco.
       sort_direction: Direction can be hightolow or lowtohigh.
+      encoding: Encoding used in reading the input file.
     """
-    games = read_games(inpgnfn, encoding='utf-8')
+    games = read_games(inpgnfn, encoding=encoding)
     sort_value = False if sort_direction == 'lowtohigh' else True
     sort_tag = sort_tag.lower()
     if sort_tag == 'ecot':
