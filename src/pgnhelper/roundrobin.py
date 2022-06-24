@@ -33,19 +33,17 @@ class RoundRobin:
 
     Attributes:
       infn: The input pgn file.
-      outfn: The output file to save the table. Can be csv, txt or html.
       infnarm: The input pgn file with armageddon games.
       winpoint: The point for the winner.
       drawpoint: The point when player draws.
       winpointarm: The point for the winner in armageddon game.
       losspointarm: The point for the loser in armageddon game.
     """
-    def __init__(self, infn: str, outfn: Optional[str]=None,
-            infnarm: Optional[str]=None, winpoint: float=1.0,
-            drawpoint: float=0.5, winpointarm: float=1.0,
-            losspointarm: float=0.0, showmaxscore: bool=False):
+    def __init__(self, infn: str, infnarm: Optional[str]=None,
+            winpoint: float=1.0, drawpoint: float=0.5,
+            winpointarm: float=1.0, losspointarm: float=0.0,
+            showmaxscore: bool=False):
         self.infn = infn
-        self.outfn = outfn
         self.infnarm = infnarm
         self.winpoint = winpoint
         self.drawpoint = drawpoint
@@ -140,37 +138,38 @@ class RoundRobin:
         return self.rank
 
 
-    def save_rrtable(self, df: pd.DataFrame, tablecolor: str='blue_light') -> None:
+    def save_table(self, df: pd.DataFrame, fn: str, tablecolor: str='blue_light') -> None:
         """Save the round-robin result table.
 
-        The output can be a csv, txt and html if the output is specified.
+        The output can be a csv, txt and html.
 
         Args:
           df: A dataframe of round-robin table.
-          tablecolor: The round-robin table color.
+          fn: The output filename.
+          tablecolor: The round-robin table color for html output.
         """
-        if self.outfn is None:
-            return
-
-        ext = Path(self.outfn).suffix
+        ext = Path(fn).suffix
         if ext == '.html':
             html_table = build_table(df, tablecolor,
                 font_size='medium',
                 text_align='center',
                 font_family='Calibri, Verdana, Tahoma, Georgia, serif, arial')
-            with open(self.outfn, 'w') as f:
+            with open(fn, 'w') as f:
                 f.write(html_table)
         elif ext == '.csv':
-            df.to_csv(self.outfn, index=False)
+            df.to_csv(fn, index=False)
         else:
-            df.to_string(self.outfn, index=False)
+            df.to_string(fn, index=False)
 
 
     def table(self) -> pd.DataFrame:
         """Generates a round-robin result table.
 
+        The table is sorted by DE or Direct Encounter, Number of Wins
+        and SB (sonneborn-Berger)
+
         Returns:
-          A pandas dataframe of round-robin result table.
+          A pandas dataframe of round-robin table.
         """
         dfall = []
         dfn, self.players, self.israting = pgnhelper.record.get_pgn_data(self.infn, is_arm=False)
@@ -249,3 +248,19 @@ class RoundRobin:
         # 4. Insert rank column at first column.
         df_rr.insert(loc=0, column='Rank', value=range(1, len(df_rr) + 1))
         return df_rr
+
+    def standing(self) -> pd.DataFrame:
+        """Returns a dataframe of player standing.
+
+        The standing is sorted by score, with tie-breaks DE, Wins and SB.
+        """
+        df = self.table()
+        if 'Rating' in df.columns and 'SB' in df.columns:
+            dfs = df[['Rank', 'Name', 'Rating', 'RChg', 'Games', 'Score', 'Score%', 'DE', 'Wins', 'SB']]
+        elif 'Rating' in df.columns:
+            dfs = df[['Rank', 'Name', 'Rating', 'RChg', 'Games', 'Score', 'Score%', 'DE', 'Wins']]
+        elif 'SB' in df.columns:
+            dfs = df[['Rank', 'Name', 'Games', 'Score', 'Score%', 'DE', 'Wins', 'SB']]
+        else:
+            dfs = df[['Rank', 'Name', 'Games', 'Score', 'Score%', 'DE', 'Wins']]
+        return dfs
