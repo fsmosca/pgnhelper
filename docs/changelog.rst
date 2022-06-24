@@ -1,6 +1,43 @@
 Change Log
 ==========
 
+Version 0.9.0 [2022-06-25]
+""""""""""""""""""""""""""
+* Generate opening stats
+
+::
+
+   >>> import pgnhelper.eco
+   >>> import pgnhelper.record
+   >>> df = pgnhelper.eco.get_opening_stats("./pgn/candidates_zurich_1953.pgn")
+   >>> df
+
+                       Opening  Count  Count%
+   0     King's Indian Defence     44   20.95
+   1              Nimzo-Indian     41   19.52
+   2                  Sicilian     23   10.95
+   3                   English     18    8.57
+   4   Queen's Gambit Declined     16    7.62
+   5    Queen's Indian Defence     12    5.71
+   6                 Ruy Lopez     10    4.76
+   7                Old Indian      7    3.33
+   8                    French      6    2.86
+   9                   Catalan      4    1.90
+   10            King's Indian      4    1.90
+   11                 QGD Slav      4    1.90
+   12                   Benoni      3    1.43
+   13                    Dutch      3    1.43
+   14                Gruenfeld      3    1.43
+   15                      QGA      3    1.43
+   16                Zukertort      3    1.43
+   17                Caro-Kann      2    0.95
+   18            Neo-Gruenfeld      2    0.95
+   19        Queen's pawn game      2    0.95
+
+.. Note::
+
+   Your game must have an opening info in the header.
+
 
 Version 0.8.0
 """""""""""""
