@@ -86,9 +86,9 @@ def get_rating_change(df: pd.DataFrame, p: str, k: int=10) -> float:
 
     Eample 1, get the rating change of a player in the PGN file::
 
-      >>> import pgnhelper.roundrobin
+      >>> import pgnhelper.record
       >>> import pgnhelper.elo
-      >>> df, players, is_rating = pgnhelper.roundrobin.get_pgn_data("./pgn/superbet_classic_2022_bucharest.pgn")
+      >>> df, players, is_rating = pgnhelper.record.get_pgn_data("./pgn/superbet_classic_2022_bucharest.pgn")
       >>> players
       ['Firouzja, Alireza', 'Aronian, Levon', 'So, Wesley', 'Nepomniachtchi, Ian', 'Caruana, Fabiano', 'Vachier-Lagrave, Maxime', 'Deac, Bogdan-Daniel', 'Mamedyarov, Shakhriyar', 'Dominguez Perez, Leinier', 'Rapport, Richard']
       >>> rc_levon = pgnhelper.elo.get_rating_change(df, "Aronian, Levon", k=10)
