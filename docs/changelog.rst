@@ -4,9 +4,14 @@ Change Log
 
 Version 0.8.0
 """""""""""""
-* Refactor roundrobin
-* Add record module
-* Add help.rst
+1. Add standing table generation.
+::
+
+   --pgnhelper standing --inpgnfn linares.gpn --output linares.html
+
+2. Refactor roundrobin.
+3. Add record module.
+4. Add help.rst.
 
 
 Version 0.7.0
