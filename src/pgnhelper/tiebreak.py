@@ -42,7 +42,7 @@ def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame) -> pd.DataFrame:
     return ret
 
 
-def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame, winpoint=1.0, drawpoint=0.5, winpointarm=1.0, losspointarm=0.0) -> pd.DataFrame:
+def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame, winpoint=1.0, drawpoint=0.5, winpointarm=1.5, losspointarm=1.0) -> pd.DataFrame:
     """Creates a dataframe with DE column or direct encounter.
     """
     players = list(ranking_df.Name)
