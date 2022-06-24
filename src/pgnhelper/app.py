@@ -53,7 +53,7 @@ class PgnHelper:
         """
         if self.job == 'sort':
             pgnhelper.sort.sort_games(self.inpgnfn, self.outpgnfn,
-                    self.sort_tag, self.sort_direction)
+                    self.sort_tag, self.sort_direction, encoding=self.encoding)
         elif self.job == 'addeco':
             pgnhelper.eco.add_eco(self.inpgnfn, self.outpgnfn,
                     self.inecopgnfn, ply=4, maxply=24)
