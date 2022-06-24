@@ -4,11 +4,11 @@ Tie-breaks supported:
   * Direct Encounter
   * Number of wins
   * Sonneborn-Berger
+  * Koya system
 """
 
 
 from typing import List, Dict
-from unittest import result
 
 import pandas as pd
 import pgnhelper.utility
