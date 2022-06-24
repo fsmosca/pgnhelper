@@ -59,7 +59,7 @@ class PgnHelper:
                     self.inecopgnfn, ply=4, maxply=24)
         elif self.job == 'roundrobin':
             rr = pgnhelper.roundrobin.RoundRobin(self.inpgnfn,
-                self.output, self.armageddonfile, self.winpoint, self.drawpoint,
+                self.armageddonfile, self.winpoint, self.drawpoint,
                 self.winpointarm, self.losspointarm, self.showmaxscore)
             df = rr.table()
-            rr.save_rrtable(df, self.tablecolor)
+            rr.save_table(df, self.output, self.tablecolor)
