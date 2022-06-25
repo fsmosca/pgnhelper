@@ -29,6 +29,13 @@ Roundrobin
     :members:
 
 
+Swiss
+^^^^^^^^^^^
+
+.. automodule:: pgnhelper.swiss
+    :members:
+
+
 Record
 ^^^^^^^^^^^
 
