@@ -5,12 +5,22 @@ Version 0.9.0 [2022-06-25]
 """"""""""""""""""""""""""
 * Generate opening stats
 
-::
+Command line::
+
+   pgnhelper opening-stats --inpgnfn "./pgn/candidates_zurich_1953.pgn" --output candidates.html
+
+   output options:
+      candidates.txt
+      candidates.csv
+
+Code::
 
    >>> import pgnhelper.eco
    >>> import pgnhelper.record
    >>> df = pgnhelper.eco.get_opening_stats("./pgn/candidates_zurich_1953.pgn")
    >>> df
+
+Results from code::
 
                        Opening  Count  Count%
    0     King's Indian Defence     44   20.95

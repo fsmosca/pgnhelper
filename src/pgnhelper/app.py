@@ -7,6 +7,8 @@ from typing import Optional
 import pgnhelper.eco
 import pgnhelper.sort
 import pgnhelper.roundrobin
+import pgnhelper.eco
+import pgnhelper.utility
 
 
 class PgnHelper:
@@ -69,3 +71,6 @@ class PgnHelper:
                 self.winpointarm, self.losspointarm, self.showmaxscore)
             df = rr.standing()
             rr.save_table(df, self.output, self.tablecolor)
+        elif self.job == 'opening-stats':
+            df = pgnhelper.eco.get_opening_stats(self.inpgnfn)
+            pgnhelper.utility.save(df, self.output)

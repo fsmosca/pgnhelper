@@ -17,6 +17,10 @@ def main():
     output_pgn_parser = argparse.ArgumentParser(add_help=False)
     output_pgn_parser.add_argument('--outpgnfn', type=str, required=True,
         help='Write the output pgn filename, required, mode=overwrite.')
+
+    output_parser = argparse.ArgumentParser(add_help=False)
+    output_parser.add_argument('--output', type=str, required=True,
+        help='Write the output filename, required, can be .html, .csv or .txt, like out.txt')
   
     table_parser = argparse.ArgumentParser(add_help=False)
     table_parser.add_argument('--output', type=str, required=True,
@@ -60,6 +64,9 @@ def main():
         help='Generates a standings from the input pgn file. '
         'The output can be html, csv and txt. e.g. '
         'pgnhelper standing --inpgnfn candidates.pgn --output candidates.html')
+
+    opening_stats = subparser.add_parser('opening-stats', parents=[input_pgn_parser, output_parser],
+        help='Generates and save opening name table, can be saved in txt, csv or html file.')
 
     # Sort
     sort.add_argument('--sort-tag', type=str, required=False, default='eco',
@@ -130,6 +137,14 @@ def main():
             winpointarm = args.win_point_arm,
             losspointarm = args.loss_point_arm,
             showmaxscore=args.show_max_score
+        )
+    elif args.command == 'opening-stats':
+        if args.inpgnfn == args.output:
+            raise ValueError('Input and output filenames should not be the same!')
+        g = pgnhelper.app.PgnHelper(
+            args.command,
+            inpgnfn=args.inpgnfn,
+            output=args.output
         )
     
     if g is not None:
