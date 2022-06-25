@@ -1457,6 +1457,12 @@ Qxd4 d6 9. Rd1 a6 10. b3 Nbd7 *
 
 [ECO "A56"]
 [Opening "Benoni"]
+[Variation "Blackburne/Hromadka"]
+
+1. d4 Nf6 2. c4 c5 3. d5 g6 *
+
+[ECO "A56"]
+[Opening "Benoni"]
 [Variation "Vulture"]
 
 1. d4 Nf6 2. c4 c5 3. d5 Ne4 *
@@ -8858,7 +8864,7 @@ Re3 *
 
 [ECO "C89"]
 [Opening "Ruy Lopez"]
-[Variation "Marshall, main line, 12.d2d4"]
+[Variation "Marshall, main line, 12. d4"]
 
 1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 O-O 8.
 c3 d5 9. exd5 Nxd5 10. Nxe5 Nxe5 11. Rxe5 c6 12. d4 *
@@ -12020,7 +12026,7 @@ e4 c6 9. h3 *
 1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Be2 O-O 6. Be3 *
 
 [ECO "E73"]
-[Opening "King's Indian"]
+[Opening "King's Indian Defence"]
 [Variation "Averbakh system"]
 
 1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Be2 O-O 6. Bg5 *
