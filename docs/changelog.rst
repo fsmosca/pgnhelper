@@ -3,7 +3,59 @@ Change Log
 
 Version 0.9.0 [2022-06-25]
 """"""""""""""""""""""""""
-* Generate opening stats
+
+**1. Generate swiss standing with tie-breaks**
+
+::
+
+   TB1 = Buchholz cut 1
+   TB2 = Buchholz
+   TB3 = Sonneborn-Berger
+   TB4 = Direct Encounter
+
+Code ::
+
+   import pgnhelper.swiss   
+   a = pgnhelper.swiss.Swiss("./pgn/fidegrandsw21.pgn")
+   df = a.table()
+   print(df.to_string(index=False))
+
+Output ::
+
+   Rank                          Name  Rating   RChg  Games  Score  Score%  TB1  TB2   TB3  TB4
+      1             Firouzja, Alireza    2770  11.31     11    8.0   72.73  0.0  0.0  0.00  0.0
+      2              Caruana, Fabiano    2800   1.06     11    7.5   68.18 67.0 72.5 49.75  0.0
+      3              Oparin, Grigoriy    2654  21.62     11    7.5   68.18 63.5 68.5 45.75  0.0
+      4                    Yu, Yangyi    2704   9.20     11    7.0   63.64 66.5 72.0 44.50  0.0
+      5               Keymer, Vincent    2630  22.06     11    7.0   63.64 65.5 70.0 43.25  0.0
+      6       Vachier-Lagrave, Maxime    2763   2.12     11    7.0   63.64 65.0 70.0 43.50  0.0
+      7              Predke, Alexandr    2666  14.22     11    7.0   63.64 64.5 70.0 42.25  0.0
+      8                Shirov, Alexei    2659  16.99     11    7.0   63.64 64.5 68.5 41.50  0.0
+      9             Howell, David W L    2658  15.43     11    7.0   63.64 62.5 66.5 40.25  0.0
+     10           Sargissian, Gabriel    2664  10.56     11    7.0   63.64 61.5 65.5 40.50  0.0
+     11         Anton Guijarro, David    2658  13.25     11    7.0   63.64 61.0 65.0 39.25  0.0
+     12                Korobov, Anton    2690   6.07     11    7.0   63.64 60.5 66.0 41.50  0.0
+     13                Sevian, Samuel    2654  15.89     11    7.0   63.64 60.5 64.5 39.75  0.0
+     14              Esipenko, Andrey    2720   3.08     11    7.0   63.64 60.0 64.5 40.00  0.0
+     15           Deac, Bogdan-Daniel    2643  15.05     11    7.0   63.64 60.0 63.0 39.25  0.0
+     16           Artemiev, Vladislav    2699   4.40     11    7.0   63.64 56.5 61.5 39.00  0.0
+     17             Petrosyan, Manuel    2605  21.43     11    6.5   59.09 66.5 70.5 40.75  0.0
+     18                  Nihal, Sarin    2652  11.86     11    6.5   59.09 64.0 68.0 38.75  0.0
+     19                 Dubov, Daniil    2714  -0.21     11    6.5   59.09 61.5 66.0 37.50  0.0
+     20                Kuzubov, Yuriy    2624  16.45     11    6.5   59.09 61.5 65.0 36.50  0.0
+     21           Fedoseev, Vladimir3    2704  -0.22     11    6.5   59.09 59.5 64.5 37.00  0.0
+     22               Sjugirov, Sanan    2663   7.89     11    6.5   59.09 59.5 64.0 37.75  0.0
+     23              Grandelius, Nils    2662   5.95     11    6.5   59.09 59.5 63.5 36.50  0.0
+     24            Kryvoruchko, Yuriy    2686   3.99     11    6.5   59.09 59.5 63.5 36.50  0.0
+     25              Vitiugov, Nikita    2727  -2.98     11    6.5   59.09 59.5 63.5 36.50  0.0
+     26                Aronian, Levon    2782 -10.65     11    6.5   59.09 58.5 63.5 36.75  0.0
+     27                Xiong, Jeffery    2700  -0.78     11    6.5   59.09 58.5 62.5 34.25  0.0
+     28                Sarana, Alexey    2649   9.98     11    6.5   59.09 58.0 62.0 35.50  0.0
+     29            Alekseenko, Kirill    2710  -1.98     11    6.5   59.09 58.0 62.0 34.25  0.0
+     30          Harikrishna, Pentala    2719  -3.62     11    6.5   59.09 55.5 58.5 33.50  0.0
+
+
+**2. Generate opening stats**
 
 Command line::
 
@@ -13,14 +65,14 @@ Command line::
       candidates.txt
       candidates.csv
 
-Code::
+Code ::
 
    >>> import pgnhelper.eco
    >>> import pgnhelper.record
    >>> df = pgnhelper.eco.get_opening_stats("./pgn/candidates_zurich_1953.pgn")
    >>> df
 
-Results from code::
+Output ::
 
                        Opening  Count  Count%
    0     King's Indian Defence     44   20.95
