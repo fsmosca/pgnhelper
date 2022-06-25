@@ -95,43 +95,29 @@ def add_eco(inpgnfn: str, outpgnfn: str, inecopgnfn: str, ply: int=4, maxply: in
                 first_eco, eco_t = None, None
                 first_opening, opening_t = None, None
                 first_variation, variation_t = None, None
-                is_first_eco = False
-                first_eco_ply = 1
                 for node in game.mainline():
                     board = node.board()
                     gply = board.ply()
                     epd = board.epd()
-                    if gply >= ply:
+
+                    # After the first move check the position if it is in eco db.
+                    if gply >= 1:
                         if epd in eco_db:
-                            if not is_first_eco:
-                                is_first_eco = True
+
+                            # Update first eco up to a given ply only.
+                            if gply <= ply:
                                 first_eco = eco_db[epd]['eco']
                                 first_opening = eco_db[epd]['opening']
                                 first_variation = eco_db[epd]['variation']
-                                first_eco_ply = board.ply()
+
+                            # Else update eco by transposition.
                             else:
                                 eco_t = eco_db[epd]['eco']
                                 opening_t = eco_db[epd]['opening']
                                 variation_t = eco_db[epd]['variation']
-                            if gply >= maxply:
-                                break
-                        # For first eco, if pos is not in db we will takeback 1 ply until
-                        elif not is_first_eco:
-                            new_board = board.copy()
-                            while True:
-                                new_board.pop()
-                                new_epd = new_board.epd()
-                                if new_epd in eco_db:
-                                    is_first_eco = True
-                                    first_eco = eco_db[new_epd]['eco']
-                                    first_opening = eco_db[new_epd]['opening']
-                                    first_variation = eco_db[new_epd]['variation']
-                                    first_eco_ply = new_board.ply()
-                                    break
-                                if new_board.ply() <= 1:
-                                    break
-                                if new_board.ply() <= first_eco_ply:
-                                    break
+
+                        if gply >= maxply:
+                            break
                 mygame = game
                 if first_eco is not None:
                     mygame.headers['ECO'] = first_eco
