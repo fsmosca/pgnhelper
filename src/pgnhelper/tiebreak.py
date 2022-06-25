@@ -14,7 +14,20 @@ import pandas as pd
 import pgnhelper.utility
 
 
-def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame) -> pd.DataFrame:
+def played_each_other(result_df, tie_df) -> bool:
+    players = list(tie_df.Name)
+    for p in players:
+        for m in players:
+            if p == m:
+                continue
+            dfw = result_df.loc[(result_df.White == p) & (result_df.Black == m)]
+            dfb = result_df.loc[(result_df.Black == p) & (result_df.White == m)]
+            if len(dfw) + len(dfb) == 0:
+                return False
+    return True
+
+
+def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame, label='Wins') -> pd.DataFrame:
     """Creates a dataframe with Win column.
     
     If a game has an armageddon tie-break, we will only count the number of wins
@@ -38,26 +51,34 @@ def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame) -> pd.DataFrame:
             wins.append(tb[p])
         else:
             wins.append(0)
-    ret['Wins'] = wins
+    ret[label] = wins
     return ret
 
 
-def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame, winpoint=1.0, drawpoint=0.5, winpointarm=1.5, losspointarm=1.0) -> pd.DataFrame:
+def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
+        winpoint=1.0, drawpoint=0.5, winpointarm=1.5, losspointarm=1.0,
+        label='DE') -> pd.DataFrame:
     """Creates a dataframe with DE column or direct encounter.
+
+    Requirement:
+      It is only applied when tied players have played each other.
+      In round-robin format this can be applied automatically. But for
+      swiss format, the tied players have to be checked.
     """
     players = list(ranking_df.Name)
     tb = {}
     ret: pd.DataFrame = ranking_df.copy()
     for _, g in ret.groupby(['Score']):
         if len(g) > 1:
-            for p in g.Name:
-                s = 0
-                for op in g.Name:
-                    if p == op:
-                        continue
-                    score = pgnhelper.utility.get_encounter_score(result_df, p, op, winpoint, drawpoint, winpointarm, losspointarm)
-                    s += score[0]
-                    tb.update({p: {op: s}})
+            if played_each_other(result_df, g):
+                for p in g.Name:
+                    s = 0
+                    for op in g.Name:
+                        if p == op:
+                            continue
+                        score = pgnhelper.utility.get_encounter_score(result_df, p, op, winpoint, drawpoint, winpointarm, losspointarm)
+                        s += score[0]
+                        tb.update({p: {op: s}})
 
     # Create new column DE.
     de = []
@@ -71,12 +92,12 @@ def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame, winpoint
             de.append(s)
         else:
             de.append(0)
-    ret['DE'] = de
+    ret[label] = de
     return ret
 
 
 def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
-        gpe: int=1, winpoint=1.0, drawpoint=0.5) -> pd.DataFrame:
+        gpe: int=1, winpoint=1.0, drawpoint=0.5, label='SB') -> pd.DataFrame:
     """Creates a dataframe with SB column for Sonneborn-Berger score.
 
     Armageddon games currently are excluded in the calculation.
@@ -102,7 +123,7 @@ def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
                     if p == m:
                         continue
                     match_score = 0
-            
+
                     # 2. Get the score when player wins or draws.
                     df_ww = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1-0') & (result_df.Arm == 0)]
                     df_wd = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
@@ -126,7 +147,7 @@ def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
             tb_sb.append(0)
             continue
         tb_sb.append(tb[p])
-    ret['SB'] = tb_sb
+    ret[label] = tb_sb
     return ret
 
 
@@ -185,4 +206,86 @@ def koya_system(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
             continue
         tb_sb.append(tb[p])
     ret['Koya'] = tb_sb
+    return ret
+
+
+def tb_buchholz(record_df, rank_df, cut: int=0, label='TB1') -> pd.DataFrame():
+    """Calculates buchholz score or sum of opponents score.
+
+    This tie-break system is only applied for a tournament with swiss format.
+
+    Args:
+      record_df: A dataframe of tournament games records.
+      rank_df: A dataframe with player ranking, initially
+         at ['Name, Games, Score]. Later ['Name, Games, Score, Buchholz, ... tie-break system]
+      cut: Cut the player opponent score, if cut is 0 the default then
+          no one will be cut, this is the normal buchholz. If this is 1 then
+          the lowest score will be cut. If this is 2 then the last two lowest
+          scores will be cut. If value is -1 this is median or cut the highest
+          and lowest. If value is -2 then cut the 2 highest and 2 lowest.
+
+    Returns:
+       A dataframe of name and buchholz score.
+    """
+    ret = rank_df.copy()
+    players = ret.Name.unique()
+    tb: Dict[str, int] = {}
+
+    for _, g in ret.groupby(['Score']):
+        if len(g) > 1:
+            for p in g['Name']:
+                opp_scores = []
+
+                dfw = record_df.loc[record_df.White == p]
+                for i in range(len(dfw)):
+                    opp = dfw.iloc[i]['Black']
+                    dfm = rank_df.loc[rank_df.Name == opp]
+                    pts = dfm['Score'].iloc[0]
+                    opp_scores.append(pts)
+
+                dfb = record_df.loc[record_df.Black == p]
+                for i in range(len(dfb)):
+                    opp = dfb.iloc[i]['White']
+                    dfm = rank_df.loc[rank_df.Name == opp]
+                    pts = dfm['Score'].iloc[0]
+                    opp_scores.append(pts)
+
+                # Sort the opponents scores so we can determine what to cut.
+                if cut != 0:
+                    opp_scores.sort(reverse=True)  # high to low
+                    if cut > 0:
+                        # Apply Buchholz cut 1 or 2 and so on.
+                        opp_scores = opp_scores[:-cut]
+                    # Else apply Median Buchholz.
+                    else:
+                        # 1. Median Buchholz, cut the highest and lowest.
+                        # 2. Median Buchholz 2, cut the 2 highest and 2 lowest.
+                        opp_scores = opp_scores[-cut:cut]
+
+                tb.update({p: sum(opp_scores)})
+
+    # Add Buchholz column.
+    tbs: List = []
+    for p in players:
+        if p not in tb:
+            tbs.append(0)
+            continue
+        tbs.append(tb[p])
+    ret[label] = tbs
+
+    # Sort tie-break scores.
+    sort_columns = list(ret.columns)
+    if 'Rating' in sort_columns:
+        sort_columns.remove('Rating')
+    sort_columns.remove('Games')
+    sort_columns.remove('Name')
+    sort_columns.append(label)
+    sort_order = [False for _ in sort_columns]
+
+    ret = ret.sort_values(
+        by=sort_columns,
+        ascending=sort_order
+    )
+    ret = ret.reset_index(drop=True)
+
     return ret
