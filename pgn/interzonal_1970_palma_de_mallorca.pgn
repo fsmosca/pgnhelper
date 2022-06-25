@@ -2277,7 +2277,7 @@
 [ECO "E60"]
 [ECOT "E73"]
 [Opening "King's Indian Defence"]
-[OpeningT "King's Indian"]
+[OpeningT "King's Indian Defence"]
 [VariationT "Averbakh system"]
 
 1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Be2 O-O 6. Bg5 h6 7. Be3 c5 8. d5 e6 9. dxe6 Bxe6 10. Qd2 Qa5 11. Bxh6 Bxh6 12. Qxh6 Nxe4 13. Rc1 Nc6 14. h4 Nd4 15. Kf1 Nf5 16. Qf4 Nxc3 17. Rxc3 Qxa2 18. Qc1 Qa5 19. h5 Ng7 20. Rg3 Bf5 21. hxg6 fxg6 22. Bf3 Rae8 23. Bd5+ Ne6 24. Nf3 Kg7 25. Kg1 Rh8 26. Rxh8 Rxh8 27. b4 Qxb4 28. Bxe6 Qb1 29. Qxb1 Bxb1 30. Ng5 Rb8 31. Rf3 Bf5 32. Bxf5 gxf5 33. Rxf5 b5 34. cxb5 Rxb5 35. Ne4 Rb1+ 36. Kh2 Rd1 37. Rf3 Rd4 38. Ng3 Rd5 39. Ra3 c4 40. Rxa7+ Kg6 41. Rc7 Rc5 42. Rxc5 dxc5 43. Ne4 1-0
@@ -3607,7 +3607,7 @@
 [ECOT "C89"]
 [Opening "King's pawn game"]
 [OpeningT "Ruy Lopez"]
-[VariationT "Marshall, main line, 14...Qh3"]
+[VariationT "Marshall, main line, 12. d4"]
 
 1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 O-O 8. c3 d5 9. exd5 Nxd5 10. Nxe5 Nxe5 11. Rxe5 c6 12. d4 Bd6 13. Re1 Qh4 14. g3 Qh3 15. Be3 Bg4 16. Qd3 Rae8 17. Nd2 Re6 1/2-1/2
 
@@ -3865,6 +3865,8 @@
 [White "Fischer R"]
 [Black "Panno O"]
 [Result "1-0"]
+[ECO "A10"]
+[Opening "English"]
 
 1. c4 1-0
 
