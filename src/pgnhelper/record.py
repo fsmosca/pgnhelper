@@ -56,6 +56,9 @@ def get_pgn_data(fn, is_arm: bool=False, k: int=10) -> Tuple[pd.DataFrame, List,
             elif result == '1/2-1/2':
                 wpt = 0.5
                 bpt = 0.5 
+            elif result == '*':
+                wpt = 0.0
+                bpt = 0.0 
             myecot = game.headers.get('ECOT', '?')
             myopeningt = game.headers.get('OpeningT', '?')
             if myecot == '?':
