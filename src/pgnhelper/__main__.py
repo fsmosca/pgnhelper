@@ -23,9 +23,6 @@ def main():
         help='Write the output filename, required, can be .html, .csv or .txt, like out.txt')
   
     table_parser = argparse.ArgumentParser(add_help=False)
-    table_parser.add_argument('--output', type=str, required=True,
-        help='Write the output filename, required, can be .html, .csv or .txt. e.g '
-        '--output tata_steel.html')
     table_parser.add_argument('--win-point', type=float,  required=False, default=1.0,
         help='The point when the player wins, default=1.0')
     table_parser.add_argument('--draw-point', type=float, required=False, default=0.5,
@@ -55,12 +52,12 @@ def main():
         'The eco, opening etc. are from the given input file eco.pgn. e.g. '
         'pgnhelper addeco --inpgnfn mygames.pgn --inecopgnfn eco.pgn --outpgnfn out.pgn')
 
-    roundrobin = subparser.add_parser('roundrobin', parents=[input_pgn_parser, table_parser],
+    roundrobin = subparser.add_parser('roundrobin', parents=[input_pgn_parser, output_parser, table_parser],
         help='Generate round-robin table results from the input pgn file. '
         'The output can be html, csv and txt. e.g. '
         'pgnhelper roundrobin --inpgnfn candidates.pgn --output candidates.html')
 
-    standing = subparser.add_parser('standing', parents=[input_pgn_parser, table_parser],
+    standing = subparser.add_parser('standing', parents=[input_pgn_parser, output_parser, table_parser],
         help='Generates a standings from the input pgn file. '
         'The output can be html, csv and txt. e.g. '
         'pgnhelper standing --inpgnfn candidates.pgn --output candidates.html')
