@@ -164,8 +164,6 @@ Game result::
 5. Generate opening stats
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Generate opening stats
-
 ::
 
    >>> import pgnhelper.eco
