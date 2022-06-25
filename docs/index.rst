@@ -220,4 +220,5 @@ Links
    pytest
    changelog
    readthedocs
+   credits
    api
