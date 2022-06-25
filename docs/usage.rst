@@ -119,6 +119,7 @@ Script
     """
 
     import pgnhelper.roundrobin
+    import pgnhelper.utility
 
     # Get the dataframe output.
     rr = pgnhelper.roundrobin.RoundRobin(
@@ -130,7 +131,7 @@ Script
     print(df.to_string(index=False))
 
     # Save to html.
-    rr.save_table(df, "airthings.html")
+    pgnhelper.utility.save(df, "airthings.html")
 
     # Save to csv.
     df.to_csv("airthings.csv", index=False)
@@ -142,6 +143,7 @@ Script
     """
 
     import pgnhelper.roundrobin
+    import pgnhelper.utility
 
     rr = pgnhelper.roundrobin.RoundRobin(
         "./pgn/norway_chess_2022_classical.pgn",
@@ -150,4 +152,4 @@ Script
         winpointarm=1.5,
         losspointarm=1.0)
     df = rr.table()
-    rr.save_table(df, "norway_chess.html")
+    pgnhelper.utility.save(df, "norway_chess.html")

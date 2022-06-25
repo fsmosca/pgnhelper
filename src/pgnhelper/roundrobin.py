@@ -138,30 +138,6 @@ class RoundRobin:
         return self.rank
 
 
-    def save_table(self, df: pd.DataFrame, fn: str, tablecolor: str='blue_light') -> None:
-        """Save the round-robin result table.
-
-        The output can be a csv, txt and html.
-
-        Args:
-          df: A dataframe of round-robin table.
-          fn: The output filename.
-          tablecolor: The round-robin table color for html output.
-        """
-        ext = Path(fn).suffix
-        if ext == '.html':
-            html_table = build_table(df, tablecolor,
-                font_size='medium',
-                text_align='center',
-                font_family='Calibri, Verdana, Tahoma, Georgia, serif, arial')
-            with open(fn, 'w') as f:
-                f.write(html_table)
-        elif ext == '.csv':
-            df.to_csv(fn, index=False)
-        else:
-            df.to_string(fn, index=False)
-
-
     def table(self) -> pd.DataFrame:
         """Generates a round-robin result table.
 
