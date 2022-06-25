@@ -4,6 +4,8 @@
 
 from typing import List
 import pandas as pd
+from pathlib import Path
+from pretty_html_table import build_table
 
 
 def get_encounter_score(df: pd.DataFrame, p: str, op: str, winpoint: float=1.0,
@@ -115,3 +117,26 @@ def get_encounter_score(df: pd.DataFrame, p: str, op: str, winpoint: float=1.0,
                 score[0] += 1.0 * winpointarm  # black wins
                 score[1] += 1.0 * losspointarm
     return score
+
+
+def save(df: pd.DataFrame, fn: str, tablecolor: str='blue_light') -> None:
+    """Save the dataframe.
+
+    The output can be a csv, txt and html.
+    Args:
+      df: A pandas dataframe.
+      fn: The output filename.
+      tablecolor: The table color for html output.
+    """
+    ext = Path(fn).suffix
+    if ext == '.html':
+        html_table = build_table(df, tablecolor,
+            font_size='medium',
+            text_align='center',
+            font_family='Calibri, Verdana, Tahoma, Georgia, serif, arial')
+        with open(fn, 'w') as f:
+            f.write(html_table)
+    elif ext == '.csv':
+        df.to_csv(fn, index=False)
+    else:
+        df.to_string(fn, index=False)
