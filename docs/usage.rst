@@ -8,14 +8,14 @@ Command line
 
 **1. Add ECO**::
 
-   pgnhelper addeco --inpgnfn airthings.pgn --outpgnfn out_airthings.pgn --inecopgnfn eco.pgn
+   pgnhelper addeco --inpgnfn candidates_zurich_1953.pgn --outpgnfn eco_candidates_zurich_1953.pgn --inecopgnfn eco.pgn
 
 .. note::
    You can get the `eco.pgn <https://github.com/fsmosca/pgnhelper/tree/main/eco>`_ from the pgnhelper github repository.
 
 **2. Sort**::
 
-   pgnhelper sort --inpgnfn airthings.pgn --outpgnfn sorted_airthings.pgn --sort-tag eco --sort-direction hightolow
+   pgnhelper sort --inpgnfn sinqcup21.pgn --outpgnfn sorted_sinqcup21.pgn --sort-tag eco --sort-direction hightolow
 
 **3. Generates a round-robin result table**::
 
