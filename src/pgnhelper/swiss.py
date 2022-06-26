@@ -75,7 +75,7 @@ class Swiss:
       losspointarm: The point for the loser in armageddon game.
       round: The number of rounds.
     """
-    def __init__(self, infn: str, round: int=20):
+    def __init__(self, infn: str, round: int = 20):
         self.infn = infn
         self.record = pd.DataFrame()
         self.rank = pd.DataFrame()
@@ -110,12 +110,14 @@ class Swiss:
             else:
                 data_p.append([p, len(df_w) + len(df_b), final_score])
         if self.israting:
-            self.rank = pd.DataFrame(data_p,
-                    columns=['Name', 'Rating', 'Games', 'Score'])
+            self.rank = pd.DataFrame(
+                data_p,
+                columns=['Name', 'Rating', 'Games', 'Score'])
         else:
             self.rank = pd.DataFrame(data_p, columns=['Name', 'Games', 'Score'])
-        self.rank = self.rank.sort_values(by=['Score', 'Name'],
-                ascending=[False, True])
+        self.rank = self.rank.sort_values(
+            by=['Score', 'Name'],
+            ascending=[False, True])
         self.rank = self.rank.reset_index(drop=True)
         return self.rank
 
@@ -130,8 +132,8 @@ class Swiss:
             return '='
         return '*'
 
-
-    def get_opp_info(self, opp_data: List, df_final: pd.DataFrame, dfr: pd.DataFrame, p: str) -> Tuple[List, bool]:
+    def get_opp_info(self, opp_data: List, df_final: pd.DataFrame,
+                     dfr: pd.DataFrame, p: str) -> Tuple[List, bool]:
         """Creates result data to build swiss table.
         """
         is_value = False
@@ -155,7 +157,6 @@ class Swiss:
                 opp_data.append(f'{opprank}{"B"}{self.convert_score(myscore)}')
                 is_value = True
         return opp_data, is_value
-
 
     def table(self) -> pd.DataFrame:
         """Generates a swiss result table.

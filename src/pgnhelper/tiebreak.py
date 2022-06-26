@@ -27,7 +27,8 @@ def played_each_other(result_df, tie_df) -> bool:
     return True
 
 
-def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame, label='Wins', bwins: bool=False) -> pd.DataFrame:
+def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
+             label: str = 'Wins', bwins: bool = False) -> pd.DataFrame:
     """Creates a dataframe with Win column.
     
     If a game has an armageddon tie-break, we will only count the number of wins
@@ -68,8 +69,9 @@ def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame, label='Wins', bw
 
 
 def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
-        winpoint=1.0, drawpoint=0.5, winpointarm=1.5, losspointarm=1.0,
-        label='DE') -> pd.DataFrame:
+                     winpoint: float = 1.0, drawpoint: float = 0.5,
+                     winpointarm: float = 1.5, losspointarm: float = 1.0,
+                     label: str = 'DE') -> pd.DataFrame:
     """Creates a dataframe with DE column or direct encounter.
 
     Requirement:
@@ -88,7 +90,9 @@ def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
                     for op in g.Name:
                         if p == op:
                             continue
-                        score = pgnhelper.utility.get_encounter_score(result_df, p, op, winpoint, drawpoint, winpointarm, losspointarm)
+                        score = pgnhelper.utility.get_encounter_score(
+                            result_df, p, op, winpoint, drawpoint,
+                            winpointarm, losspointarm)
                         s += score[0]
                         tb.update({p: {op: s}})
 
@@ -109,7 +113,9 @@ def direct_encounter(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
 
 
 def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
-        gpe: int=1, winpoint=1.0, drawpoint=0.5, label='SB') -> pd.DataFrame:
+                     gpe: int = 1, winpoint: float = 1.0,
+                     drawpoint: float = 0.5,
+                     label: str = 'SB') -> pd.DataFrame:
     """Creates a dataframe with SB column for Sonneborn-Berger score.
 
     Armageddon games currently are excluded in the calculation.
@@ -137,13 +143,22 @@ def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
                     match_score = 0
 
                     # 2. Get the score when player wins or draws.
-                    df_ww = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1-0') & (result_df.Arm == 0)]
-                    df_wd = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
-                    df_bw = result_df.loc[(result_df.Black == p) & (result_df.White == m) & (result_df.Result == '0-1') & (result_df.Arm == 0)]
-                    df_bd = result_df.loc[(result_df.Black == p) & (result_df.White == m) & (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
+                    df_ww = result_df.loc[
+                        (result_df.White == p) & (result_df.Black == m) &
+                        (result_df.Result == '1-0') & (result_df.Arm == 0)]
+                    df_wd = result_df.loc[
+                        (result_df.White == p) & (result_df.Black == m) &
+                        (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
+                    df_bw = result_df.loc[
+                        (result_df.Black == p) & (result_df.White == m) &
+                        (result_df.Result == '0-1') & (result_df.Arm == 0)]
+                    df_bd = result_df.loc[
+                        (result_df.Black == p) & (result_df.White == m) &
+                        (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
 
                     # 3. Calculate the scores.
-                    match_score += winpoint * len(df_ww) + winpoint * len(df_bw) + len(df_wd) * drawpoint + len(df_bd) * drawpoint
+                    match_score += (winpoint * len(df_ww) + winpoint * len(df_bw) +
+                                    len(df_wd) * drawpoint + len(df_bd) * drawpoint)
 
                     if match_score > drawpoint * gpe:
                         tb_score += ret.loc[ret.Name == m].Score.iloc[0]
@@ -164,7 +179,8 @@ def sonneborn_berger(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
 
 
 def koya_system(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
-                winpoint=1.0, drawpoint=0.5) -> pd.DataFrame:
+                winpoint: float = 1.0,
+                drawpoint: float = 0.5) -> pd.DataFrame:
     """Creates a dataframe with Koya column for Koya system score.
 
     Koya system - the number of points achieved against all opponents
@@ -200,13 +216,22 @@ def koya_system(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
                         continue
             
                     # 2. Get the score when player wins or draws, excluding armageddon games.
-                    df_ww = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1-0') & (result_df.Arm == 0)]
-                    df_wd = result_df.loc[(result_df.White == p) & (result_df.Black == m) & (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
-                    df_bw = result_df.loc[(result_df.Black == p) & (result_df.White == m) & (result_df.Result == '0-1') & (result_df.Arm == 0)]
-                    df_bd = result_df.loc[(result_df.Black == p) & (result_df.White == m) & (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
+                    df_ww = result_df.loc[
+                        (result_df.White == p) & (result_df.Black == m) &
+                        (result_df.Result == '1-0') & (result_df.Arm == 0)]
+                    df_wd = result_df.loc[
+                        (result_df.White == p) & (result_df.Black == m) &
+                        (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
+                    df_bw = result_df.loc[
+                        (result_df.Black == p) & (result_df.White == m) &
+                        (result_df.Result == '0-1') & (result_df.Arm == 0)]
+                    df_bd = result_df.loc[
+                        (result_df.Black == p) & (result_df.White == m) &
+                        (result_df.Result == '1/2-1/2') & (result_df.Arm == 0)]
 
                     # 3. Get the total score.
-                    tb_score += winpoint * len(df_ww) + winpoint * len(df_bw) + len(df_wd) * drawpoint + len(df_bd) * drawpoint
+                    tb_score += (winpoint * len(df_ww) + winpoint * len(df_bw) +
+                                 len(df_wd) * drawpoint + len(df_bd) * drawpoint)
 
                 tb.update({p: tb_score})
 
@@ -221,7 +246,8 @@ def koya_system(result_df: pd.DataFrame, ranking_df: pd.DataFrame,
     return ret
 
 
-def tb_buchholz(record_df, rank_df, cut: int=0, label='TB1') -> pd.DataFrame():
+def tb_buchholz(record_df: pd.DataFrame, rank_df: pd.DataFrame,
+                cut: int = 0, label: str = 'TB1') -> pd.DataFrame:
     """Calculates buchholz score or sum of opponents score.
 
     This tie-break system is only applied for a tournament with swiss format.

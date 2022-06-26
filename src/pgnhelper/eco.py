@@ -15,7 +15,7 @@ Example::
   >>> pgnhelper.eco.add_eco("./pgn/candidates_zurich_1953.pgn", "eco_cz.pgn", "./eco/eco.pgn")
 
 Example output from ``eco_cz.pgn``::
-  
+
   [Event "ct"]
   [Site "Zurich"]
   [Date "1953.??.??"]
@@ -29,12 +29,12 @@ Example output from ``eco_cz.pgn``::
   [OpeningT "Catalan"]
   [Variation "Anglo-Indian"]
   [VariationT "open, 5.Qa4"]
-  
+
   1. c4 Nf6 2. g3 e6 3. Bg2 d5 4. d4 dxc4 5. Qa4+ Nbd7 ...
 
-Note there are ``ECOT, OpeningT, and VariationT,`` these are new tags where T refers
-to ``Transposition.`` The ECO ``A15`` is the ECO based on the first 2 moves and
-ECOT ``E02`` is the ECO after 12 moves.
+Note there are ``ECOT, OpeningT, and VariationT,`` these are new tags where
+T refers to ``Transposition.`` The ECO ``A15`` is the ECO based on the first
+2 moves and ECOT ``E02`` is the ECO after 12 moves.
 """
 
 
@@ -75,7 +75,7 @@ def create_eco_db(inecopgnfn: str):
     return eco_db
 
 
-def add_eco(inpgnfn: str, outpgnfn: str, inecopgnfn: str, ply: int=4, maxply: int=24):
+def add_eco(inpgnfn: str, outpgnfn: str, inecopgnfn: str, ply: int = 4, maxply: int = 24):
     """Add eco, opening and variation names to the pgn file.
 
     Args:
@@ -131,8 +131,8 @@ def add_eco(inpgnfn: str, outpgnfn: str, inecopgnfn: str, ply: int=4, maxply: in
                         mygame.headers['VariationT'] = variation_t
                 w.write(f'{mygame}\n\n')
 
-            
-def get_opening_stats(fn: str, is_arm: bool=False):
+
+def get_opening_stats(fn: str, is_arm: bool = False):
     """Generates a dataframe of opening stats.
 
     Opening, counts

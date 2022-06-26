@@ -39,10 +39,10 @@ class RoundRobin:
       winpointarm: The point for the winner in armageddon game.
       losspointarm: The point for the loser in armageddon game.
     """
-    def __init__(self, infn: str, infnarm: Optional[str]=None,
-            winpoint: float=1.0, drawpoint: float=0.5,
-            winpointarm: float=1.0, losspointarm: float=0.0,
-            showmaxscore: bool=False):
+    def __init__(self, infn: str, infnarm: Optional[str] = None,
+                 winpoint: float = 1.0, drawpoint: float = 0.5,
+                 winpointarm: float = 1.0, losspointarm: float = 0.0,
+                 showmaxscore: bool = False):
         self.infn = infn
         self.infnarm = infnarm
         self.winpoint = winpoint
@@ -65,13 +65,16 @@ class RoundRobin:
             for m in self.players:
                 if p == m:
                     continue
-                dfw = self.record.loc[(self.record.White == p) & (self.record.Black == m)
-                        & (self.record.Arm == 0)]
-                dfb = self.record.loc[(self.record.Black == p) & (self.record.White == m)
-                        & (self.record.Arm == 0)]
+                dfw = self.record.loc[
+                    (self.record.White == p) &
+                    (self.record.Black == m) &
+                    (self.record.Arm == 0)]
+                dfb = self.record.loc[
+                    (self.record.Black == p) &
+                    (self.record.White == m) &
+                    (self.record.Arm == 0)]
                 return len(dfw) + len(dfb)
         return 0
-
 
     def player_ranking(self) -> pd.DataFrame:
         """Generates a dataframe of player ranking.
@@ -96,12 +99,14 @@ class RoundRobin:
                 df_b = self.record[(self.record.Black == p) & (self.record.Arm == 0)]
 
                 # Get the score for normal games without draws.
-                df_w_normal = self.record.loc[(self.record.White == p)
-                                & (self.record.Arm == 0)
-                                & (self.record.Result != '1/2-1/2')]
-                df_b_normal = self.record.loc[(self.record.Black == p)
-                                & (self.record.Arm == 0)
-                                & (self.record.Result != '1/2-1/2')]
+                df_w_normal = self.record.loc[
+                    (self.record.White == p) &
+                    (self.record.Arm == 0) &
+                    (self.record.Result != '1/2-1/2')]
+                df_b_normal = self.record.loc[
+                    (self.record.Black == p) &
+                    (self.record.Arm == 0) &
+                    (self.record.Result != '1/2-1/2')]
                 score_w_n = len(df_w_normal.loc[df_w_normal.Result == '1-0']) * self.winpoint
                 score_b_n = len(df_b_normal.loc[df_b_normal.Result == '0-1']) * self.winpoint
 
@@ -128,15 +133,15 @@ class RoundRobin:
             else:
                 data_p.append([p, len(df_w) + len(df_b), final_score])
         if self.israting:
-            self.rank = pd.DataFrame(data_p,
-                    columns=['Name', 'Rating', 'Games', 'Score'])
+            self.rank = pd.DataFrame(
+                data_p,
+                columns=['Name', 'Rating', 'Games', 'Score'])
         else:
             self.rank = pd.DataFrame(data_p, columns=['Name', 'Games', 'Score'])
         self.rank = self.rank.sort_values(by=['Score', 'Name'],
-                ascending=[False, True])
+                                          ascending=[False, True])
         self.rank = self.rank.reset_index(drop=True)
         return self.rank
-
 
     def table(self) -> pd.DataFrame:
         """Generates a round-robin result table.
@@ -161,29 +166,33 @@ class RoundRobin:
         gpe = self.games_per_encounter()
 
         # 1.1 Apply Direct Encounter tie-break
-        df_de = pgnhelper.tiebreak.direct_encounter(self.record, self.rank, self.winpoint,
-                self.drawpoint, self.winpointarm, self.losspointarm)
+        df_de = pgnhelper.tiebreak.direct_encounter(
+            self.record, self.rank, self.winpoint, self.drawpoint,
+            self.winpointarm, self.losspointarm)
         df_de = df_de.sort_values(by=['Score', 'DE', 'Name'],
-                ascending=[False, False, True])
+                                  ascending=[False, False, True])
         df_de = df_de.reset_index(drop=True)
 
         # 1.2 Apply Number of Wins tie-break
         df_wins = pgnhelper.tiebreak.num_wins(self.record, df_de)
         df_wins = df_wins.sort_values(by=['Score', 'DE', 'Wins', 'Name'],
-                ascending=[False, False, False, True])
+                                      ascending=[False, False, False, True])
         df_wins = df_wins.reset_index(drop=True)  
 
         # 1.3 Apply Sonneborn-Berger tie-break
-        df_sb = pgnhelper.tiebreak.sonneborn_berger(self.record, df_wins, gpe=gpe,
-                winpoint=1.0, drawpoint=0.5)
-        df_sb = df_sb.sort_values(by=['Score', 'DE', 'Wins', 'SB', 'Name'],
-                ascending=[False, False, False, False, True])
+        df_sb = pgnhelper.tiebreak.sonneborn_berger(
+            self.record, df_wins, gpe=gpe, winpoint=1.0, drawpoint=0.5)
+        df_sb = df_sb.sort_values(
+            by=['Score', 'DE', 'Wins', 'SB', 'Name'],
+            ascending=[False, False, False, False, True])
         df_sb = df_sb.reset_index(drop=True)
 
         # 1.4 Apply the Koya system.
-        df_koya = pgnhelper.tiebreak.koya_system(self.record, df_sb, winpoint=1.0, drawpoint=0.5)
-        df_koya = df_koya.sort_values(by=['Score', 'DE', 'Wins', 'SB', 'Koya', 'Name'],
-                ascending=[False, False, False, False, False, True])
+        df_koya = pgnhelper.tiebreak.koya_system(
+            self.record, df_sb, winpoint=1.0, drawpoint=0.5)
+        df_koya = df_koya.sort_values(
+            by=['Score', 'DE', 'Wins', 'SB', 'Koya', 'Name'],
+            ascending=[False, False, False, False, False, True])
         df_koya = df_koya.reset_index(drop=True)
         df_final = df_koya.copy()
 
@@ -204,8 +213,9 @@ class RoundRobin:
                 if p == op:
                     v = 'x'
                 else:
-                    score = pgnhelper.utility.get_encounter_score(self.record, p, op,
-                            self.winpoint, self.drawpoint, self.winpointarm, self.losspointarm)
+                    score = pgnhelper.utility.get_encounter_score(
+                        self.record, p, op, self.winpoint, self.drawpoint,
+                        self.winpointarm, self.losspointarm)
                     v = score[1]  # use the score of op only
                 data_v.append(v)
             data_rr.update({cnt: data_v})

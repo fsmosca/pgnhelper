@@ -23,10 +23,10 @@ def expected_score(rating_a: int, rating_b: int) -> float:
       0.6400649998028851
     """
     rd = rating_b - rating_a
-    return 1 / (1+10**(rd/400))
+    return 1 / (1 + 10 ** (rd / 400))
 
 
-def add_rating_change(df: pd.DataFrame, is_rating: bool, k: int=10) -> pd.DataFrame:
+def add_rating_change(df: pd.DataFrame, is_rating: bool, k: int = 10) -> pd.DataFrame:
     """Adds rating change columns to existing df.
 
     Args:
@@ -66,7 +66,7 @@ def get_rating(df: pd.DataFrame, p: str) -> Union[int, str]:
     return '?'
 
 
-def get_rating_change(df: pd.DataFrame, p: str, k: int=10) -> float:
+def get_rating_change(df: pd.DataFrame, p: str, k: int = 10) -> float:
     """Gets the rating change of player p.
 
     The given df has a rating change column for each side. This rating
