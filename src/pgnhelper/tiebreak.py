@@ -27,11 +27,20 @@ def played_each_other(result_df, tie_df) -> bool:
     return True
 
 
-def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame, label='Wins') -> pd.DataFrame:
+def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame, label='Wins', bwins: bool=False) -> pd.DataFrame:
     """Creates a dataframe with Win column.
     
     If a game has an armageddon tie-break, we will only count the number of wins
     based from the normal game only.
+
+    Args:
+      result_df: The result dataframe.
+      ranking_df: Ranking of players based on score.
+      label: The label or header of the resulting dataframe.
+      bwins: If true then only count wins by black. If not count all wins.
+
+    Returns:
+      A dataframe of ranking with Wins column for tie-break.
     """
     ret = ranking_df.copy()
     players = list(ret.Name)
@@ -39,7 +48,10 @@ def num_wins(result_df: pd.DataFrame, ranking_df: pd.DataFrame, label='Wins') ->
     for _, g in ret.groupby(['Score']):
         if len(g) > 1:
             for p in g.Name:
-                df_w = result_df.loc[(result_df.White == p) & (result_df.Result == '1-0') & (result_df.Arm == 0)]
+                if not bwins:
+                    df_w = result_df.loc[(result_df.White == p) & (result_df.Result == '1-0') & (result_df.Arm == 0)]
+                else:
+                    df_w = pd.DataFrame()
                 df_b = result_df.loc[(result_df.Black == p) & (result_df.Result == '0-1') & (result_df.Arm == 0)]
                 num_wins = len(df_w) + len(df_b)
                 tb.update({p: num_wins})

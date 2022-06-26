@@ -211,7 +211,16 @@ class Swiss:
         tb_label.append('TB5')
         df_tb5 = df_tb5.reset_index(drop=True)
 
-        df_final = df_tb5.copy()
+        # 1.5 Apply most number of wins with black.
+        df_tb6 = pgnhelper.tiebreak.num_wins(self.record, df_tb5, label='TB6', bwins=True)
+        df_tb6 = df_tb6.sort_values(
+            by=['Score', 'TB1', 'TB2', 'TB3', 'TB4', 'TB5', 'TB6'],
+            ascending=[False, False, False, False, False, False, False]
+        )
+        tb_label.append('TB6')
+        df_tb6 = df_tb6.reset_index(drop=True)
+
+        df_final = df_tb6.copy()
 
         # 2. Build a swiss table dataframe.
         if self.israting:
@@ -253,6 +262,7 @@ class Swiss:
         df_swiss[tb_label[2]] = df_tb3[tb_label[2]].round(2)
         df_swiss[tb_label[3]] = df_tb4[tb_label[3]].round(2)
         df_swiss[tb_label[4]] = df_tb5[tb_label[4]].round(2)
+        df_swiss[tb_label[5]] = df_tb6[tb_label[5]].round(2)
 
         # 4. Insert rank column at first column.
         df_swiss.insert(loc=0, column='Rank', value=range(1, len(df_swiss) + 1))
