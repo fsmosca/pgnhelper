@@ -65,6 +65,10 @@ def main():
     opening_stats = subparser.add_parser('opening-stats', parents=[input_pgn_parser, output_parser],
         help='Generates and save opening name table, can be saved in txt, csv or html file.')
 
+    swiss = subparser.add_parser('swiss', parents=[input_pgn_parser, output_parser],
+        help='Generates swiss result table from the input pgn file. '
+        'The output can be html, csv and txt.')
+
     # Sort
     sort.add_argument('--sort-tag', type=str, required=False, default='eco',
         help='Sort the games by tag. [default=eco, value=(eco | ecot | event | date | round | white | black | site | plycount)].'
@@ -79,6 +83,10 @@ def main():
     # Add ECO
     addeco.add_argument('--inecopgnfn', type=str, required=True,
         help='Write the reference eco.pgn filename, required.')
+
+    # Swiss
+    swiss.add_argument('--round', type=int, required=False, default=20,
+        help='Number of rounds, default=20.')
 
     parser.add_argument('-v', '--version', action='version', version=f'{pgnhelper.__version__}')
 
@@ -142,6 +150,15 @@ def main():
             args.command,
             inpgnfn=args.inpgnfn,
             output=args.output
+        )
+    elif args.command == 'swiss':
+        if args.inpgnfn == args.output:
+            raise ValueError('Input and output filenames should not be the same!')
+        g = pgnhelper.app.PgnHelper(
+            args.command,
+            inpgnfn=args.inpgnfn,
+            output=args.output,
+            round=args.round
         )
     
     if g is not None:

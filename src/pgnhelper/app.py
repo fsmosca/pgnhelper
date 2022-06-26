@@ -9,6 +9,7 @@ import pgnhelper.sort
 import pgnhelper.roundrobin
 import pgnhelper.eco
 import pgnhelper.utility
+import pgnhelper.swiss
 
 
 class PgnHelper:
@@ -30,7 +31,7 @@ class PgnHelper:
             drawpoint: float=0.5, tablecolor: str='blue_light',
             encoding: str='utf-8', armageddonfile: Optional[str]=None,
             winpointarm: float=1.0, losspointarm: float=0.0,
-            showmaxscore: bool=False):
+            showmaxscore: bool=False, round: int=20):
         self.job = job
         self.inpgnfn = inpgnfn
         self.inecopgnfn = inecopgnfn
@@ -46,6 +47,7 @@ class PgnHelper:
         self.winpointarm = winpointarm
         self.losspointarm = losspointarm
         self.showmaxscore = showmaxscore
+        self.round = round
 
     def start(self):
         """Run the type of job to be done.
@@ -73,4 +75,8 @@ class PgnHelper:
             pgnhelper.utility.save(df, self.output, self.tablecolor)
         elif self.job == 'opening-stats':
             df = pgnhelper.eco.get_opening_stats(self.inpgnfn)
+            pgnhelper.utility.save(df, self.output)
+        elif self.job == 'swiss':
+            a = pgnhelper.swiss.Swiss(self.inpgnfn, self.round)
+            df = a.table()
             pgnhelper.utility.save(df, self.output)
