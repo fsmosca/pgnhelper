@@ -161,7 +161,42 @@ Game result::
    rating_change = k * (white_point - expected_score)
    print(rating_change)  # -5.573116337622928
 
-5. Generate opening stats
+
+5. Generate swiss table
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Code::
+
+   import pgnhelper.swiss
+   a = pgnhelper.swiss.Swiss("./pgn/fide_grand_swiss_2021_riga.pgn", round=11)
+   df = a.table()
+   print(df.to_string(index=False))
+
+Output::
+
+   Rank                          Name  Rating   RChg    R1    R2    R3    R4    R5    R6    R7    R8    R9   R10   R11  Games  Score  Score%  TB1  TB2   TB3  TB4
+      1             Firouzja, Alireza    2770  11.31  93W1  35B1   7W1   4B=   6W=   8B=  33W1  31W1   2B0   9W1   3B=     11    8.0   72.73  0.0  0.0  0.00  0.0
+      2              Caruana, Fabiano    2800   1.06  55W1  18B=  36W=  35B=   9W1  33B=  13W=  23B1   1W1   6B=   7W=     11    7.5   68.18 67.0 72.5 49.75  0.0
+      3              Oparin, Grigoriy    2654  21.62  62W=  78B1  17W=  70B=  26W=   5B=  73W1  19B1   7W=  25B1   1W=     11    7.5   68.18 63.5 68.5 45.75  0.0
+      4                    Yu, Yangyi    2704   9.20   5W=  63B1  61W1   1W=  49B=  13B=  15W=  28B=  33W1   8B=   6W=     11    7.0   63.64 66.5 72.0 44.50  0.0
+      5               Keymer, Vincent    2630  22.06   4B=  27W1  24B=  10W=  59B=   3W=  23B0  82W1  53B1  29W1   9B=     11    7.0   63.64 65.5 70.0 43.25  0.0
+      6       Vachier-Lagrave, Maxime    2763   2.12  52B=  51W1  71B=  60W1   1B=  32W1  31B=   8W=  11B=   2W=   4B=     11    7.0   63.64 65.0 70.0 43.50  0.0
+      7              Predke, Alexandr    2666  14.22  46B1  54W1   1B0  47W=  42B1  31W0  57B1  49W1   3B=  11W=   2B=     11    7.0   63.64 64.5 70.0 42.25  0.0
+      8                Shirov, Alexei    2659  16.99  43B=  87W1  50B=  92W1  36B1   1W=  14B=   6B=  25W=   4W=  10B=     11    7.0   63.64 64.5 68.5 41.50  0.0
+      9             Howell, David W L    2658  15.43  82B1  92W=  72B=  50W=   2B0  54W1  47B1  14W1  12W1   1B0   5W=     11    7.0   63.64 62.5 66.5 40.25  0.0
+     10           Sargissian, Gabriel    2664  10.56  72W=  83B=  94W1   5B=  70W1  15B=  18W=  34B=  28W1  13B=   8W=     11    7.0   63.64 61.5 65.5 40.50  0.0
+
+     ...
+
+Tie-breaks::
+   
+   TB1 = Buchholz cut 1
+   TB2 = Buchholz
+   TB3 = Sonneborn-Berger
+   TB4 = Direct Encounter
+
+
+6. Generate opening stats
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
