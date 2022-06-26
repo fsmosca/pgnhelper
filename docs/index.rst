@@ -7,8 +7,8 @@ Documentation of PgnHelper
 ==========================
 
 PgnHelper is an application that can ``sort games;`` ``add ECO codes, opening and variation
-names;`` and generate a ``round-robin result table`` with rating change and tie-break
-scores.
+names;`` generates a ``round-robin result table`` and ``swiss table`` with rating change
+and tie-break scores; and ``opening stats.``
 
 First install the pgnhelper package see the :ref:`Installation Overview` guide.
 
