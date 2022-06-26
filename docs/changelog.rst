@@ -134,7 +134,7 @@ Output ::
 
 
 
-**2. Generate opening stats**
+**2. Generates opening stats**
 
 Command line::
 
