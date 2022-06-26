@@ -42,8 +42,7 @@ All tie-breaks are calculated as described in C.02.13 of the FIDE Handbook.
 """
 
 
-from pathlib import Path
-from typing import Optional
+from typing import List, Tuple
 
 import pandas as pd
 from pretty_html_table import build_table
@@ -71,14 +70,16 @@ class Swiss:
       drawpoint: The point when player draws.
       winpointarm: The point for the winner in armageddon game.
       losspointarm: The point for the loser in armageddon game.
+      round: The number of rounds.
     """
-    def __init__(self, infn: str):
+    def __init__(self, infn: str, round: int=20):
         self.infn = infn
         self.record = pd.DataFrame()
         self.rank = pd.DataFrame()
         self.winpoint = 1.0
         self.drawpoint = 0.5
         self.israting = False
+        self.round = round
 
     def player_ranking(self) -> pd.DataFrame:
         """Generates a dataframe of player ranking.
@@ -114,6 +115,43 @@ class Swiss:
                 ascending=[False, True])
         self.rank = self.rank.reset_index(drop=True)
         return self.rank
+
+    def convert_score(self, score: float):
+        """Convert 1.0 to 1, 0.0 to 0 and 0.5 to =
+        """
+        if score == 1.0:
+            return '1'
+        if score == 0.0:
+            return '0'
+        if score == 0.5:
+            return '='
+        return '*'
+
+
+    def get_opp_info(self, opp_data: List, df_final: pd.DataFrame, dfr: pd.DataFrame, p: str) -> Tuple[List, bool]:
+        """Creates result data to build swiss table.
+        """
+        is_value = False
+        dfp = dfr.loc[dfr.White == p]
+        if len(dfp) > 0:
+            # We are white, find the opponent rank, and our score.
+            opp_name = dfp.Black.iloc[0]
+            myscore = dfp.Wpt.iloc[0]
+            dfopp = df_final.loc[df_final.Name == opp_name]
+            opprank = int(dfopp.index[0]) + 1
+            opp_data.append(f'{opprank}{"W"}{self.convert_score(myscore)}')
+            is_value = True
+        else:
+            dfp = dfr.loc[dfr.Black == p]
+            if len(dfp) > 0:
+                # We are black, find the opponent rank, and our score.
+                opp_name = dfp.White.iloc[0]
+                myscore = dfp.Bpt.iloc[0]
+                dfopp = df_final.loc[df_final.Name == opp_name]
+                opprank = int(dfopp.index[0]) + 1
+                opp_data.append(f'{opprank}{"B"}{self.convert_score(myscore)}')
+                is_value = True
+        return opp_data, is_value
 
 
     def table(self) -> pd.DataFrame:
@@ -163,7 +201,7 @@ class Swiss:
 
         df_final = df_tb4.copy()
 
-        # 2. Build a swiss standing dataframe.
+        # 2. Build a swiss table dataframe.
         if self.israting:
             # Add rating change.
             rc = []
@@ -173,18 +211,36 @@ class Swiss:
             data_swiss = {'Name': df_final.Name, 'Rating': df_final.Rating, 'RChg': rc}
         else:
             data_swiss = {'Name': df_final.Name.unique()}
-        data_swiss = pd.DataFrame(data_swiss)
+
+        # Build a list of opp info per round and add it incrementally to the data_swiss dict.
+        # round = 11 for grand swiss 2021
+        for r in range(1, self.round + 1):     
+            opp_data = []
+            for p in df_final.Name.unique():    
+                for s in range(1, len(self.players) + 1):                
+                    # grand swiss 2021 round values: 1.1, 1.2, 1.3, ...
+                    rs = f'{r}.{s}'
+                    dfr = self.record.loc[self.record.Round == rs]
+                    if len(dfr) < 1:
+                        continue
+                    opp_data, is_value = self.get_opp_info(opp_data, df_final, dfr, p)
+                    if is_value:
+                        break
+            if len(opp_data):
+                data_swiss.update({f'R{r}': opp_data})
+
+        df_swiss = pd.DataFrame(data_swiss)
 
         # 3. Add other columns at the end.
-        data_swiss['Games'] = df_final['Games']
-        data_swiss['Score'] = df_final['Score']
-        data_swiss['Score%'] = 100 * df_final['Score'] / df_final['Games']
-        data_swiss['Score%'] = data_swiss['Score%'].round(2)
-        data_swiss[tb_label[0]] = df_tb1[tb_label[0]].round(2)
-        data_swiss[tb_label[1]] = df_tb2[tb_label[1]].round(2)
-        data_swiss[tb_label[2]] = df_tb3[tb_label[2]].round(2)
-        data_swiss[tb_label[3]] = df_tb4[tb_label[3]].round(2)
+        df_swiss['Games'] = df_final['Games']
+        df_swiss['Score'] = df_final['Score']
+        df_swiss['Score%'] = 100 * df_final['Score'] / df_final['Games']
+        df_swiss['Score%'] = df_swiss['Score%'].round(2)
+        df_swiss[tb_label[0]] = df_tb1[tb_label[0]].round(2)
+        df_swiss[tb_label[1]] = df_tb2[tb_label[1]].round(2)
+        df_swiss[tb_label[2]] = df_tb3[tb_label[2]].round(2)
+        df_swiss[tb_label[3]] = df_tb4[tb_label[3]].round(2)
 
         # 4. Insert rank column at first column.
-        data_swiss.insert(loc=0, column='Rank', value=range(1, len(data_swiss) + 1))
-        return data_swiss
+        df_swiss.insert(loc=0, column='Rank', value=range(1, len(df_swiss) + 1))
+        return df_swiss
