@@ -3,27 +3,29 @@
 It reads the input pgn file and generates a dataframe of swiss table.
 It also add columns for tie-break scores for tied players.
 
-Typical tie-break system that can be applied to a round-robin tournament
+Typical tie-break system that can be applied to a swiss tournament
 according to FIDE.
 
 13.16.4. Individual Swiss Tournaments where not all the ratings are consistent:
-   Buchholz Cut 1
-   Buchholz
-   Sonneborn-Berger
-   Cumulative system - Sum of Progressive Scores
-   Direct encounter
-   The greater number of wins including forfeits
-   The greater number of wins with Black pieces
+
+   * Buchholz Cut 1
+   * Buchholz
+   * Sonneborn-Berger
+   * Cumulative system - Sum of Progressive Scores
+   * Direct encounter
+   * The greater number of wins including forfeits
+   * The greater number of wins with Black pieces
 
 13.16.5. Individual Swiss Tournaments where all the ratings are consistent:
-   Buchholz Cut 1
-   Buchholz
-   Direct encounter
-   AROC
-   The greater number of wins including forfeits
-   The greater number of wins with Black pieces
-   The greater number of games with Black (unplayed games shall be counted as played with White)
-   Sonneborn-Berger 
+
+   * Buchholz Cut 1
+   * Buchholz
+   * Direct encounter
+   * AROC
+   * The greater number of wins including forfeits
+   * The greater number of wins with Black pieces
+   * The greater number of games with Black (unplayed games shall be counted as played with White)
+   * Sonneborn-Berger 
 
 https://handbook.fide.com/files/handbook/C02Standards.pdf
 
@@ -32,11 +34,12 @@ FIDE Chess.com Grand Swiss 2021
 
 4. 8. 3. Tie-breaks
 If two (2) or more players score the same points, the tie is to be decided by the following criteria, in order of priority:
-a) Buchholz Cut 1;
-b) Buchholz;
-c) Sonneborn-Berger;
-d) Direct encounter between the players in tie;
-e) Drawing of lots.
+
+   a) Buchholz Cut 1;
+   b) Buchholz;
+   c) Sonneborn-Berger;
+   d) Direct encounter between the players in tie;
+   e) Drawing of lots.
 
 All tie-breaks are calculated as described in C.02.13 of the FIDE Handbook.
 """
@@ -199,7 +202,16 @@ class Swiss:
         tb_label.append('TB4')
         df_tb4 = df_tb4.reset_index(drop=True)
 
-        df_final = df_tb4.copy()
+        # 1.4 Apply most number of wins tie-break
+        df_tb5 = pgnhelper.tiebreak.num_wins(self.record, df_tb4, label='TB5')
+        df_tb5 = df_tb5.sort_values(
+            by=['Score', 'TB1', 'TB2', 'TB3', 'TB4', 'TB5'],
+            ascending=[False, False, False, False, False, False]
+        )
+        tb_label.append('TB5')
+        df_tb5 = df_tb5.reset_index(drop=True)
+
+        df_final = df_tb5.copy()
 
         # 2. Build a swiss table dataframe.
         if self.israting:
@@ -240,6 +252,7 @@ class Swiss:
         df_swiss[tb_label[1]] = df_tb2[tb_label[1]].round(2)
         df_swiss[tb_label[2]] = df_tb3[tb_label[2]].round(2)
         df_swiss[tb_label[3]] = df_tb4[tb_label[3]].round(2)
+        df_swiss[tb_label[4]] = df_tb5[tb_label[4]].round(2)
 
         # 4. Insert rank column at first column.
         df_swiss.insert(loc=0, column='Rank', value=range(1, len(df_swiss) + 1))

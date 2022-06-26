@@ -10,6 +10,43 @@ Command line::
 
    pgnhelper swiss --inpgnfn "./pgn/fide_grand_swiss_2021_riga.pgn" --output grandwiss2021.txt --round 11
 
+**2. Add number of wins swiss tie-break**
+
+Tie breaks::
+
+   TB1 = Buchholz cut 1
+   TB2 = Buchholz
+   TB3 = Sonneborn-Berger
+   TB4 = Direct Encounter
+   TB5 = Most number of wins
+
+Command line::
+
+   pgnhelper swiss --inpgnfn "./pgn/fide_grand_swiss_2021_riga.pgn" --output grand_swiss.txt --round 11
+
+Output::
+
+   Rank                          Name  Rating   RChg    R1    R2    R3    R4    R5    R6    R7    R8    R9   R10   R11  Games  Score  Score%  TB1  TB2   TB3  TB4  TB5
+      1             Firouzja, Alireza    2770  11.31  93W1  35B1   7W1   4B=   6W=   8B=  33W1  31W1   2B0   9W1   3B=     11    8.0   72.73  0.0  0.0  0.00  0.0    0
+      2              Caruana, Fabiano    2800   1.06  55W1  18B=  36W=  35B=   9W1  33B=  13W=  23B1   1W1   6B=   7W=     11    7.5   68.18 67.0 72.5 49.75  0.0    4
+      3              Oparin, Grigoriy    2654  21.62  62W=  78B1  17W=  70B=  26W=   5B=  73W1  19B1   7W=  24B1   1W=     11    7.5   68.18 63.5 68.5 45.75  0.0    4
+      4                    Yu, Yangyi    2704   9.20   5W=  63B1  61W1   1W=  49B=  13B=  15W=  28B=  33W1   8B=   6W=     11    7.0   63.64 66.5 72.0 44.50  0.0    3
+      5               Keymer, Vincent    2630  22.06   4B=  27W1  25B=  10W=  59B=   3W=  23B0  82W1  53B1  29W1   9B=     11    7.0   63.64 65.5 70.0 43.25  0.0    4
+      6       Vachier-Lagrave, Maxime    2763   2.12  52B=  51W1  71B=  60W1   1B=  32W1  31B=   8W=  11B=   2W=   4B=     11    7.0   63.64 65.0 70.0 43.50  0.0    3
+      7              Predke, Alexandr    2666  14.22  46B1  54W1   1B0  47W=  42B1  31W0  57B1  49W1   3B=  11W=   2B=     11    7.0   63.64 64.5 70.0 42.25  0.0    5
+      8                Shirov, Alexei    2659  16.99  43B=  87W1  50B=  92W1  36B1   1W=  14B=   6B=  24W=   4W=  10B=     11    7.0   63.64 64.5 68.5 41.50  0.0    3
+      9             Howell, David W L    2658  15.43  82B1  92W=  72B=  50W=   2B0  54W1  47B1  14W1  12W1   1B0   5W=     11    7.0   63.64 62.5 66.5 40.25  0.0    5
+     10           Sargissian, Gabriel    2664  10.56  72W=  83B=  94W1   5B=  70W1  15B=  18W=  34B=  28W1  13B=   8W=     11    7.0   63.64 61.5 65.5 40.50  0.0    3
+     11         Anton Guijarro, David    2658  13.25  37W=  70B=  62W1  17B0  98W1  91B1  19W=  21B1   6W=   7B=  13W=     11    7.0   63.64 61.0 65.0 39.25  0.0    4
+     12                Korobov, Anton    2690   6.07  48B=  20W1  47B=  42W=  50B1  49W=  17B=  41W1   9B0  34W=  31B1     11    7.0   63.64 60.5 66.0 41.50  0.0    4
+     13                Sevian, Samuel    2654  15.89  80B=  84W1  92B=  72W1  32B=   4W=   2B=  53W1  30B=  10W=  11B=     11    7.0   63.64 60.5 64.5 39.75  0.0    3
+     14              Esipenko, Andrey    2720   3.08  58B=  42W=  81B=  63W1  71B=  56W1   8W=   9B0  64B1  31W1  15B=     11    7.0   63.64 60.0 64.5 40.00  0.0    4
+     15           Deac, Bogdan-Daniel    2643  15.05  89B= 104W= 106B1  53W=  29B1  10W=   4B=  25W=  18B=  38B1  14W=     11    7.0   63.64 60.0 63.0 39.25  0.0    3
+     16           Artemiev, Vladislav    2699   4.40  76B1  50W=  75B=  31W=  51B=  47W=  48B=  52W=  49B1  17W=  34B1     11    7.0   63.64 56.5 61.5 39.00  0.0    3
+
+     ...
+
+
 Version 0.9.0 [2022-06-25]
 """"""""""""""""""""""""""
 
