@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+Version 0.10.0 [2022-06-26]
+"""""""""""""""""""""""""""
+
+**1. Add command line in swiss table generation**
+
+Command line::
+
+   pgnhelper swiss --inpgnfn "./pgn/fide_grand_swiss_2021_riga.pgn" --output grandwiss2021.txt --round 11
+
 Version 0.9.0 [2022-06-25]
 """"""""""""""""""""""""""
 
