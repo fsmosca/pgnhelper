@@ -42,6 +42,15 @@ If two (2) or more players score the same points, the tie is to be decided by th
    e) Drawing of lots.
 
 All tie-breaks are calculated as described in C.02.13 of the FIDE Handbook.
+
+Tie-break supported by this library:
+
+TB1 = Buchholz Cut 1
+TB2 = Buchholz
+TB3 = Sonneborn-Berger
+TB4 = Direct Encounter
+TB5 = Number of wins
+TB6 = Number of wins as black
 """
 
 
