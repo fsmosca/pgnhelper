@@ -1,5 +1,5 @@
 # PgnHelper
-An application that can sort games in pgn file; add eco codes, opening and variation names; and generate round-robin and standing tables based from the given pgn file. It supports calculation of rating change and tie-break systems (Direct encounter, Number of wins, Sonneborn-Berger and Koya system). See the documentation for more infomrations.
+An application that can sort games in pgn file; add eco codes, opening and variation names; generates round-robin, swiss and standing tables based from the given pgn file. It supports calculation of rating change and tie-break systems (Direct encounter, Number of wins, Sonneborn-Berger and Koya system) for round-robin and Buchholz cut 1, Buchholz, Sonneborn-Berger, and Direct Encounter for swiss. See the documentation for more informations.
 
 ## Documentation
 
