@@ -1,7 +1,20 @@
 """Manages conversion of pgn file into a pandas dataframe.
 
-It will read the games in the pgn file. Each game will be
-converted to a row with round, white, black, result, etc. as headers.
+Read the games in the pgn file. Each game will be converted to a row
+with header::
+
+    Round, White, Black, WElo, BElo, Result, Wpt, Bpt, Arm, Eco, Opening, WRChg, BRChg
+
+Example::
+
+  PS F:\Github\pgnhelper> python
+  >>> import pgnhelper
+  >>> df, players, rating = pgnhelper.record.get_pgn_data("./pgn/wchcand22.pgn")
+  >>> df
+  Round                White                Black  WElo  ...  Eco                        Opening     WRChg     BRChg
+    1.1  Duda, Jan-Krzysztof     Rapport, Richard  2750  ...  B44               Sicilian defence  0.201367 -0.201367
+    1.2          Ding, Liren  Nepomniachtchi, Ian  2806  ...  A20                English opening -5.573116  5.573116
+    1.3     Caruana, Fabiano     Nakamura, Hikaru  2783  ...  C65                      Ruy Lopez  4.669486 -4.669486
 """
 
 
@@ -16,12 +29,12 @@ def get_pgn_data(fn, is_arm: bool = False, k: int = 10) -> Tuple[pd.DataFrame, L
     """Converts games to dataframe.
 
     Args:
-      df: A dataframe of game records.
+      fn: The pgn filename.
       is_arm: If pgn file has armageddon games.
       k: The rating change k factor.
 
     Returns:
-      [records, players, is_rating]
+      df, players, is_rating
     """
     data = []
     players = []
