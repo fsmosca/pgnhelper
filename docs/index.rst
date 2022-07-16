@@ -44,7 +44,7 @@ Sample output::
    15. Bh6 c6 16. Bxg7 Kxg7 17. Qe3 N8d7 1/2-1/2
 
 The new ECOT, OpeningT and VariationT (T=Transposition) are based from the
-input eco.pgn file. See the :ref:`Usage Overview` section further informations.
+input eco.pgn file. See the :ref:`Usage Overview` section for further informations.
 
 The ``ECO`` tag is based from the first 2 moves of the game while the ``ECOT`` is
 based from the first 12 moves of the game.
