@@ -6,18 +6,24 @@ Usage
 Command line
 ^^^^^^^^^^^^
 
-**1. Add ECO**::
+**1. Add ECO**
+
+::
 
    pgnhelper addeco --inpgnfn candidates_zurich_1953.pgn --outpgnfn eco_candidates_zurich_1953.pgn --inecopgnfn eco.pgn
 
 .. note::
    You can get the `eco.pgn <https://github.com/fsmosca/pgnhelper/tree/main/eco>`_ from the pgnhelper github repository.
 
-**2. Sort**::
+**2. Sort**
+
+::
 
    pgnhelper sort --inpgnfn sinqcup21.pgn --outpgnfn sorted_sinqcup21.pgn --sort-tag eco --sort-direction hightolow
 
-**3. Generates a round-robin result table**::
+**3. Generates a round-robin result table**
+
+::
 
    pgnhelper roundrobin --inpgnfn sinqcup21.pgn --output sinqcup21.txt
 
@@ -134,7 +140,9 @@ Output::
 Script
 ^^^^^^
 
-**1. Add ECO**::
+**1. Add ECO**
+
+::
 
     import pgnhelper.app
 
@@ -145,7 +153,9 @@ Script
         inecopgnfn='eco.pgn')
     a.start()
 
-**2. Sort games**::
+**2. Sort games**
+
+::
 
     import pgnhelper.app
 
@@ -157,7 +167,9 @@ Script
         sort_direction='hightolow')
     a.start()
 
-**3. Generate round-robin table**::
+**3. Generate round-robin table**
+
+::
 
     """
     The output can be a pandas dataframe, txt, csv and html.
@@ -181,7 +193,9 @@ Script
     # Save to csv.
     df.to_csv("airthings.csv", index=False)
 
-**4. Generate round-robin table with armageddon games as tie-break as in Norway Chess**::
+**4. Generate round-robin table with armageddon games as tie-break as in Norway Chess**
+
+::
 
     """
     Generate a round-robin table and save results and html.
@@ -198,3 +212,66 @@ Script
         losspointarm=1.0)
     df = rr.table()
     pgnhelper.utility.save(df, "norway_chess.html")
+
+
+**5. Find the frequency of opening names played by players in a tournament**
+
+::
+
+   """Get frequency of players that plays sicilian opening.
+   """
+   
+   
+   import pgnhelper
+   import pandas as pd
+   
+   
+   opening_name = 'Sicilian'
+   pgnfn = 'wchcand22.pgn'
+   
+   df, players, israting = pgnhelper.record.get_pgn_data(pgnfn)
+   
+   openings = df.Opening.unique()
+   # for o in openings:
+      # print(o)
+   
+   data = {}
+   for p in players:
+      data1 = {}
+      for o in openings:
+         dfw = df.loc[(df.Opening == o) & (df.White == p)]
+         dfb = df.loc[(df.Opening == o) & (df.Black == p)]
+         wcnt = len(dfw)
+         bcnt = len(dfb)
+         total = wcnt + bcnt
+         data1.update({o: {'w': wcnt, 'b': bcnt, 'total': total}})
+   
+      data.update({p: {'data': data1}})
+   
+   mydata = []
+   for p in players:
+      mydata.append([opening_name, p,
+                     data[p]['data'][opening_name]['w'],
+                     data[p]['data'][opening_name]['b'],
+                     data[p]['data'][opening_name]['total']])
+   
+   mydf = pd.DataFrame(
+      mydata,
+      columns=['Opening', 'Player', 'Wgames', 'Bgames', 'Total'])
+   
+   mydf = mydf.sort_values(by=['Total', 'Wgames'], ascending=[False, False])
+   mydf = mydf.reset_index(drop=True)
+   print(mydf)
+
+Output::
+
+       Opening               Player  Wgames  Bgames  Total
+   0  Sicilian     Rapport, Richard       0       4      4
+   1  Sicilian     Caruana, Fabiano       3       0      3
+   2  Sicilian     Nakamura, Hikaru       3       0      3
+   3  Sicilian  Nepomniachtchi, Ian       2       0      2
+   4  Sicilian    Radjabov, Teimour       1       1      2
+   5  Sicilian  Duda, Jan-Krzysztof       0       2      2
+   6  Sicilian    Firouzja, Alireza       0       2      2
+   7  Sicilian          Ding, Liren       0       0      0
+      
