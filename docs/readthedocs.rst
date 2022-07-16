@@ -11,3 +11,10 @@ requirements.txt::
     pgnhelper
 
 Location: docs/requirements.txt
+
+**Update docs**
+
+command line::
+
+    (venv) PS F:\Github\pgnhelper> cd docs
+    (venv) PS F:\Github\pgnhelper\docs> make html
