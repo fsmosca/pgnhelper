@@ -86,50 +86,53 @@ def add_eco(inpgnfn: str, outpgnfn: str, inecopgnfn: str, ply: int = 4, maxply: 
       maxply: The max game ply to stop classifying the opening.
     """
     eco_db = create_eco_db(inecopgnfn)
-    with open(outpgnfn, 'w') as w:
-        with open(inpgnfn, 'r') as f:
-            while True:
-                game = chess.pgn.read_game(f)
-                if game is None:
-                    break
-                first_eco, eco_t = None, None
-                first_opening, opening_t = None, None
-                first_variation, variation_t = None, None
-                for node in game.mainline():
-                    board = node.board()
-                    gply = board.ply()
-                    epd = board.epd()
-
-                    # After the first move check the position if it is in eco db.
-                    if gply >= 1:
-                        if epd in eco_db:
-
-                            # Update first eco up to a given ply only.
-                            if gply <= ply:
-                                first_eco = eco_db[epd]['eco']
-                                first_opening = eco_db[epd]['opening']
-                                first_variation = eco_db[epd]['variation']
-
-                            # Else update eco by transposition.
-                            else:
-                                eco_t = eco_db[epd]['eco']
-                                opening_t = eco_db[epd]['opening']
-                                variation_t = eco_db[epd]['variation']
-
-                        if gply >= maxply:
-                            break
+    mygame = None
+    with open(inpgnfn, 'r') as f:
+        while True:
+            game = chess.pgn.read_game(f)
+            if game is None:
+                break
+            if mygame is None:
                 mygame = game
-                if first_eco is not None:
-                    mygame.headers['ECO'] = first_eco
-                    mygame.headers['Opening'] = first_opening
-                    if first_variation is not None:
-                        mygame.headers['Variation'] = first_variation
-                if eco_t is not None:
-                    mygame.headers['ECOT'] = eco_t
-                    mygame.headers['OpeningT'] = opening_t
-                    if variation_t is not None:
-                        mygame.headers['VariationT'] = variation_t
-                w.write(f'{mygame}\n\n')
+            first_eco, eco_t = None, None
+            first_opening, opening_t = None, None
+            first_variation, variation_t = None, None
+            for node in game.mainline():
+                board = node.board()
+                gply = board.ply()
+                epd = board.epd()
+
+                # After the first move check the position if it is in eco db.
+                if gply >= 1:
+                    if epd in eco_db:
+
+                        # Update first eco up to a given ply only.
+                        if gply <= ply:
+                            first_eco = eco_db[epd]['eco']
+                            first_opening = eco_db[epd]['opening']
+                            first_variation = eco_db[epd]['variation']
+
+                        # Else update eco by transposition.
+                        else:
+                            eco_t = eco_db[epd]['eco']
+                            opening_t = eco_db[epd]['opening']
+                            variation_t = eco_db[epd]['variation']
+
+                    if gply >= maxply:
+                        break
+            if first_eco is not None:
+                mygame.headers['ECO'] = first_eco
+                mygame.headers['Opening'] = first_opening
+                if first_variation is not None:
+                    mygame.headers['Variation'] = first_variation
+            if eco_t is not None:
+                mygame.headers['ECOT'] = eco_t
+                mygame.headers['OpeningT'] = opening_t
+                if variation_t is not None:
+                    mygame.headers['VariationT'] = variation_t
+
+    with open(outpgnfn, 'w') as f:
+        f.write(f"{mygame}\n")
 
 
 def get_opening_stats(fn: str, is_arm: bool = False):
