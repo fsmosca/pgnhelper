@@ -120,6 +120,8 @@ def add_eco(inpgnfn: str, outpgnfn: str, inecopgnfn: str, ply: int = 4, maxply: 
 
                     if gply >= maxply:
                         break
+            game.headers = mygame.headers
+            mygame = game
             if first_eco is not None:
                 mygame.headers['ECO'] = first_eco
                 mygame.headers['Opening'] = first_opening
