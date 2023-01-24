@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 0.10.2 [2023-01-24]
+"""""""""""""""""""""""""""
+
+1. Modify round-robin table. Use - if players have not played yet.
+
+
 Version 0.10.1 [2022-06-27]
 """""""""""""""""""""""""""
 
