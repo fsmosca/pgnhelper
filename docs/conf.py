@@ -22,7 +22,7 @@ copyright = '2022, Ferdinand Mosca'
 author = 'Ferdinand Mosca'
 
 # The full version, including alpha/beta/rc tags
-release = '0.10.0'
+release = '0.10.2'
 
 
 # -- General configuration ---------------------------------------------------
