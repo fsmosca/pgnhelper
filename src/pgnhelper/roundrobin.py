@@ -216,7 +216,16 @@ class RoundRobin:
                     score = pgnhelper.utility.get_encounter_score(
                         self.record, p, op, self.winpoint, self.drawpoint,
                         self.winpointarm, self.losspointarm)
-                    v = score[1]  # use the score of op only
+
+                    # Todo: Properly detect if players have already played
+                    # or both received a score of 0 for some reason.
+                    # For now if both have zero score, it is assumed that
+                    # they have not played yet. We use a - symbol on the
+                    # round-robin table.
+                    if score[0] == 0 and score[1] == 0:
+                        v = '-'
+                    else:
+                        v = score[1]  # use the score of op only
                 data_v.append(v)
             data_rr.update({cnt: data_v})
             cnt += 1
