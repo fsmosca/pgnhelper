@@ -46,11 +46,6 @@ def main():
     table_parser.add_argument(
         '--show-max-score', action='store_true',
         help='A flag to show MaxScore column in the table, can be useful when scoring is not standard.')
-    table_parser.add_argument(
-        '--table-color', type=str, required=False, default='blue_light',
-        help='Write table color not required. [default="blue_light" value=("yellow_light", '
-        '"grey_light", "orange_light", "green_light", "red_light", "yellow_dark", '
-        '"grey_dark", "blue_dark", "orange_dark", "green_dark", "red_dark")]')
 
     # Sub parsers
     subparser = parser.add_subparsers(dest='command')
@@ -144,7 +139,6 @@ def main():
             output=args.output,
             winpoint=args.win_point,
             drawpoint=args.draw_point,
-            tablecolor=args.table_color,
             armageddonfile=args.armageddon_file,
             winpointarm=args.win_point_arm,
             losspointarm=args.loss_point_arm,
@@ -159,7 +153,6 @@ def main():
             output=args.output,
             winpoint=args.win_point,
             drawpoint=args.draw_point,
-            tablecolor=args.table_color,
             armageddonfile=args.armageddon_file,
             winpointarm=args.win_point_arm,
             losspointarm=args.loss_point_arm,

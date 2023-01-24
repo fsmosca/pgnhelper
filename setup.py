@@ -31,7 +31,6 @@ setuptools.setup(
     python_requires=">=3.7",
     install_requires=[
           'chess==1.9.1',
-          'pretty-html-table',
           'pandas',
           'pytest'
     ],

@@ -29,7 +29,7 @@ class PgnHelper:
             outpgnfn: Optional[str] = None, inecopgnfn: Optional[str] = None,
             sort_tag: str = 'eco', sort_direction: str = 'lowtohigh',
             output: Optional[str] = None, winpoint: float = 1.0,
-            drawpoint: float = 0.5, tablecolor: str = 'blue_light',
+            drawpoint: float = 0.5,
             encoding: str = 'utf-8', armageddonfile: Optional[str] = None,
             winpointarm: float = 1.0, losspointarm: float = 0.0,
             showmaxscore: bool = False, round: int = 20):
@@ -42,7 +42,6 @@ class PgnHelper:
         self.output = output
         self.winpoint = winpoint
         self.drawpoint = drawpoint
-        self.tablecolor = tablecolor
         self.encoding = encoding
         self.armageddonfile = armageddonfile
         self.winpointarm = winpointarm
@@ -69,14 +68,14 @@ class PgnHelper:
                 self.drawpoint, self.winpointarm, self.losspointarm,
                 self.showmaxscore)
             df = rr.table()
-            pgnhelper.utility.save(df, self.output, self.tablecolor)
+            pgnhelper.utility.save(df, self.output)
         elif self.job == 'standing':
             rr = pgnhelper.roundrobin.RoundRobin(
                 self.inpgnfn, self.armageddonfile, self.winpoint,
                 self.drawpoint, self.winpointarm, self.losspointarm,
                 self.showmaxscore)
             df = rr.standing()
-            pgnhelper.utility.save(df, self.output, self.tablecolor)
+            pgnhelper.utility.save(df, self.output)
         elif self.job == 'opening-stats':
             df = pgnhelper.eco.get_opening_stats(self.inpgnfn)
             pgnhelper.utility.save(df, self.output)

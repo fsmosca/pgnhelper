@@ -5,6 +5,7 @@ Version 0.10.2 [2023-01-24]
 """""""""""""""""""""""""""
 
 1. Modify round-robin table. Use - if players have not played yet.
+2. Drop buggy pretty-html-table package. Use custom dataframe to html table converter.
 
 
 Version 0.10.1 [2022-06-27]

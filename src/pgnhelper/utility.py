@@ -5,7 +5,6 @@
 from typing import List
 import pandas as pd
 from pathlib import Path
-from pretty_html_table import build_table
 
 
 def get_encounter_score(df: pd.DataFrame, p: str, op: str,
@@ -128,25 +127,95 @@ def get_encounter_score(df: pd.DataFrame, p: str, op: str,
     return score
 
 
-def save(df: pd.DataFrame, fn: str, tablecolor: str = 'blue_light') -> None:
+def df_to_html(df: pd.DataFrame, fn: str) -> None:
+    """Converts pandas dataframe to basic html table.
+
+    Read the df and write html in the fn.
+
+    Args:
+      df: Pandas dataframe.
+      fn: the output file, can be csv, txt or html.
+
+    Returns:
+      Nothing
+    """
+    dict_data = [df.to_dict(), df.to_dict('index')]
+
+    htmldf = '<!DOCTYPE html>\n'
+    htmldf += '<html lang="en">\n'
+    htmldf += '  <head>\n'
+    htmldf += '    <meta charset="utf-8">\n'
+    htmldf += '    <meta name="viewport" content="width=device-width, initial-scale=1">\n'
+    htmldf += '    <title>PGN Helper</title>\n'
+
+    # Define style.
+    htmldf += '    <style>\n'
+    htmldf += '        body {margin-top: 25px;}\n'
+
+    htmldf += '        table, th, td {\n'
+    htmldf += '          border: 1px solid black;\n'
+    htmldf += '          border-collapse: collapse;\n'
+    htmldf += '          text-align: center;\n'
+    htmldf += '        }\n\n'
+        
+    htmldf += '        th, td {\n'
+    htmldf += '          padding: 5px;\n'
+    htmldf += '        }\n\n'
+        
+    htmldf += '        tr:nth-child(even) {\n'
+    htmldf += '          background-color: #D5DBDB;\n'
+    htmldf += '        }\n'
+    htmldf += '        tr:hover {background-color: #EBDEF0;}\n\n'
+
+    htmldf += '        table.center {\n'
+    htmldf += '          margin-left: auto;\n'
+    htmldf += '          margin-right: auto;\n'
+    htmldf += '        }\n'
+
+    htmldf += '    </style>\n'
+    htmldf += '  </head>\n\n'
+
+    htmldf += '  <body>\n'
+
+    # Define table.
+    htmldf += '  <div style="overflow-x: auto;">\n'  # responsive
+    htmldf += '    <table class="center">\n'
+
+    # Define header row.
+    htmldf += '<tr>\n'
+    for key in dict_data[0].keys():
+        htmldf += '<th>' + str(key) + '</th>\n'
+    htmldf += '</tr>\n'
+
+    # Define data.
+    for key in dict_data[1].keys():
+        htmldf += '<tr>\n'
+        for subkey in dict_data[1][key]:
+            htmldf += '<td>' + str(dict_data[1][key][subkey]) + '</td>\n'
+        htmldf += '</tr>\n'
+
+    htmldf += '    </table>\n'
+    htmldf += '  </div>\n'
+
+    htmldf += '  </body>\n'
+    htmldf += '</html>\n'
+
+    # Write html.
+    with open(fn, 'w', encoding='utf-8') as f:
+        f.write(htmldf)
+
+
+def save(df: pd.DataFrame, fn: str) -> None:
     """Save the dataframe.
 
     The output can be a csv, txt and html.
     Args:
       df: A pandas dataframe.
       fn: The output filename.
-      tablecolor: The table color for html output.
     """
     ext = Path(fn).suffix
     if ext == '.html':
-        html_table = build_table(
-            df,
-            tablecolor,
-            font_size='medium',
-            text_align='center',
-            font_family='Calibri, Verdana, Tahoma, Georgia, serif, arial')
-        with open(fn, 'w') as f:
-            f.write(html_table)
+        df_to_html(df, fn)
     elif ext == '.csv':
         df.to_csv(fn, index=False)
     else:

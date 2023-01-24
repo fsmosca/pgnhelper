@@ -57,7 +57,6 @@ TB6 = Number of wins as black
 from typing import List, Tuple
 
 import pandas as pd
-from pretty_html_table import build_table
 
 import pgnhelper.tiebreak
 import pgnhelper.utility
