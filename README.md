@@ -44,10 +44,6 @@ pip install pgnhelper -U
   site: https://www.pgnmentor.com/files.html  
   usage:
     * game collections  
-* pretty-html-table  
-  site: https://pypi.org/project/pretty-html-table/  
-  usage:
-    * pretty html round-robin result table generation
 * mark weeks  
   site: https://www.mark-weeks.com/chess/wcc-indx.htm  
   usage:  
