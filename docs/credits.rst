@@ -36,14 +36,6 @@ pgn mentor
 * usage:
    * game collections
 
-pretty-html-table
-^^^^^^^^^^^^^^^^^
-
-* site:
-   * https://pypi.org/project/pretty-html-table/  
-* usage:
-   * generation of pretty html tables
-
 mark weeks
 ^^^^^^^^^^
 
