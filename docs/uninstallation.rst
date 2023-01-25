@@ -12,7 +12,6 @@ Uninstall other libraries::
 
     pip uninstall chess
     pip uninstall pandas
-    pip uninstall pretty-html-table
     pip uninstall pytest
 
 .. note::
